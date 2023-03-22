@@ -1,0 +1,85 @@
+$breakpointsMin: (
+    'smallMobile': 320px,
+    'mobile': 375px,
+    'smallTablet': 500px,
+    'tablet': 768px,
+    'smallDesktop': 1050px,
+    'mediumDesktop': 1230px,
+    'desktop': 1420px,
+    'largeDesktop': 1700px,
+);
+
+$breakpointsMax: (
+    'smallMobile': 319.9px,
+    'mobile': 374.9px,
+    'smallTablet': 499.9px,
+    'tablet': 767.9px,
+    'smallDesktop': 1049.9px,
+    'mediumDesktop': 1229.9px,
+    'desktop': 1419.9px,
+    'largeDesktop': 1699.9px,
+);
+
+@mixin minWidth($breakpoint: '', $customValue: '') {
+    $value: map-get($breakpointsMin, $breakpoint);
+
+    @if $value !=null {
+        @media (min-width: $value) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==null and $customValue !=null {
+        @media (min-width: $customValue) {
+            @content;
+        }
+    }
+}
+
+@mixin minHeight($breakpoint: '', $customValue: '') {
+    $value: map-get($breakpointsMin, $breakpoint);
+
+    @if $value !=null {
+        @media (min-height: $value) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==null and $customValue !=null {
+        @media (min-height: $customValue) {
+            @content;
+        }
+    }
+}
+
+@mixin maxWidth($breakpoint: '', $customValue: '') {
+    $value: map-get($breakpointsMax, $breakpoint);
+
+    @if $value !=null {
+        @media (max-width: $value) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==null and $customValue !=null {
+        @media (max-width: $customValue) {
+            @content;
+        }
+    }
+}
+
+@mixin maxHeight($breakpoint: '', $customValue: '') {
+    $value: map-get($breakpointsMax, $breakpoint);
+
+    @if $value !=null {
+        @media (max-height: $value) {
+            @content;
+        }
+    }
+
+    @if $breakpoint==null and $customValue !=null {
+        @media (max-height: $customValue) {
+            @content;
+        }
+    }
+}

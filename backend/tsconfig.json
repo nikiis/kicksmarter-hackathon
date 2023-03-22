@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "lib": ["es6"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "outDir": "build",
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "module": "nodenext",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "incremental": true,
+        "rootDir": "/",
+        "paths": {
+            "@backend/*": ["../backend/*"],
+            "@frontend/*": ["../frontend/*"],
+            "@/*": ["./src/*"],
+            "@root/*": ["../*"]
+        }
+    },
+    "include": ["src/**/*.ts", "**/*.ts"],
+    "exclude": ["node_modules", ".vscode"]
+}

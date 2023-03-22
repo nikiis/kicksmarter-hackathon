@@ -1,0 +1,98 @@
+@use '../settings/media' as media;
+
+@mixin shared {
+    line-height: 1.3;
+    font-family: var(--font-title);
+    margin: 0 0 10px;
+    font-weight: 700;
+
+    @include media.minWidth(desktop) {
+        margin-bottom: 15px;
+    }
+}
+
+@mixin h1 {
+    @include shared;
+    font-size: 4rem;
+    line-height: 1.2;
+
+    @include media.minWidth(tablet) {
+        font-size: 4.4rem;
+    }
+
+    @include media.minWidth(desktop) {
+        @include media.minHeight(null, 800px) {
+            font-size: 4.8rem;
+        }
+    }
+}
+
+@mixin h2 {
+    @include shared;
+    font-size: 3.2rem;
+
+    @include media.minWidth(tablet) {
+        font-size: 3.6rem;
+    }
+
+    @include media.minWidth(desktop) {
+        @include media.minHeight(null, 800px) {
+            font-size: 4rem;
+        }
+    }
+}
+
+@mixin h3 {
+    @include shared;
+    font-size: 2.4rem;
+
+    @include media.minWidth(tablet) {
+        font-size: 2.8rem;
+    }
+
+    @include media.minWidth(desktop) {
+        @include media.minHeight(null, 800px) {
+            font-size: 3.2rem;
+        }
+    }
+}
+
+@mixin h4 {
+    @include shared;
+    font-size: 2rem;
+
+    @include media.minWidth(tablet) {
+        font-size: 2.2rem;
+    }
+
+    @include media.minWidth(desktop) {
+        @include media.minHeight(null, 800px) {
+            font-size: 2.4rem;
+        }
+    }
+}
+
+@mixin h5 {
+    @include shared;
+
+    font-size: 1.6rem;
+
+    @include media.minWidth(tablet) {
+        font-size: 1.8rem;
+    }
+
+    @include media.minWidth(desktop) {
+        @include media.minHeight(null, 800px) {
+            font-size: 2rem;
+        }
+    }
+}
+
+@mixin h6 {
+    @include shared;
+    font-size: 1.3rem;
+
+    @include media.minWidth(tablet) {
+        font-size: 1.5rem;
+    }
+}

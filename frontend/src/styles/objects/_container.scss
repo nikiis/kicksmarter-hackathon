@@ -1,0 +1,12 @@
+@use "../settings/media" as media;
+
+@mixin container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+  box-sizing: content-box;
+
+  @include media.minWidth(tablet) {
+    padding: 0 8%;
+  }
+}

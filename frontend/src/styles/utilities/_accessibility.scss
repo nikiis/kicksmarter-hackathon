@@ -1,0 +1,11 @@
+.srOnly {
+    position: absolute !important;
+    left: -99999999999px !important;
+    height: 0 !important;
+}
+
+div {
+    &[aria-hidden='true'] {
+        visibility: hidden;
+    }
+}

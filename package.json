@@ -1,0 +1,22 @@
+{
+    "name": "kicksmarter",
+    "version": "0.1.0",
+    "description": "Kicksmarter helps you kick smarter.",
+    "scripts": {
+        "dev:all": "npm run dev --workspaces",
+        "dev:frontend": "npm run dev --workspace=frontend",
+        "dev:backend": "npm run dev --workspace=backend",
+        "build:icons": "node frontend/tasks/icons --workspace=frontend",
+        "start": "npm run start --workspaces",
+        "test": "npm run test --workspaces"
+    },
+    "author": "",
+    "license": "ISC",
+    "workspaces": [
+        "backend",
+        "frontend"
+    ],
+    "devDependencies": {
+        "@types/node": "^18.15.3"
+    }
+}

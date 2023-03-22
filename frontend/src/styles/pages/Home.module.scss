@@ -1,0 +1,25 @@
+@use '@styles/objects/container' as container;
+@use '@styles/settings/media' as media;
+
+.home {
+}
+
+.container {
+    @include container.container;
+}
+
+.inner {
+    min-height: 100vh;
+}
+
+.logo {
+    min-width: 320px;
+    padding: 170px 0 0 0;
+
+    @include media.minWidth(smallDesktop) {
+        padding: 0;
+        margin-bottom: 150px;
+        min-width: 660px;
+        min-height: 210px;
+    }
+}
