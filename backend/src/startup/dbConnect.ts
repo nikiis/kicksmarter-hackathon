@@ -21,7 +21,7 @@ async function dbDisconnect() {
     mongoose.connection.close();
 }
 
-async function dbConnect() {
+async function dbConnect(dbName: string) {
     if (!config.has('MONGODB_URI')) {
         throw new Error('Please define the MONGODB_URI environment variable inside config/default.json');
     }
@@ -33,7 +33,7 @@ async function dbConnect() {
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
-            dbName: process.env.MONGODB_NAME,
+            dbName,
         };
 
         cached.promise = mongoose.connect(config.get<string>('MONGODB_URI'), opts).then((mongoose) => {

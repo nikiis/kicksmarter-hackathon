@@ -32,3 +32,7 @@ yarn-error.log*
 
 # logs
 *.log
+
+# game data files
+python-scripts/*.json
+python-scripts/*.jsonl

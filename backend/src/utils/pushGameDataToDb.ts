@@ -1,4 +1,5 @@
 import { readFileSync } from 'fs';
+import config from 'config';
 import { Game, gameValidationSchema } from '@/models/GameSchema';
 import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 
@@ -13,7 +14,7 @@ const filename = process.argv[2];
 storeGameData(filename);
 
 async function storeGameData(filename: string) {
-    const connection = await dbConnect();
+    const connection = await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
 
     const raw = readFileSync(filename, 'utf8');
     const gameData = JSON.parse(raw);
@@ -27,17 +28,6 @@ async function storeGameData(filename: string) {
     const newGame = new Game(gameData);
     await newGame.save();
     console.log('Complete!');
-
-    // for (const frame of frames) {
-    //     const validationResult = gameValidationSchema.validate(frame);
-    //     if (validationResult.error) {
-    //         console.log(`Validation error: ${validationResult.error.message}`);
-    //         continue;
-    //     }
-    //     const newFrame = new Game(frame);
-    //     await newFrame.save();
-    //     console.log('Inserted new frame:', newFrame);
-    // }
 
     await dbDisconnect();
 }
