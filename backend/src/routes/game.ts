@@ -21,16 +21,35 @@ router.get('/players', async (req: Request, res: Response) => {
     res.json(players);
 });
 
+function validatePlayersRequest(data: any) {
+    const schema = Joi.object({
+        gameId: Joi.number().min(0).max(9999999999).required(),
+    });
+
+    return schema.validate(data);
+}
+
 router.get('/frame', async (req: Request, res: Response) => {
     const { error, value } = validateFrameRequest(req.body);
 
     if (error) return res.status(400).json({ message: error.details[0].message });
 
+    // frameIdx provided, use that
+    if (value.frameIdx) {
+        const frame = await Game.findOne(
+            { gameId: value.gameId },
+            { frames: { $elemMatch: { frameIdx: value.frameIdx } } }
+        ).select('-_id');
+        return res.json(frame);
+    }
+
+    // gameClock provided
     const baseFps = await Game.findOne({ gameId: value.gameId }).select('fps');
 
+    // TODO: use winston to report, do not cause error?
     if (!baseFps) return res.status(400).json({ message: 'Cannot find FPS' });
 
-    const frameIdx = value.gameClock * value.fps * baseFps.get('fps');
+    const frameIdx = Math.round(value.gameClock * baseFps.get('fps'));
 
     const frame = await Game.findOne(
         { gameId: value.gameId },
@@ -42,36 +61,15 @@ router.get('/frame', async (req: Request, res: Response) => {
 function validateFrameRequest(data: any) {
     const schema = Joi.object({
         gameId: Joi.number().min(0).max(9999999999).required(),
-        gameClock: Joi.number().min(0).max(9000).required(),
-        fps: Joi.number().min(1).max(25).required(),
-    });
-
-    return schema.validate(data);
-}
-
-function validatePlayersRequest(data: any) {
-    const schema = Joi.object({
-        gameId: Joi.number().min(0).max(9999999999).required(),
-    });
+        frameIdx: Joi.number()
+            .min(1)
+            .max(9000 * 25),
+        gameClock: Joi.number().min(0).max(9000),
+    })
+        .or('frameIdx', 'gameClock')
+        .required();
 
     return schema.validate(data);
 }
 
 export default router;
-
-// {
-//     "gameId": "2312213",
-//     "description": "MCI-W - TOT-W : 2023-3-5",
-//     "startTime": 1678024891160,
-//     "pitchLength": 105.1736831665039,
-//     "pitchWidth": 68.15968322753906,
-//     "fps": 25.0,
-//     "frames": [
-//         {
-//             "period": 1,
-//             "frameIdx": 0,
-//             "gameClock": 0.0,
-//             "wallClock": 1678024891160
-//         }
-//     ]
-// }
