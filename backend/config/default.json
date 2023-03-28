@@ -2,5 +2,5 @@
     "MONGODB_URI": "mongodb://localhost:27017",
     "MONGODB_NAME": "kicksmarter",
     "MONGODB_NAME_DATA": "kicksmarter-data",
-    "PORT": "3000"
+    "PORT": "4000"
 }

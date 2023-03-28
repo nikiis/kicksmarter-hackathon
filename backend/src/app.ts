@@ -22,7 +22,7 @@ if (app.get('env') === 'production') {
 // validation();
 routes(app);
 
-const port = process.env.PORT || config.get<number>('PORT');
+const port = config.get<number>('PORT');
 const server = app.listen(port, () => winston.info(`Listening on port ${port}...`));
 
 export default server;

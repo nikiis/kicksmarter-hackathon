@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { buildSchema } from 'graphql';
-import { graphqlHTTP } from 'express-graphql';
+// import { graphqlHTTP } from 'express-graphql';
 
 const router = Router();
 
@@ -24,11 +24,11 @@ var root = {
     },
 };
 
-router.use(
-    '/graphql',
-    graphqlHTTP({
-        schema: schema,
-        rootValue: root,
-        graphiql: true,
-    })
+// router.use(
+//     '/graphql',
+//     graphqlHTTP({
+//         schema: schema,
+//         rootValue: root,
+//         graphiql: true,
+//     })
 );

@@ -13,8 +13,8 @@ router.get('/', async (req: Request, res: Response) => {
 
     // find the right game, find the right timestamp
 
-    const gameMoment = await Playthrough.find({ difficulty: value.difficulty }).select('word.value meanings.value -_id');
-    res.json(gameMoment);
+    // const gameMoment = await Playthrough.find({ difficulty: value.difficulty }).select('word.value meanings.value -_id');
+    // res.json(gameMoment);
 });
 
 function validatePlaythrough(data: ReqBody) {
