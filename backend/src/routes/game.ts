@@ -34,44 +34,34 @@ router.get('/frame', async (req: Request, res: Response) => {
 
     if (error) return res.status(400).json({ message: error.details[0].message });
 
-    // frameIdx provided, use that
-    if (value.frameIdx) {
-        const frame = await Game.findOne(
-            { gameId: value.gameId },
-            { frames: { $elemMatch: { frameIdx: value.frameIdx } } }
-        ).select('-_id');
+    const frameIdx = value.frameIdx ?? (await frameIdxFromGameClock(value.gameId, value.gameClock, res));
 
-        if (frame) return res.json(frame.frames[0]);
-        return res.json(frame);
-    }
+    return res.json(await findFrame(value.gameId, frameIdx));
+});
 
-    // gameClock provided
-    const baseFps = await Game.findOne({ gameId: value.gameId }).select('fps');
+async function frameIdxFromGameClock(gameId: String, gameClock: number, res: Response) {
+    const baseFps = await Game.findOne({ gameId: gameId }).select('fps');
 
-    // TODO: use winston to report, do not cause error?
     if (!baseFps) return res.status(400).json({ message: 'Cannot find FPS' });
 
-    const frameIdx = Math.round(value.gameClock * baseFps.get('fps'));
+    return Math.round(gameClock * baseFps.get('fps'));
+}
 
-    const frame = await Game.findOne(
-        { gameId: value.gameId },
-        { frames: { $elemMatch: { frameIdx: frameIdx } } }
-    ).select('-_id');
+async function findFrame(gameId: String, frameIdx: number) {
+    const game = await Game.findOne({ gameId: gameId }, { frames: { $elemMatch: { frameIdx } } });
 
-    if (frame) return res.json(frame.frames[0]);
-    return res.json(frame);
-});
+    return game?.frames[0];
+}
 
 function validateFrameRequest(data: any) {
     const schema = Joi.object({
         gameId: Joi.string().min(0).max(20).required(),
         frameIdx: Joi.number()
-            .min(1)
+            .min(0)
             .max(9000 * 25),
         gameClock: Joi.number().min(0).max(9000),
     })
-        .or('frameIdx', 'gameClock')
-        .required();
+        .or('frameIdx', 'gameClock');
 
     return schema.validate(data);
 }

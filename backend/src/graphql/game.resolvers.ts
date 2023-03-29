@@ -8,12 +8,12 @@ export const resolvers = {
     Query: {
         game: async (parent: any, args: any, context: any, info: GraphQLResolveInfo) => {
             const { error, value } = validateGameRequest(args);
-            console.log(value);
-            console.log(error);
 
             if (error) throw new GraphQLError(error.details[0].message);
 
-            return await Game.findOne({ gameId: value.gameId }).select('-frames');
+            if (value.gameId) return await Game.findOne({ gameId: value.gameId });
+
+            return await Game.findById(value.id);
         },
         allGames: async () => {
             return await Game.find().select('-frames');
@@ -23,8 +23,9 @@ export const resolvers = {
 
 function validateGameRequest(data: any) {
     const schema = Joi.object({
-        gameId: Joi.string().min(0).max(20).required(),
-    });
+        gameId: Joi.string().min(0).max(20),
+        id: Joi.string().hex().length(24),
+    }).or('gameId', 'id');
 
     return schema.validate(data);
 }

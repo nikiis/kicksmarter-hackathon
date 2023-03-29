@@ -51,7 +51,7 @@ export const typeDefs = `#graphql
   }
 
   type Query {
-    game(gameId: String!): Game
+    game(gameId: String, id: ID): Game
     allGames: [Game]
   }
 `;
