@@ -18,7 +18,7 @@ if (!cached) {
 }
 
 async function dbDisconnect() {
-    mongoose.connection.close();
+    await mongoose.connection.close();
 }
 
 async function dbConnect(dbName: string) {

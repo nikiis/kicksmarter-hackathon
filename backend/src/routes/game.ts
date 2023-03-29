@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { Game } from '@/models/GameSchema';
 import Joi from 'joi';
-import { Frame } from '@/models/FrameSchema';
+import winston from 'winston';
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.get('/all', async (req: Request, res: Response) => {
     res.json(games);
 });
 
-router.get('/players', async (req: Request, res: Response) => {
+router.get('/teams', async (req: Request, res: Response) => {
     const { error, value } = validatePlayersRequest(req.body);
 
     if (error) return res.status(400).json({ message: error.details[0].message });
@@ -23,7 +23,7 @@ router.get('/players', async (req: Request, res: Response) => {
 
 function validatePlayersRequest(data: any) {
     const schema = Joi.object({
-        gameId: Joi.number().min(0).max(9999999999).required(),
+        gameId: Joi.string().min(0).max(20).required(),
     });
 
     return schema.validate(data);
@@ -40,6 +40,8 @@ router.get('/frame', async (req: Request, res: Response) => {
             { gameId: value.gameId },
             { frames: { $elemMatch: { frameIdx: value.frameIdx } } }
         ).select('-_id');
+
+        if (frame) return res.json(frame.frames[0]);
         return res.json(frame);
     }
 
@@ -55,12 +57,14 @@ router.get('/frame', async (req: Request, res: Response) => {
         { gameId: value.gameId },
         { frames: { $elemMatch: { frameIdx: frameIdx } } }
     ).select('-_id');
-    res.json(frame);
+
+    if (frame) return res.json(frame.frames[0]);
+    return res.json(frame);
 });
 
 function validateFrameRequest(data: any) {
     const schema = Joi.object({
-        gameId: Joi.number().min(0).max(9999999999).required(),
+        gameId: Joi.string().min(0).max(20).required(),
         frameIdx: Joi.number()
             .min(1)
             .max(9000 * 25),
