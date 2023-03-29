@@ -1,16 +1,9 @@
 @use '@styles/objects/container' as container;
 @use '@styles/settings/media' as media;
-
-.home {
-}
+@use '@styles/tools/focus';
 
 .container {
     @include container.container;
-}
-
-.inner {
-    height: 800px;
-    
 }
 
 .logo {
