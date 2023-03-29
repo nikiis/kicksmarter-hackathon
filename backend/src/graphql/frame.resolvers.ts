@@ -2,6 +2,7 @@ import { Game } from '@/models/GameSchema';
 import Joi from 'joi';
 import { GraphQLResolveInfo } from 'graphql';
 import { GraphQLError } from 'graphql';
+import _ from 'lodash';
 
 export const resolvers = {
     Query: {
@@ -12,7 +13,7 @@ export const resolvers = {
 
             const frameIdx = value.frameIdx ?? (await frameIdxFromGameClock(value.gameId, value.gameClock));
 
-            return (await findFrames(value.gameId, frameIdx, frameIdx))[0];
+            return await findFrame(value.gameId, frameIdx);
         },
 
         frames: async (parent: any, args: any, context: any, info: GraphQLResolveInfo) => {
@@ -38,9 +39,12 @@ async function frameIdxFromGameClock(gameId: String, gameClock: number) {
     return Math.round(gameClock * baseFps.get('fps'));
 }
 
+async function findFrame(gameId: String, frameIdx: number) {
+    return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
+}
+
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {
-    const game = await Game.findOne({ gameId });
-    return game?.frames.slice(startFrameIdx, stopFrameIdx + 1);
+    return _.range(startFrameIdx, stopFrameIdx + 1).map(async (idx) => await findFrame(gameId, idx));
 }
 
 function validateFrameRequest(data: any) {

@@ -32,9 +32,19 @@ export const typeDefs = `#graphql
     stats: PlayerStats!
   }
 
+  type Event {
+    period: Int!
+    gameClock: Float!
+    type: String!
+    outcome: String!
+  }
+
   type Team {
     color: String!
+    name: String!
+    score: Int!
     players: [Player!]!
+    events: [Event!]!
   }
 
   type Game {
@@ -53,5 +63,6 @@ export const typeDefs = `#graphql
   type Query {
     game(gameId: String, id: ID): Game
     allGames: [Game]
+    player(gameId: String, optaId: String): Player
   }
 `;

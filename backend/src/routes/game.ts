@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { Game } from '@/models/GameSchema';
 import Joi from 'joi';
 import winston from 'winston';
+import _ from 'lodash';
 
 const router = Router();
 
@@ -48,9 +49,11 @@ async function frameIdxFromGameClock(gameId: String, gameClock: number, res: Res
 }
 
 async function findFrame(gameId: String, frameIdx: number) {
-    const game = await Game.findOne({ gameId: gameId }, { frames: { $elemMatch: { frameIdx } } });
+    return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
+}
 
-    return game?.frames[0];
+async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {
+    return _.range(startFrameIdx, stopFrameIdx + 1).map(async (idx) => await findFrame(gameId, idx));
 }
 
 function validateFrameRequest(data: any) {
@@ -60,8 +63,7 @@ function validateFrameRequest(data: any) {
             .min(0)
             .max(9000 * 25),
         gameClock: Joi.number().min(0).max(9000),
-    })
-        .or('frameIdx', 'gameClock');
+    }).or('frameIdx', 'gameClock');
 
     return schema.validate(data);
 }
