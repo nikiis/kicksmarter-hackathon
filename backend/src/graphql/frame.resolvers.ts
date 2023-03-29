@@ -26,7 +26,11 @@ export const resolvers = {
 
             const stopFrameIdx = value.stopFrameIdx ?? (await frameIdxFromGameClock(value.gameId, value.stopGameClock));
 
-            return await findFrames(value.gameId, startFrameIdx, stopFrameIdx);
+            const frames = await findFrames(value.gameId, startFrameIdx, stopFrameIdx);
+
+            // console.log(frames);
+
+            return frames;
         },
     },
 };
@@ -44,7 +48,34 @@ async function findFrame(gameId: String, frameIdx: number) {
 }
 
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {
-    return _.range(startFrameIdx, stopFrameIdx + 1).map(async (idx) => await findFrame(gameId, idx));
+    // TODO: improve the speed here when trying to get large number of frames
+    // If getting all the data and then slicing, it takes around 0.5s per query, which is unaccptable
+    // However I cannot seem to be able to write a mongoose query that would return all wanted frames
+    // that is why I am calling multiple call on getting a single frame, which uses a mongoose query
+    // return _.range(startFrameIdx, stopFrameIdx + 1).map(async (idx) => await findFrame(gameId, idx));
+
+    const result = await Game.aggregate([
+        { $match: { gameId } },
+        {
+            $project: {
+                frames: {
+                    $filter: {
+                        input: '$frames',
+                        as: 'frame',
+                        cond: {
+                            $and: [
+                                { $gte: ['$$frame.frameIdx', startFrameIdx] },
+                                { $lte: ['$$frame.frameIdx', stopFrameIdx] },
+                            ],
+                        },
+                    },
+                },
+            },
+        },
+    ]);
+
+    // console.log(result[0].frames);
+    return result[0].frames;
 }
 
 function validateFrameRequest(data: any) {
