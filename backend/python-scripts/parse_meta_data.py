@@ -75,17 +75,21 @@ def get_id(path: str):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('second_spectrum',
+    parser.add_argument('meta_second_spectrum',
                         help='xxxxx_secondSpectrum_meta.json file')
-    parser.add_argument('stat_bomb', help='ManCity_xxxxx_lineup.json file')
+    parser.add_argument(
+        'meta_stat_bomb', help='ManCity_xxxxx_lineup.json file')
+    parser.add_argument(
+        '--downsample', type=int, default=1, help='Sampling rate reduction rate, this will only change the base frequency, but it must match parse_frames.py script parameter. I suggest values such as 2, 4, 5 or 8, that will provide nice division result.')
     args = parser.parse_args()
 
-    with open(args.second_spectrum, "r") as f:
+    with open(args.meta_second_spectrum, "r") as f:
         game_data1 = json.load(f)
 
-    with open(args.stat_bomb, "r") as f:
+    with open(args.meta_stat_bomb, "r") as f:
         game_data2 = json.load(f)
 
+    game_id = get_id(args.meta_second_spectrum)
     home_players = {}
 
     for player in game_data1['homePlayers']:
@@ -102,15 +106,14 @@ if __name__ == '__main__':
     for player in game_data2[1]['lineup']:
         away_players[player['jersey_number']].update(from_stat_bomb(player))
 
-    game_id = get_id(args.second_spectrum)
-
     game_data = {
         'gameId': game_id,
         'description': game_data1['description'],
         'startTime': game_data1['startTime'],
         'pitchLength': game_data1['pitchLength'],
         'pitchWidth': game_data1['pitchWidth'],
-        'fps': game_data1['fps'],
+        'fps': round(game_data1['fps'] / args.downsample, 3),
+        'baseFps': game_data1['fps'],
         'periods': game_data1['periods'],
         'home': {
             'color': '#B3D7DF',
@@ -128,9 +131,8 @@ if __name__ == '__main__':
         }
     }
 
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(game_data)
-    # print(game_data)
+    # pp = pprint.PrettyPrinter(indent=4)
+    # pp.pprint(game_data)
 
-    with open(game_id + '_game_data.json', 'w') as f:
+    with open(game_id + '_meta_data.json', 'w') as f:
         json.dump(game_data, f)

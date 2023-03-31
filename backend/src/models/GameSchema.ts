@@ -3,37 +3,47 @@ import mongoose from 'mongoose';
 import { FrameSchema, frameValidationSchema } from '@/models/FrameSchema';
 import { PlayerSchema, playerValidationSchema } from '@/models/PlayerSchema';
 
-const PeriodSchema = new mongoose.Schema({
-    number: { type: Number, required: true },
-    startFrameClock: { type: Number, required: true },
-    endFrameClock: { type: Number, required: true },
-    startFrameIdx: { type: Number, required: true },
-    endFrameIdx: { type: Number, required: true },
-    homeAttPositive: { type: Boolean, required: true },
-});
+const PeriodSchema = new mongoose.Schema(
+    {
+        number: { type: Number, required: true },
+        startFrameClock: { type: Number, required: true },
+        endFrameClock: { type: Number, required: true },
+        startFrameIdx: { type: Number, required: true },
+        endFrameIdx: { type: Number, required: true },
+        homeAttPositive: { type: Boolean, required: true },
+    },
+    { _id: false }
+);
 
-const EventSchema = new mongoose.Schema({
-    period: { type: Number, required: true },
-    gameClock: { type: Number, required: true },
-    type: { type: String, required: true },
-    outcome: { type: String, required: true },
-});
+const EventSchema = new mongoose.Schema(
+    {
+        period: { type: Number, required: true },
+        gameClock: { type: Number, required: true },
+        type: { type: String, required: true },
+        outcome: { type: String, required: true },
+    },
+    { _id: false }
+);
 
-const TeamSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    color: { type: String, required: true },
-    score: { type: Number, required: true },
-    players: [PlayerSchema],
-    events: [EventSchema],
-});
+const TeamSchema = new mongoose.Schema(
+    {
+        name: { type: String, required: true },
+        color: { type: String, required: true },
+        score: { type: Number, required: true },
+        players: [PlayerSchema],
+        events: [EventSchema],
+    },
+    { _id: false }
+);
 
 const GameSchema = new mongoose.Schema({
-    gameId: { type: Number, required: true },
+    gameId: { type: String, required: true },
     description: { type: String, required: true },
     startTime: { type: Number, required: true },
     pitchLength: { type: Number, required: true },
     pitchWidth: { type: Number, required: true },
     fps: { type: Number, required: true },
+    baseFps: { type: Number, required: true },
     periods: [PeriodSchema],
     home: TeamSchema,
     away: TeamSchema,
@@ -65,16 +75,17 @@ const teamValidationSchema = Joi.object({
 });
 
 const gameValidationSchema = Joi.object({
-    gameId: Joi.number().required(),
+    gameId: Joi.string().required(),
     description: Joi.string().required(),
     startTime: Joi.number().required(),
     pitchLength: Joi.number().required(),
     pitchWidth: Joi.number().required(),
     fps: Joi.number().required(),
+    baseFps: Joi.number().required(),
     periods: Joi.array().items(periodValidationSchema).required(),
     home: teamValidationSchema.required(),
     away: teamValidationSchema.required(),
-    frames: Joi.array().items(frameValidationSchema).required(),
+    frames: Joi.array().items(frameValidationSchema),
 });
 
 const Game = mongoose.model('Game', GameSchema);

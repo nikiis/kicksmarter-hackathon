@@ -26,21 +26,22 @@ export const resolvers = {
 
             const stopFrameIdx = value.stopFrameIdx ?? (await frameIdxFromGameClock(value.gameId, value.stopGameClock));
 
-            const frames = await findFrames(value.gameId, startFrameIdx, stopFrameIdx);
-
-            // console.log(frames);
-
-            return frames;
+            return await findFrames(value.gameId, startFrameIdx, stopFrameIdx);
         },
     },
 };
 
 async function frameIdxFromGameClock(gameId: String, gameClock: number) {
-    const baseFps = await Game.findOne({ gameId: gameId }).select('fps');
+    const game = await Game.findOne({ gameId: gameId }).select('fps baseFps');
 
-    if (!baseFps) throw new GraphQLError('Cannot find FPS field within database!');
+    if (!game) throw new GraphQLError('Cannot find fps and/or baseFps fields within game!');
 
-    return Math.round(gameClock * baseFps.get('fps'));
+    const baseFps = game.baseFps;
+    const fps = game.fps;
+    const multiplier = baseFps / fps;
+
+    // return Math.round(gameClock * baseFps.get('fps'));
+    return Math.round(gameClock * fps) * multiplier;
 }
 
 async function findFrame(gameId: String, frameIdx: number) {
@@ -48,7 +49,7 @@ async function findFrame(gameId: String, frameIdx: number) {
 }
 
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {
-    // TODO: improve the speed here when trying to get large number of frames
+    // TODO: Test that the new way is quicker than the old way!
     // If getting all the data and then slicing, it takes around 0.5s per query, which is unaccptable
     // However I cannot seem to be able to write a mongoose query that would return all wanted frames
     // that is why I am calling multiple call on getting a single frame, which uses a mongoose query
@@ -74,7 +75,6 @@ async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: n
         },
     ]);
 
-    // console.log(result[0].frames);
     return result[0].frames;
 }
 

@@ -1,8 +1,7 @@
 export const typeDefs = `#graphql
   type Player {
-    playerId: ID!
     number: Int!
-    xyz: [Float!]!
+    xy: [Float!]!
     speed: Float!
     optaId: String!
   }
@@ -16,7 +15,6 @@ export const typeDefs = `#graphql
     period: Int!
     frameIdx: Int!
     gameClock: Float!
-    wallClock: Float!
     live: Boolean!
     lastTouch: String!
     homePlayers: [Player!]!
