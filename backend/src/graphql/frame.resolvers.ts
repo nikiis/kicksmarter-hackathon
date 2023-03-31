@@ -1,4 +1,5 @@
 import { Game } from '@/models/GameSchema';
+import { Frame } from '@/models/FrameSchema';
 import Joi from 'joi';
 import { GraphQLResolveInfo } from 'graphql';
 import { GraphQLError } from 'graphql';
@@ -32,20 +33,41 @@ export const resolvers = {
 };
 
 async function frameIdxFromGameClock(gameId: String, gameClock: number) {
-    const game = await Game.findOne({ gameId: gameId }).select('fps baseFps');
+    const game = await Game.findOne({ gameId: gameId }).select('fps');
 
     if (!game) throw new GraphQLError('Cannot find fps and/or baseFps fields within game!');
 
-    const baseFps = game.baseFps;
     const fps = game.fps;
-    const multiplier = baseFps / fps;
 
     // return Math.round(gameClock * baseFps.get('fps'));
-    return Math.round(gameClock * fps) * multiplier;
+    return Math.round(gameClock * fps);
 }
 
 async function findFrame(gameId: String, frameIdx: number) {
-    return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
+    const chunkSize = 5000;
+    const chunkId = Math.floor(frameIdx / chunkSize);
+
+    console.log(frameIdx);
+    const result = await Frame.aggregate([
+        { $match: { gameId } },
+        { $match: { chunkId } },
+        {
+            $project: {
+                frame: {
+                    $filter: {
+                        input: '$frames',
+                        as: 'frame',
+                        cond: { $eq: ['$$frame.frameIdx', frameIdx] },
+                    },
+                },
+            },
+        },
+    ]);
+
+    console.log(result[0].frame[0]);
+    return result[0].frame[0];
+    // console.log(chunk?.frameIdx);
+    // return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
 }
 
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {

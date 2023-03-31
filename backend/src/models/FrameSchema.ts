@@ -30,7 +30,7 @@ const FrameSchema = new mongoose.Schema(
         live: Boolean,
         lastTouch: String,
     },
-    { _id: false }
+    { collection: 'frames' }
 );
 
 const Frame = mongoose.model('FrameSchema', FrameSchema);

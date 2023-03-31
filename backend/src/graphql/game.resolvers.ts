@@ -8,23 +8,23 @@ import { GraphQLError } from 'graphql';
 export const resolvers = {
     Query: {
         allGames: async () => {
-            return await Game.find().select('-frames');
+            return await Game.find();
         },
         game: async (parent: any, args: any, context: any, info: GraphQLResolveInfo) => {
             const { error, value } = validateGameRequest(args);
 
             if (error) throw new GraphQLError(error.details[0].message);
 
-            if (value.gameId) return await Game.findOne({ gameId: value.gameId }).select('-frames');
+            if (value.gameId) return await Game.findOne({ gameId: value.gameId });
 
-            return await Game.findById(value.id).select('-frames');
+            return await Game.findById(value.id);
         },
         player: async (parent: any, args: any, context: any, info: GraphQLResolveInfo) => {
             const { error, value } = validatePlayerRequest(args);
 
             if (error) throw new GraphQLError(error.details[0].message);
 
-            const game = await Game.findOne({ gameId: value.gameId }).select('-frames');
+            const game = await Game.findOne({ gameId: value.gameId });
 
             const players = _.merge(game?.away?.players, game?.home?.players);
 

@@ -20,8 +20,9 @@ if __name__ == '__main__':
         raw_frames = [json.loads(line) for line in f]
 
     frames = []
-    for frame in raw_frames[0::args.downsample]:
+    for idx, frame in enumerate(raw_frames[0::args.downsample]):
         frame.pop('wallClock')
+        frame['frameIdx'] = idx
         for player in frame['homePlayers']:
             player.pop('playerId')
             # player.pop('optaId')

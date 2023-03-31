@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
-import { FrameSchema, frameValidationSchema } from '@/models/FrameSchema';
 import { PlayerSchema, playerValidationSchema } from '@/models/PlayerSchema';
 
 const PeriodSchema = new mongoose.Schema(
@@ -36,19 +35,21 @@ const TeamSchema = new mongoose.Schema(
     { _id: false }
 );
 
-const GameSchema = new mongoose.Schema({
-    gameId: { type: String, required: true },
-    description: { type: String, required: true },
-    startTime: { type: Number, required: true },
-    pitchLength: { type: Number, required: true },
-    pitchWidth: { type: Number, required: true },
-    fps: { type: Number, required: true },
-    baseFps: { type: Number, required: true },
-    periods: [PeriodSchema],
-    home: TeamSchema,
-    away: TeamSchema,
-    frames: [FrameSchema],
-});
+const GameSchema = new mongoose.Schema(
+    {
+        gameId: { type: String, required: true },
+        description: { type: String, required: true },
+        startTime: { type: Number, required: true },
+        pitchLength: { type: Number, required: true },
+        pitchWidth: { type: Number, required: true },
+        fps: { type: Number, required: true },
+        baseFps: { type: Number, required: true },
+        periods: [PeriodSchema],
+        home: TeamSchema,
+        away: TeamSchema,
+    },
+    { collection: 'games' }
+);
 
 const periodValidationSchema = Joi.object({
     number: Joi.number().required(),
@@ -85,7 +86,6 @@ const gameValidationSchema = Joi.object({
     periods: Joi.array().items(periodValidationSchema).required(),
     home: teamValidationSchema.required(),
     away: teamValidationSchema.required(),
-    frames: Joi.array().items(frameValidationSchema),
 });
 
 const Game = mongoose.model('Game', GameSchema);

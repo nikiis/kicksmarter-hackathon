@@ -49,7 +49,8 @@ async function frameIdxFromGameClock(gameId: String, gameClock: number, res: Res
 }
 
 async function findFrame(gameId: String, frameIdx: number) {
-    return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
+    return null;
+    // return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
 }
 
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {
