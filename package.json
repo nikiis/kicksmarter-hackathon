@@ -4,12 +4,13 @@
     "description": "Kicksmarter helps you kick smarter.",
     "scripts": {
         "dev:all": "npm run dev --workspaces",
-        "dev:frontend": "npm run dev --workspace=frontend",
-        "dev:backend": "npm run dev --workspace=backend",
-        "build:icons": "node frontend/tasks/icons --workspace=frontend",
-        "start:backend": "npm run start -w backend",
         "start": "npm run start --workspaces",
-        "test": "npm run test --workspaces"
+        "test": "npm run test --workspaces",
+        "dev:frontend": "npm run dev -w frontend",
+        "build:icons": "node frontend/tasks/icons -w frontend",
+        "dev:backend": "npm run dev -w backend",
+        "build:backend": "npm run build -w backend",
+        "start:backend": "npm run start -w backend"
     },
     "author": "",
     "license": "ISC",

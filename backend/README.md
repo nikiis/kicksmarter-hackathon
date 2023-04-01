@@ -117,8 +117,8 @@ query {
 -   Getting multiple frames in the given range:
 
 ```
-query($gameId: String!){
-  frames(gameId: $gameId, startGameClock: 0, stopGameClock: 10) {
+query{
+  frames(gameId: "2312213", startGameClock: 0, stopGameClock: 10) {
     gameClock
     frameIdx
   }
@@ -128,8 +128,8 @@ query($gameId: String!){
 -   Getting a single player information:
 
 ```
-query($gameId: String) {
-  player (gameId: $gameId, optaId: "174349") {
+query {
+  player (gameId: "2312213", optaId: "174349") {
     name
     position
     stats {
@@ -138,3 +138,30 @@ query($gameId: String) {
   }
 }
 ```
+
+## Production Deployment
+
+### MongoDB
+
+Currently we are using MongoDB Atlas to provide us with an online based database with the access API. To setup this online database one is required to:
+
+-   Create a new file `config/production.json` with only MONGODB_URI, which you should take from the MongoDB Atlas website after creating a database. Remember, this includes both username and password (special characters are url encoded).
+-   Specify a production environmental variable: `export NODE_ENV=production`
+-   Follow the procedures in section `Populate Database`, which requires running a couple of scripts to push the data to the database.
+-   Go into `Network Access` within MongoDB Atlas and add an IP address of the `Render` web service API (next step) or `0.0.0.0/0` for the moment being to allow anyone have access to the database, but change the IP to only allow the `Render` later on.
+
+### Render
+
+We are currently using `Render` to create a web service API. When deploying the API one is required to add environmental variables:
+
+-   NODE_CONFIG_DIR = /etc/secrets
+-   NODE_ENV = production
+
+And then also add `Secret Files`:
+
+-   `default.json`, which has the same contents as `config/default.json`
+-   `production.json`, which has the same contents as `config/production.json`
+
+### Graphql
+
+To test Grqphql queries when using the web service API one is required to go to [Apollo Sandbox](https://studio.apollographql.com/sandbox/explorer) and enter https://kicksmarter-api.onrender.com/ as the target address within the top-left box.

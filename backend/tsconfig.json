@@ -8,14 +8,13 @@
         "strict": true,
         "outDir": "build",
         "forceConsistentCasingInFileNames": true,
-        "noEmit": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
         "module": "nodenext",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "incremental": true,
-        "rootDir": "/",
+        "rootDir": "./",
         "paths": {
             "@backend/*": ["../backend/*"],
             "@frontend/*": ["../frontend/*"],
@@ -23,6 +22,6 @@
             "@root/*": ["../*"]
         }
     },
-    "include": ["src/**/*.ts", "**/*.ts"],
-    "exclude": ["node_modules", ".vscode"]
+    "include": ["src/**/*.ts", "**/*.ts", "config/default.json"],
+    "exclude": ["node_modules", ".vscode", "src/utils"]
 }
