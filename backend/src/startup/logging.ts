@@ -23,16 +23,20 @@ export default (app: Application) => {
 
     winston.exceptions.handle(new winston.transports.File({ filename: 'uncaughtExceptions.log' }));
     // TODO for some reason winston.rejections.handle(...) doesn't exist :/ Something needs to be fixed.
-    process.on("unhandledRejection", (ex) => { throw ex });
+    process.on('unhandledRejection', (ex) => {
+        throw ex;
+    });
 
-    if (app.get('env') !== 'production') {
+    if (app.get('env') !== 'deployment') {
         app.use(morgan('tiny'));
 
-        winston.add(new winston.transports.Console({
-            level: 'info',
-            format: winston.format.simple(),
-            // prettyPrint: true,
-            // colorize: true
-        }));
+        winston.add(
+            new winston.transports.Console({
+                level: 'info',
+                format: winston.format.simple(),
+                // prettyPrint: true,
+                // colorize: true
+            })
+        );
     }
 };

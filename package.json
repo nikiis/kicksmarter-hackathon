@@ -16,8 +16,5 @@
     "workspaces": [
         "backend",
         "frontend"
-    ],
-    "devDependencies": {
-        "@types/node": "^18.15.3"
-    }
+    ]
 }
