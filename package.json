@@ -7,6 +7,7 @@
         "dev:frontend": "npm run dev --workspace=frontend",
         "dev:backend": "npm run dev --workspace=backend",
         "build:icons": "node frontend/tasks/icons --workspace=frontend",
+        "start:backend": "npm run start -w backend",
         "start": "npm run start --workspaces",
         "test": "npm run test --workspaces"
     },
