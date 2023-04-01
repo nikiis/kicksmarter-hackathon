@@ -55,4 +55,86 @@ To run the backend server one simply needs to do `npm run dev` or if running fro
 
 ### Graphql
 
-The data is retrieved using graphql queries. To test your queries go to `http://localhost:4000/graphql` after launching the server.
+The data is retrieved using graphql queries. To test your queries go to `http://localhost:4000/graphql` after launching the server. Here are some of the examples on how the data can be queried:
+
+-   Getting all stored games:
+
+```
+query {
+  allGames {
+    gameId
+    description
+    startTime
+  }
+}
+```
+
+-   Getting information about a specific game:
+
+```
+query {
+  game(gameId: "2312213") {
+    gameId
+    description
+    startTime
+    home {
+      color
+      name
+      score
+    }
+    away {
+      color
+      name
+      score
+    }
+  }
+}
+```
+
+-   Getting a single frame (game clock in seconds):
+
+```
+query {
+  frame(gameId: "2312213", gameClock: 10.4) {
+    frameIdx
+    gameClock
+    live
+    lastTouch
+    homePlayers {
+      number
+      xy
+      speed
+      optaId
+    }
+    ball {
+      xyz
+      speed
+    }
+  }
+}
+```
+
+-   Getting multiple frames in the given range:
+
+```
+query($gameId: String!){
+  frames(gameId: $gameId, startGameClock: 0, stopGameClock: 10) {
+    gameClock
+    frameIdx
+  }
+}
+```
+
+-   Getting a single player information:
+
+```
+query($gameId: String) {
+  player (gameId: $gameId, optaId: "174349") {
+    name
+    position
+    stats {
+      goals
+    }
+  }
+}
+```
