@@ -81,6 +81,8 @@ if __name__ == '__main__':
         'meta_stat_bomb', help='ManCity_xxxxx_lineup.json file')
     parser.add_argument(
         '--downsample', type=int, default=1, help='Sampling rate reduction rate, this will only change the base frequency, but it must match parse_frames.py script parameter. I suggest values such as 2, 4, 5 or 8, that will provide nice division result.')
+    parser.add_argumenet('--framesChunkSize', type=int, default=1000,
+                         help='Sampling rate reduction rate, this will only change the base frequency, but it must match parse_frames.py script parameter. I suggest values such as 2, 4, 5 or 8, that will provide nice division result.')
     args = parser.parse_args()
 
     with open(args.meta_second_spectrum, "r") as f:
@@ -114,6 +116,7 @@ if __name__ == '__main__':
         'pitchWidth': game_data1['pitchWidth'],
         'fps': round(game_data1['fps'] / args.downsample, 3),
         'baseFps': game_data1['fps'],
+        'framesChunkSize': args.framesChunkSize,
         'periods': game_data1['periods'],
         'home': {
             'color': '#B3D7DF',

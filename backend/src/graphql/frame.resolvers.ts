@@ -1,5 +1,5 @@
 import { Game } from '@/models/GameSchema';
-import { Frame } from '@/models/FrameSchema';
+import { FramesChunk } from '@/models/FrameSchema';
 import Joi from 'joi';
 import { GraphQLResolveInfo } from 'graphql';
 import { GraphQLError } from 'graphql';
@@ -33,24 +33,29 @@ export const resolvers = {
 };
 
 async function frameIdxFromGameClock(gameId: String, gameClock: number) {
-    const game = await Game.findOne({ gameId: gameId }).select('fps');
+    const game = await Game.findOne({ gameId }).select('fps');
 
     if (!game) throw new GraphQLError('Cannot find fps and/or baseFps fields within game!');
 
-    const fps = game.fps;
+    return Math.round(gameClock * game.fps);
+}
 
-    // return Math.round(gameClock * baseFps.get('fps'));
-    return Math.round(gameClock * fps);
+async function getChunkSize(gameId: String) {
+    const game = await Game.findOne({ gameId }).select('framesChunkSize');
+
+    if (!game) throw new GraphQLError('Cannot find framesChunkSize fields within game!');
+
+    return game.framesChunkSize;
 }
 
 async function findFrame(gameId: String, frameIdx: number) {
-    const chunkSize = 5000;
-    const chunkId = Math.floor(frameIdx / chunkSize);
+    const chunkSize = await getChunkSize(gameId);
+    const chunkIdx = Math.floor(frameIdx / chunkSize);
 
     console.log(frameIdx);
-    const result = await Frame.aggregate([
+    const result = await FramesChunk.aggregate([
         { $match: { gameId } },
-        { $match: { chunkId } },
+        { $match: { chunkIdx } },
         {
             $project: {
                 frame: {
@@ -66,19 +71,21 @@ async function findFrame(gameId: String, frameIdx: number) {
 
     console.log(result[0].frame[0]);
     return result[0].frame[0];
-    // console.log(chunk?.frameIdx);
-    // return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
 }
 
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {
-    // TODO: Test that the new way is quicker than the old way!
-    // If getting all the data and then slicing, it takes around 0.5s per query, which is unaccptable
-    // However I cannot seem to be able to write a mongoose query that would return all wanted frames
-    // that is why I am calling multiple call on getting a single frame, which uses a mongoose query
-    // return _.range(startFrameIdx, stopFrameIdx + 1).map(async (idx) => await findFrame(gameId, idx));
+    const chunkSize = await getChunkSize(gameId);
+    const startChunkIdx = Math.floor(startFrameIdx / chunkSize);
+    const stopChunkIdx = Math.floor(stopFrameIdx / chunkSize);
 
-    const result = await Game.aggregate([
-        { $match: { gameId } },
+    const result = await FramesChunk.aggregate([
+        {
+            $match: {
+                chunkIdx: {
+                    $in: _.range(startChunkIdx, stopChunkIdx + 1),
+                },
+            },
+        },
         {
             $project: {
                 frames: {
@@ -97,7 +104,9 @@ async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: n
         },
     ]);
 
-    return result[0].frames;
+    const frames = _.flatten(result.map((res) => res.frames));
+
+    return frames;
 }
 
 function validateFrameRequest(data: any) {

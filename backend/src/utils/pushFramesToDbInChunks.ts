@@ -1,55 +1,52 @@
 import { readFileSync } from 'fs';
 import config from 'config';
-import { Game, gameValidationSchema } from '@/models/GameSchema';
-import { Frame, frameValidationSchema } from '@/models/FrameSchema';
+import { Frame, FramesChunk, framesChunkValidationSchema } from '@/models/FrameSchema';
 import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 import Path from 'path';
 import _ from 'lodash';
-import mongoose, { Collection } from 'mongoose';
 
 if (process.argv.length < 3) {
     // note that the script has to be run from root of backend!
     //
     console.log(
-        'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312135_frames.json'
+        'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312135_frames.json chunkSize\nwhere chunkSize is the selected frames chunk size in the range 1000.'
     );
     process.exit(1);
 }
 
 const filename = process.argv[2];
+const chunkSize = parseInt(process.argv[3]);
 const gameId = Path.parse(filename).name.split('_')[0];
-storeFrames(filename, gameId);
+storeFrames(filename, chunkSize, gameId);
 
-async function storeFrames(filename: string, gameId: string) {
+async function storeFrames(filename: string, chunkSize: number, gameId: string) {
     const raw = readFileSync(filename, 'utf8');
-    const frames = JSON.parse(raw);
+    const allFrames = JSON.parse(raw);
 
-    for (const frame of frames) {
-        const validationResult = frameValidationSchema.validate(frame);
+    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
+
+    const framesInChunks = _.chunk(allFrames, chunkSize);
+
+    for (let chunkIdx = 0; chunkIdx < framesInChunks.length; chunkIdx++) {
+        const frames = framesInChunks[chunkIdx];
+
+        const chunk = {
+            chunkIdx,
+            gameId,
+            frames,
+        };
+
+        const validationResult = framesChunkValidationSchema.validate(chunk);
         if (validationResult.error) {
             console.log(`Validation error: ${validationResult.error.message}`);
             process.exit(1);
         }
-    }
 
-    console.log('Validation complete!');
+        console.log(`Validated chunkIdx: ${chunkIdx}`);
 
-    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
+        const result = await FramesChunk.collection.insertOne(chunk);
 
-    const chunkSize = 5000;
-    const framesInChunks = _.chunk(frames, chunkSize);
-
-    for (let i = 0; i < framesInChunks.length; i++) {
-        const chunk = framesInChunks[i];
-
-        const result = await Frame.collection.insertOne({
-            chunkId: i,
-            gameId,
-            chunkSize,
-            frames: chunk,
-        });
-
-        console.log(`Inserted chunk ${i}: ${result.insertedId}`);
+        console.log(`Inserted chunk ${chunkIdx} id: ${result.insertedId}`);
     }
 
     console.log('Complete!');
