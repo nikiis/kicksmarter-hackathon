@@ -36,3 +36,7 @@ yarn-error.log*
 # game data files
 python-scripts/*.json
 python-scripts/*.jsonl
+python-scripts/raw
+
+# production file
+config/production.json
