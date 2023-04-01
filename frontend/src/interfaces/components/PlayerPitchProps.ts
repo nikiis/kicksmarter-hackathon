@@ -5,4 +5,5 @@ export interface PlayerPitchProps {
     parentHeight: number;
     players: Array<Player>;
     football: Football;
+    isDrawEnabled?: boolean;
 }

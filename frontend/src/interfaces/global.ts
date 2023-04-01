@@ -1,4 +1,4 @@
-import { PlayerColour } from './enums/enums';
+import { EventType, PlayerColour } from './enums/enums';
 
 export interface Player {
     id: number;
@@ -18,3 +18,11 @@ export interface Football {
     y: number;
     height: number;
 }
+
+export type Line = { x: number; y: number }[];
+export type Lines = Line[];
+
+export type Event = {
+    time: number; // in seconds
+    type: EventType;
+};

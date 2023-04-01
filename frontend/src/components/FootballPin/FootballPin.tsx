@@ -5,11 +5,11 @@ const FootballPin: FC<FootballPinProps> = ({ x, y, scale, heightScale }) => {
     let ballSize = 20 * (1 + heightScale);
     return (
         <>
-            <filter id="shadow" color-interpolation-filters="sRGB">
-                <feDropShadow dx="2" dy="2" stdDeviation="0" flood-opacity="0.5" />
+            <filter id="shadow" colorInterpolationFilters="sRGB">
+                <feDropShadow dx="2" dy="2" stdDeviation="0" floodOpacity="0.5" />
             </filter>
-            <filter id="blur" color-interpolation-filters="sRGB">
-                <feGaussianBlur stdDeviation="2.5" flood-opacity="0.5" />
+            <filter id="blur" colorInterpolationFilters="sRGB">
+                <feGaussianBlur stdDeviation="2.5" floodOpacity="0.5" />
             </filter>
             <defs>
                 <pattern id="footballSvg" patternUnits="objectBoundingBox" width="100%" height="100%">

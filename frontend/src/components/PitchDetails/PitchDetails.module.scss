@@ -1,0 +1,43 @@
+@use '@styles/tools/focus' as focus;
+@use '@styles/settings/media' as media;
+
+.pitchDetails {
+}
+
+.row {
+    @include media.minWidth(smallDesktop) {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+    }
+}
+
+.pitch {
+    @include media.minWidth(smallDesktop) {
+        width: 95%;
+    }
+}
+
+.editBtns {
+    button {
+        @include focus.focus(var(--colour-darkGreen));
+        cursor: pointer;
+
+        @include media.minWidth(smallDesktop) {
+            display: block;
+        }
+
+        &.active {
+            background-color: var(--colour-blush);
+            border-radius: 50%;
+        }
+    }
+
+    svg {
+        max-width: 70px;
+        max-height: 70px;
+    }
+}
+
+.controls {
+}

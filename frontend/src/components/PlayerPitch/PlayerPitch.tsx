@@ -5,8 +5,9 @@ import { Drag, raise } from '@visx/drag';
 import styles from './PlayerPitch.module.scss';
 import PlayerPin from '../PlayerPin/PlayerPin';
 import FootballPin from '../FootballPin/FootballPin';
+import CustomDraw from '../CustomDraw/CustomDraw';
 
-const PlayerPitch: FC<PlayerPitchProps> = ({ parentWidth, parentHeight, players, football }) => {
+const PlayerPitch: FC<PlayerPitchProps> = ({ parentWidth, parentHeight, players, football, isDrawEnabled = false }) => {
     const ratio = 1.6; // ratio = width / height would get this from the API
     let height = parentHeight;
     let width = parentWidth;
@@ -118,6 +119,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({ parentWidth, parentHeight, players,
                             )}
                         </Drag>
                     ))}
+
+                    {isDrawEnabled && <CustomDraw width={parentWidth} height={parentHeight} />}
                 </>
             </svg>
         </div>
