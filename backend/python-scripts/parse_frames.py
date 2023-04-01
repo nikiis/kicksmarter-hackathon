@@ -39,7 +39,9 @@ if __name__ == '__main__':
 
         frames.append(frame)
 
-    # todo implement downsampling
+    export_filename = get_id(args.frames_file) + '_frames.json'
 
-    with open(get_id(args.frames_file) + '_frames.json', 'w') as f:
+    with open(export_filename, 'w') as f:
         json.dump(frames, f)
+
+    print('Exported to {export_filename}.')

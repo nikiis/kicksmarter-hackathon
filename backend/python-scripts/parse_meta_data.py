@@ -81,8 +81,8 @@ if __name__ == '__main__':
         'meta_stat_bomb', help='ManCity_xxxxx_lineup.json file')
     parser.add_argument(
         '--downsample', type=int, default=1, help='Sampling rate reduction rate, this will only change the base frequency, but it must match parse_frames.py script parameter. I suggest values such as 2, 4, 5 or 8, that will provide nice division result.')
-    parser.add_argument('--frameschunkzize', type=int, default=2000,
-                         help='Frames chunk size.')
+    parser.add_argument('--frameschunksize', type=int,
+                        default=2000, help='Frames chunk size.')
     args = parser.parse_args()
 
     with open(args.meta_second_spectrum, "r") as f:
@@ -133,8 +133,9 @@ if __name__ == '__main__':
         }
     }
 
-    # pp = pprint.PrettyPrinter(indent=4)
-    # pp.pprint(game_data)
+    export_filename = game_id + '_meta_data.json'
 
-    with open(game_id + '_meta_data.json', 'w') as f:
+    with open(export_filename, 'w') as f:
         json.dump(game_data, f)
+
+    print('Exported to {export_filename}.')

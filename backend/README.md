@@ -21,18 +21,36 @@ Then it would be good to install a database viewer of some sort e.g. [MongoDB Co
 
 ### Parsing Data
 
-Python scripts are used for dealing with the raw information given to us by the Second Spectrum and StatBomb providers. These are store inside `python-scripts` folder. You will firstly want to combine the meta data from the two providers into a single file (make sure that the files passed represent the same game from the two providers!):
+Python scripts are used for dealing with the raw information given to us by the Second Spectrum and StatBomb providers. These are store inside `python-scripts` folder. You will firstly want to combine the game meta data from the two providers into a single file (make sure that the files passed represent the same game from the two providers!):
 
-`python parse_meta_data.py xxxxx_secondSpectrum_meta.json ManCity_xxxxx_lineup.json --downsample 2`
+`python parse_meta_data.py xxxxx_secondSpectrum_meta.json ManCity_xxxxx_lineup.json --downsample 5 --frameschunksize`
 
-TODO: do we need to downsample anymore?
+This will produce `xxxxx_meta_data.json` file, where `xxxxx` is the game id.
 
-The second script parses the frame data by basically removing some unwanted fields such as playerId, z player coordinate, wall clock, this really reduces the file size! One can also downsample the fps to reduce this further down:
+Where: 
+- `downsample` reduces the base FPS (which is typically 25 Hz) e.g. downsample of 5 will make the new FPS to be 25 / 5 = 5 Hz. Recommend using nice values, so that the division would become nice e.g. 2, 4, 5, 10.
+- `frameschunksize` specifies the maximum chink size that the frames will be split into e.g. 2000 will split 5 * 60 * 90 = 27000 frames (assuming FPS of 5 Hz and 90 min game) into 27000 / 2000 = 13.5, thus 14 chunks.
 
-`python parse_frames.py xxxxx_secondSpectrum_tracking-produced.jsonl --downsample 2`
+The second script parses the frame data by basically removing some unwanted fields such as playerId, z player coordinate, wall clock, this helps to reduce the file size, which makes it quicker finding the data inside the database. You MUST specify the same downsample size as before:
+
+`python parse_frames.py xxxxx_secondSpectrum_tracking-produced.jsonl --downsample 5`
+
+This will produce `xxxxx_frames.json` file, where `xxxxx` is the game id.
 
 ### Populate Database
 
-Then the parsed data needs to be pushed onto the database. An example json that can be pushed is given in [dropbox](https://www.dropbox.com/s/2zms3o6fd4ky1oe/2312213_min_complete.json?dl=0). Then one can run the script to store both the meta data and the frames onto the database by passing two files (have to run from `backend` folder):
+Then the parsed data needs to be pushed onto the database. The two already parsed json files for one of the games are given in dropbox as [game_meta_data.json](https://www.dropbox.com/s/dnnsz8zp4y87ent/2312213_meta_data.json?dl=0) and [game_frames.json](https://www.dropbox.com/s/70j23zpna6ypzsc/2312213_frames.json?dl=0). Then one needs to run the two scripts as given below to store both the meta data and the frames onto the database by passing two generated json files (have to run from `backend` folder):
 
-`node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushGameDataToDb.ts ./python-scripts/2312135_meta_data.json ./python-scripts/2312135_frames.json`
+```node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushMetaDataToDb.ts ./python-scripts/2312213_meta_data.json
+node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312213_frames.json 2000
+```
+
+Where 2000 is the frames chunk size, which must be the same as before.
+
+## Running
+
+To run the backend server one simply needs to do `npm run dev` or if running from the root `npm run dev -w backend`.
+
+### Graphql
+
+The data is retrieved using graphql queries. To test your queries go to `http://localhost:4000/graphql` after launching the server.
