@@ -12,7 +12,7 @@ import http from 'http';
 import configExpress from '@/startup/configExpress';
 import logging from '@/startup/logging';
 import { dbConnect } from '@/startup/dbConnect';
-import prod from '@/startup/prod';
+import prod from '@/startup/deploy';
 import routes from '@/startup/routes';
 import { resolvers as gameResolvers } from './graphql/game.resolvers';
 import { resolvers as frameResolvers } from './graphql/frame.resolvers';
@@ -34,7 +34,7 @@ async function startApolloServer() {
 
     configExpress(app);
     logging(app);
-    if (app.get('env') === 'production') {
+    if (app.get('env') === 'deployment') {
         prod(app);
     }
     // validation();
