@@ -55,6 +55,4 @@ const playerValidationSchema = Joi.object({
     stats: statsValidationSchema.required(),
 });
 
-const Player = mongoose.model('Player', PlayerSchema);
-
-export { Player, PlayerSchema, playerValidationSchema };
+export { PlayerSchema, playerValidationSchema };

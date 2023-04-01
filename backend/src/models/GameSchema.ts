@@ -43,7 +43,6 @@ const GameSchema = new mongoose.Schema(
         pitchLength: { type: Number, required: true },
         pitchWidth: { type: Number, required: true },
         fps: { type: Number, required: true },
-        baseFps: { type: Number, required: true },
         framesChunkSize: { type: Number, required: true },
         periods: [PeriodSchema],
         home: TeamSchema,
@@ -92,4 +91,4 @@ const gameValidationSchema = Joi.object({
 
 const Game = mongoose.model('Game', GameSchema);
 
-export { Game, GameSchema, gameValidationSchema };
+export { Game, gameValidationSchema };

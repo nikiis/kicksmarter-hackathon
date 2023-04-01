@@ -69,14 +69,10 @@ const frameValidationSchema = Joi.object({
     lastTouch: Joi.string().required(),
 });
 
-const framesValidationSchema = Joi.object({
-    frames: Joi.array().items(frameValidationSchema).required(),
-});
-
 const framesChunkValidationSchema = Joi.object({
     gameId: Joi.string().required(),
     chunkIdx: Joi.number().required(),
     frames: Joi.array().items(frameValidationSchema).required(),
 });
 
-export { Frame, FrameSchema, FramesChunk, frameValidationSchema, framesValidationSchema, framesChunkValidationSchema };
+export { Frame, frameValidationSchema, FramesChunk, framesChunkValidationSchema };

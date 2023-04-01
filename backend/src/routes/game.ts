@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { Game } from '@/models/GameSchema';
+import { FramesChunk } from '@/models/FrameSchema';
 import Joi from 'joi';
 import winston from 'winston';
 import _ from 'lodash';
@@ -49,8 +50,32 @@ async function frameIdxFromGameClock(gameId: String, gameClock: number, res: Res
 }
 
 async function findFrame(gameId: String, frameIdx: number) {
-    return null;
-    // return (await Game.findOne({ gameId }, { frames: { $elemMatch: { frameIdx } } }))?.frames[0];
+    const chunkSize = await getChunkSize(gameId);
+    const chunkIdx = Math.floor(frameIdx / chunkSize);
+
+    const result = await FramesChunk.aggregate([
+        { $match: { gameId } },
+        { $match: { chunkIdx } },
+        {
+            $project: {
+                frame: {
+                    $filter: {
+                        input: '$frames',
+                        as: 'frame',
+                        cond: { $eq: ['$$frame.frameIdx', frameIdx] },
+                    },
+                },
+            },
+        },
+    ]);
+
+    return result[0].frame[0];
+}
+
+async function getChunkSize(gameId: String) {
+    const game = await Game.findOne({ gameId }).select('framesChunkSize');
+    if (!game) return 1000;
+    return game.framesChunkSize;
 }
 
 async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: number): Promise<any> {

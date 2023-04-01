@@ -55,7 +55,6 @@ export const typeDefs = `#graphql
     pitchLength: Float!
     pitchWidth: Float!
     fps: Float!
-    baseFps: Float
     framesChunkSize: Int!
     periods: [Period!]!
     home: Team!

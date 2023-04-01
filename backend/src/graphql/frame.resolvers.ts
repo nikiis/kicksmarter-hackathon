@@ -40,19 +40,10 @@ async function frameIdxFromGameClock(gameId: String, gameClock: number) {
     return Math.round(gameClock * game.fps);
 }
 
-async function getChunkSize(gameId: String) {
-    const game = await Game.findOne({ gameId }).select('framesChunkSize');
-
-    if (!game) throw new GraphQLError('Cannot find framesChunkSize fields within game!');
-
-    return game.framesChunkSize;
-}
-
 async function findFrame(gameId: String, frameIdx: number) {
     const chunkSize = await getChunkSize(gameId);
     const chunkIdx = Math.floor(frameIdx / chunkSize);
 
-    console.log(frameIdx);
     const result = await FramesChunk.aggregate([
         { $match: { gameId } },
         { $match: { chunkIdx } },
@@ -69,7 +60,6 @@ async function findFrame(gameId: String, frameIdx: number) {
         },
     ]);
 
-    console.log(result[0].frame[0]);
     return result[0].frame[0];
 }
 
@@ -105,8 +95,15 @@ async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: n
     ]);
 
     const frames = _.flatten(result.map((res) => res.frames));
-
     return frames;
+}
+
+async function getChunkSize(gameId: String) {
+    const game = await Game.findOne({ gameId }).select('framesChunkSize');
+
+    if (!game) throw new GraphQLError('Cannot find framesChunkSize fields within game!');
+
+    return game.framesChunkSize;
 }
 
 function validateFrameRequest(data: any) {
@@ -122,6 +119,7 @@ function validateFrameRequest(data: any) {
 }
 
 function validateFramesRequest(data: any) {
+    // todo probably can now remove requesting specific index, on top of that would be good to prevent user from requesting more than 1 min of data?
     const schema = Joi.object({
         gameId: Joi.string().min(0).max(20).required(),
         startFrameIdx: Joi.number()
