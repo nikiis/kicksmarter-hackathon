@@ -1,4 +1,11 @@
 @use '@styles/objects/container' as container;
+@use '@styles/elements/header' as header;
+
+.games {
+    h1 {
+        @include header.h1;
+    }
+}
 
 .container {
     @include container.container;
