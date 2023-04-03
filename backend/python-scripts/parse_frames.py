@@ -1,11 +1,16 @@
 import json
 import argparse
 import os
+import math
 
 
 def get_id(path: str):
     filename = os.path.basename(path)
     return filename.split('_')[0][1:]
+
+
+def get_distance(p1, p2):
+    return math.dist(p1['xy'], p2['xy'])
 
 
 if __name__ == '__main__':
@@ -21,6 +26,8 @@ if __name__ == '__main__':
 
     frames = []
     for idx, frame in enumerate(raw_frames[0::args.downsample]):
+        if idx % 5000 == 0:
+            print(f'Parsed {idx} frames..')
         frame.pop('wallClock')
         frame['frameIdx'] = idx
         for player in frame['homePlayers']:
@@ -36,6 +43,18 @@ if __name__ == '__main__':
             # player.pop('speed')
             coords = player.pop('xyz')
             player['xy'] = [coords[0], coords[1]]
+
+        for player in frame['homePlayers']:
+            tot = 0
+            for opponent in frame['awayPlayers']:
+                tot += 1 / (get_distance(player, opponent) ** 2)
+            player['openness'] = round(math.sqrt(1 / tot), 2)
+
+        for player in frame['awayPlayers']:
+            tot = 0
+            for opponent in frame['homePlayers']:
+                tot += 1 / (get_distance(player, opponent) ** 2)
+            player['openness'] = round(math.sqrt(1 / tot), 2)
 
         frames.append(frame)
 
