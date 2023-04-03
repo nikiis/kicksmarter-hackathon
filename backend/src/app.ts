@@ -18,23 +18,33 @@ import { resolvers as gameResolvers } from './graphql/game.resolvers';
 import { resolvers as frameResolvers } from './graphql/frame.resolvers';
 import { typeDefs as GameDefs } from './graphql/game.typeDefs';
 import { typeDefs as FrameDefs } from './graphql/frame.typeDefs';
+import morgan from 'morgan';
+
+logging();
+
+winston.info('Starting up...');
 
 const app = express();
 const httpServer = http.createServer(app);
 
-// Set up Apollo Server
 const apolloServer = new ApolloServer({
     typeDefs: [GameDefs, FrameDefs],
     resolvers: merge(gameResolvers, frameResolvers),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
+startServer();
+
 async function startServer() {
     await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
     await apolloServer.start();
 
     configExpress(app);
-    logging(app);
+
+    winston.info(`Environment: ${app.get('env')}`);
+    if (app.get('env') === 'development') {
+        app.use(morgan('tiny'));
+    }
     if (app.get('env') === 'production') {
         prod(app);
     }
@@ -50,5 +60,3 @@ async function startServer() {
         winston.info(`🚀 Server ready at http://localhost:${port}...`);
     });
 }
-
-startServer();

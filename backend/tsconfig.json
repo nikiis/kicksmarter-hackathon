@@ -13,7 +13,11 @@
         "module": "nodenext",
         "resolveJsonModule": true,
         "isolatedModules": true,
+        "noImplicitAny": false,
         "incremental": true,
+        "typeRoots": [
+            "./typings",
+        ],
         "rootDir": "./",
         "paths": {
             "@backend/*": ["../backend/*"],

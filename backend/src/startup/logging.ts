@@ -1,7 +1,4 @@
-import morgan from 'morgan';
 import winston from 'winston';
-import { Application } from 'express';
-import expressWinston from 'express-winston';
 
 // TODO in the future log into database
 // import 'winston-mongodb';
@@ -17,7 +14,7 @@ import Debug from 'debug';
 const debugStartup = Debug('app:startup');
 const dbDebug = Debug('app:db');
 
-export default (app: Application) => {
+export default () => {
     winston.exitOnError = true;
     winston.add(new winston.transports.File({ filename: 'error.log', level: 'error' }));
     winston.add(new winston.transports.File({ filename: 'combined.log' }));
@@ -29,10 +26,4 @@ export default (app: Application) => {
         throw ex;
     });
     // winston.rejections.handle(new winston.transports.File({ filename: 'unhandledRejection.log' }));
-
-    if (app.get('env') !== 'production') {
-        app.use(morgan('tiny'));
-    }
-
-    winston.info(`Environment: ${app.get('env')}`);
 };
