@@ -1,0 +1,9 @@
+@use '@styles/objects/container' as container;
+
+.game {
+    padding: 60px 0;
+}
+
+.container {
+    @include container.container;
+}

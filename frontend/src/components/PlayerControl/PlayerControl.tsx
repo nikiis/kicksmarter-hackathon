@@ -7,10 +7,13 @@ import { convertSecondsToMinutes } from './helpers';
 
 const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback, events }) => {
     let [currentTime, setCurrentTime] = useState(0);
+    let [isPlaying, setIsPlaying] = useState(false);
+
     const eventsTimeStamp = events?.map((x) => x.time);
     const intervalRef = useRef<any>(null);
 
     const play = () => {
+        setIsPlaying(true);
         setCurrentTime(currentTime++);
         intervalRef.current = setInterval(() => {
             if (currentTime > totalGameTime) return;
@@ -19,9 +22,13 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         }, 1000);
     };
 
-    const pause = () => clearInterval(intervalRef.current);
+    const pause = () => {
+        setIsPlaying(false);
+        clearInterval(intervalRef.current);
+    };
 
     const stop = () => {
+        setIsPlaying(false);
         clearInterval(intervalRef.current);
         setCurrentTime(0);
     };
@@ -29,12 +36,16 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
     return (
         <div className={styles.playerControl}>
             <div className={styles.controls}>
-                <button onClick={play} aria-label="play">
-                    <SvgIcon svgName="play" customClass={styles.icon} />
-                </button>
-                <button onClick={pause} aria-label="pause">
-                    <SvgIcon svgName="pause" customClass={styles.icon} />
-                </button>
+                {isPlaying ? (
+                    <button onClick={pause} aria-label="pause">
+                        <SvgIcon svgName="pause" customClass={styles.icon} />
+                    </button>
+                ) : (
+                    <button onClick={play} aria-label="play">
+                        <SvgIcon svgName="play" customClass={styles.icon} />
+                    </button>
+                )}
+
                 <button onClick={stop} aria-label="stop">
                     <SvgIcon svgName="stop" customClass={styles.icon} />
                 </button>

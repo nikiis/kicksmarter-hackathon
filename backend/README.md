@@ -9,6 +9,7 @@ The backend runs on MongoDB database and uses node as the backend. It also uses 
 ### MongoDB
 
 To install and start MongoDB you can read steps [here](https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/), but in short:
+Note, these are instructions for MacOS:
 
 ```
 brew tap mongodb/brew
