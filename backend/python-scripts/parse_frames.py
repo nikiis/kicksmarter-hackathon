@@ -44,4 +44,4 @@ if __name__ == '__main__':
     with open(export_filename, 'w') as f:
         json.dump(frames, f)
 
-    print('Exported to {export_filename}.')
+    print(f'Exported to {export_filename}.')

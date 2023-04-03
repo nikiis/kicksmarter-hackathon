@@ -29,7 +29,8 @@ const apolloServer = new ApolloServer({
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-async function startApolloServer() {
+async function startServer() {
+    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
     await apolloServer.start();
 
     configExpress(app);
@@ -50,6 +51,4 @@ async function startApolloServer() {
     });
 }
 
-startApolloServer();
-
-dbConnect(config.get<string>('MONGODB_NAME_DATA'));
+startServer();

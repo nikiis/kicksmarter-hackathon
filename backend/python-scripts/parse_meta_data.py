@@ -115,7 +115,7 @@ if __name__ == '__main__':
         'pitchLength': game_data1['pitchLength'],
         'pitchWidth': game_data1['pitchWidth'],
         'fps': round(game_data1['fps'] / args.downsample, 3),
-        'framesChunkSize': args.frameschunkzize,
+        'framesChunkSize': args.frameschunksize,
         'periods': game_data1['periods'],
         'home': {
             'color': '#B3D7DF',
@@ -138,4 +138,4 @@ if __name__ == '__main__':
     with open(export_filename, 'w') as f:
         json.dump(game_data, f)
 
-    print('Exported to {export_filename}.')
+    print(f'Exported to {export_filename}.')

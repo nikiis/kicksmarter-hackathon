@@ -21,6 +21,7 @@ export default (app: Application) => {
     winston.exitOnError = true;
     winston.add(new winston.transports.File({ filename: 'error.log', level: 'error' }));
     winston.add(new winston.transports.File({ filename: 'combined.log' }));
+    winston.add(new winston.transports.Console({ level: 'info', format: winston.format.simple() }));
 
     winston.exceptions.handle(new winston.transports.File({ filename: 'uncaughtExceptions.log' }));
     // TODO before winston.rejections.handle(...) didn't exist, what about now? :/
@@ -29,13 +30,9 @@ export default (app: Application) => {
     });
     // winston.rejections.handle(new winston.transports.File({ filename: 'unhandledRejection.log' }));
 
-    const consoleTransport = new winston.transports.Console({ level: 'info', format: winston.format.simple() });
-    winston.add(consoleTransport);
-
     if (app.get('env') !== 'production') {
-        app.use(expressWinston.logger({ transports: [consoleTransport] }));
         app.use(morgan('tiny'));
     }
 
-    winston.info('Logging setup!');
+    winston.info(`Environment: ${app.get('env')}`);
 };

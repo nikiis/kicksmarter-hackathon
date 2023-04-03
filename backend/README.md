@@ -24,7 +24,7 @@ Then it would be good to install a database viewer of some sort e.g. [MongoDB Co
 
 Python scripts are used for dealing with the raw information given to us by the Second Spectrum and StatBomb providers. These are store inside `python-scripts` folder. You will firstly want to combine the game meta data from the two providers into a single file (make sure that the files passed represent the same game from the two providers!):
 
-`python parse_meta_data.py xxxxx_secondSpectrum_meta.json ManCity_xxxxx_lineup.json --downsample 5 --frameschunksize`
+`python parse_meta_data.py xxxxx_secondSpectrum_meta.json ManCity_xxxxx_lineup.json --downsample 5 --frameschunksize 1000`
 
 This will produce `xxxxx_meta_data.json` file, where `xxxxx` is the game id.
 
