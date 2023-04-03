@@ -3,6 +3,7 @@ export const typeDefs = `#graphql
     number: Int!
     xy: [Float!]!
     speed: Float!
+    openness: Float!
     optaId: String!
   }
 

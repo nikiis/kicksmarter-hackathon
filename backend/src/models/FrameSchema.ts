@@ -6,6 +6,7 @@ const PlayerSchema = new mongoose.Schema(
         number: { type: Number, required: true },
         xy: { type: [Number], required: true },
         speed: { type: Number, required: true },
+        openness: { type: Number, required: true },
         optaId: { type: String, required: true },
     },
     { _id: false }
@@ -50,6 +51,7 @@ const playerValidationSchema = Joi.object({
     number: Joi.number().required(),
     xy: Joi.array().length(2).items(Joi.number()).required(),
     speed: Joi.number().required(),
+    openness: Joi.number().required(),
     optaId: Joi.string().required(),
 });
 
