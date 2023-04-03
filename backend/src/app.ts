@@ -34,7 +34,7 @@ async function startApolloServer() {
 
     configExpress(app);
     logging(app);
-    if (app.get('env') === 'deployment') {
+    if (app.get('env') === 'production') {
         prod(app);
     }
     // validation();
@@ -44,13 +44,12 @@ async function startApolloServer() {
 
     const port = config.get<number>('PORT');
 
-    const server = httpServer.listen({ port: port }, () =>
-        winston.info(`🚀 Server ready at http://localhost:${port}...`)
-    );
+    // todo figure out if I need to specify 0.0.0.0 in the productino or can I just remove this altogether
+    httpServer.listen({ port }, () => {
+        winston.info(`🚀 Server ready at http://localhost:${port}...`);
+    });
 }
 
 startApolloServer();
 
 dbConnect(config.get<string>('MONGODB_NAME_DATA'));
-
-// export default server;
