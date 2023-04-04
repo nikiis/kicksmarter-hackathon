@@ -7,8 +7,15 @@ import PlayerPin from '../PlayerPin/PlayerPin';
 import FootballPin from '../FootballPin/FootballPin';
 import CustomDraw from '../CustomDraw/CustomDraw';
 
-const PlayerPitch: FC<PlayerPitchProps> = ({ parentWidth, parentHeight, players, football, isDrawEnabled = false }) => {
-    const ratio = 1.6; // ratio = width / height would get this from the API
+const PlayerPitch: FC<PlayerPitchProps> = ({
+    parentWidth,
+    parentHeight,
+    players,
+    football,
+    isDrawEnabled = false,
+    pitchScale,
+}) => {
+    const ratio = pitchScale;
     let height = parentHeight;
     let width = parentWidth;
 

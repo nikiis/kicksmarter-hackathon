@@ -1,13 +1,14 @@
 import { ParentSize } from '@visx/responsive';
 import { FC, useState } from 'react';
 import PlayerPitch from '../PlayerPitch/PlayerPitch';
-import { players } from '@/data/players';
+// import { players } from '@/data/players';
 import { football } from '@/data/football';
 import SvgIcon from '../SvgIcon/SvgIcon';
 import PlayerControl from '../PlayerControl/PlayerControl';
 import styles from './PitchDetails.module.scss';
+import { PitchDetailsProps } from '@/interfaces/components/PitchDetailsProps';
 
-const PitchDetails: FC = ({}) => {
+const PitchDetails: FC<PitchDetailsProps> = ({ pitchScale, players }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
 
     return (
@@ -22,6 +23,7 @@ const PitchDetails: FC = ({}) => {
                                 players={players}
                                 football={football}
                                 isDrawEnabled={isDrawEnabled}
+                                pitchScale={pitchScale}
                             />
                         )}
                     </ParentSize>

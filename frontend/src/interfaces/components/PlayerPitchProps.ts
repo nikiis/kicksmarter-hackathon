@@ -6,4 +6,5 @@ export interface PlayerPitchProps {
     players: Array<Player>;
     football: Football;
     isDrawEnabled?: boolean;
+    pitchScale: number;
 }

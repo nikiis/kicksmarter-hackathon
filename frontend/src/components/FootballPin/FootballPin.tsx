@@ -2,7 +2,7 @@ import { FootballPinProps } from '@/interfaces/components/FootballPinProps';
 import { FC } from 'react';
 
 const FootballPin: FC<FootballPinProps> = ({ x, y, scale, heightScale }) => {
-    let ballSize = 20 * (1 + heightScale);
+    let ballSize = 15 * (1 + heightScale);
     return (
         <>
             <filter id="shadow" colorInterpolationFilters="sRGB">

@@ -10,7 +10,7 @@ export interface PlayerStats {
 export interface Player {
     number: number;
     position: string;
-    optaId: string;
+    optaId: string; //main id
     ssiId: string;
     statBombId: number;
     name: string;
@@ -20,4 +20,5 @@ export interface Player {
     weight?: number;
     country: string;
     stats: PlayerStats;
+    xy?: Array<number>;
 }

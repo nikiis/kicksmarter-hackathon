@@ -14,15 +14,15 @@ const PlayerPin: FC<PlayerPinProps> = ({
     onTouchEnd,
     scale,
 }) => {
-    const RADIUS = 25 * scale;
+    const RADIUS = 20 * scale;
     const { id, x, y, colour, playerNumber } = player;
 
     return (
         <>
             <circle
                 key={id}
-                cx={x ? x * scale : 0}
-                cy={y ? y * scale : 0}
+                cx={x ? x / scale : 0}
+                cy={y ? y / scale : 0}
                 r={isActive ? RADIUS + 4 : RADIUS}
                 fill={colour}
                 transform={`translate(${dx}, ${dy})`}
@@ -36,9 +36,9 @@ const PlayerPin: FC<PlayerPinProps> = ({
                 onTouchEnd={onTouchEnd}
             />
             <text
-                x={x ? x * scale : 0}
-                y={y ? y * scale : 0}
-                fontSize={30 * scale}
+                x={x ? x / scale : 0}
+                y={y ? y / scale : 0}
+                fontSize={24 * scale}
                 transform={`translate(${dx}, ${dy})`}
                 textAnchor="middle"
                 stroke="#444E50"

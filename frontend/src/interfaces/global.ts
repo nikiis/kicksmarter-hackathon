@@ -1,11 +1,11 @@
-import { EventType, PlayerColour } from './enums/enums';
+import { EventType } from './enums/enums';
 
 export interface Player {
-    id: number;
+    id: string;
     playerNumber: number;
     x?: number;
     y?: number;
-    colour: PlayerColour;
+    colour: string;
 }
 
 export interface Coords {
