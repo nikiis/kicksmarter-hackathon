@@ -5,8 +5,8 @@ import { PlayerSchema, playerValidationSchema } from '@/models/PlayerSchema';
 const PeriodSchema = new mongoose.Schema(
     {
         number: { type: Number, required: true },
-        startFrameClock: { type: Number, required: true },
-        endFrameClock: { type: Number, required: true },
+        startGameClock: { type: Number, required: true },
+        endGameClock: { type: Number, required: true },
         startFrameIdx: { type: Number, required: true },
         endFrameIdx: { type: Number, required: true },
         homeAttPositive: { type: Boolean, required: true },
@@ -43,6 +43,7 @@ const GameSchema = new mongoose.Schema(
         pitchLength: { type: Number, required: true },
         pitchWidth: { type: Number, required: true },
         fps: { type: Number, required: true },
+        downsample: { type: Number, required: true },
         framesChunkSize: { type: Number, required: true },
         periods: [PeriodSchema],
         home: TeamSchema,
@@ -53,8 +54,8 @@ const GameSchema = new mongoose.Schema(
 
 const periodValidationSchema = Joi.object({
     number: Joi.number().required(),
-    startFrameClock: Joi.number().required(),
-    endFrameClock: Joi.number().required(),
+    startGameClock: Joi.number().required(),
+    endGameClock: Joi.number().required(),
     startFrameIdx: Joi.number().required(),
     endFrameIdx: Joi.number().required(),
     homeAttPositive: Joi.boolean().required(),
@@ -82,6 +83,7 @@ const gameValidationSchema = Joi.object({
     pitchLength: Joi.number().required(),
     pitchWidth: Joi.number().required(),
     fps: Joi.number().required(),
+    downsample: Joi.number().required(),
     baseFps: Joi.number(),
     framesChunkSize: Joi.number().required(),
     periods: Joi.array().items(periodValidationSchema).required(),

@@ -22,13 +22,11 @@ const BallSchema = new mongoose.Schema(
 
 const FrameSchema = new mongoose.Schema(
     {
-        period: { type: Number, required: true },
         frameIdx: { type: Number, required: true },
         gameClock: { type: Number, required: true },
         homePlayers: { type: [PlayerSchema], required: true },
         awayPlayers: { type: [PlayerSchema], required: true },
         ball: { type: BallSchema, required: true },
-        live: { type: Boolean, required: true },
         lastTouch: { type: String, required: true },
     },
     { _id: false }
@@ -61,13 +59,11 @@ const ballValidationSchema = Joi.object({
 });
 
 const frameValidationSchema = Joi.object({
-    period: Joi.number().required(),
     frameIdx: Joi.number().required(),
     gameClock: Joi.number().required(),
     homePlayers: Joi.array().items(playerValidationSchema).required(),
     awayPlayers: Joi.array().items(playerValidationSchema).required(),
     ball: ballValidationSchema.required(),
-    live: Joi.boolean().required(),
     lastTouch: Joi.string().required(),
 });
 

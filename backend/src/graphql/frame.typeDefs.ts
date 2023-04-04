@@ -13,10 +13,8 @@ export const typeDefs = `#graphql
   }
 
   type Frame {
-    period: Int!
     frameIdx: Int!
     gameClock: Float!
-    live: Boolean!
     lastTouch: String!
     homePlayers: [Player!]!
     awayPlayers: [Player!]!

@@ -13,48 +13,55 @@ def get_distance(p1, p2):
     return math.dist(p1['xy'], p2['xy'])
 
 
+def add_openness(players, opponents):
+    for player in players:
+        tot = 0
+        for opponent in opponents:
+            tot += 1 / (get_distance(player, opponent) ** 2)
+        player['openness'] = round(math.sqrt(1 / tot), 2)
+
+
+def parse_players(players, half_pitch_length, half_pitch_width):
+    for player in players:
+        player.pop('playerId')
+        coords = player.pop('xyz')
+        player['xy'] = [round(coords[0] + half_pitch_length, 2),
+                        round(half_pitch_width - coords[1], 2)]
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('frames_file',
                         help='xxxxx_secondSpectrum_tracking-produced.jsonl file')
-    parser.add_argument(
-        '--downsample', type=int, default=1, help='Sampling rate reduction rate, this will only change the base frequency, but it must match parse_frames.py script parameter.')
+    parser.add_argument('meta_data', help='xxxxx_meta_data.json file')
     args = parser.parse_args()
 
-    with open(args.frames_file, 'r') as f:
+    with open(args.meta_data, 'r', encoding='utf-8') as f:
+        meta_data = json.load(f)
+
+    half_pitch_length = meta_data['pitchLength'] / 2
+    half_pitch_width = meta_data['pitchWidth'] / 2
+    downsample = meta_data['downsample']
+
+    with open(args.frames_file, 'r', encoding='utf-8') as f:
         raw_frames = [json.loads(line) for line in f]
 
     frames = []
-    for idx, frame in enumerate(raw_frames[0::args.downsample]):
+    for idx, frame in enumerate(raw_frames[0::downsample]):
         if idx % 5000 == 0:
             print(f'Parsed {idx} frames..')
         frame.pop('wallClock')
+        frame.pop('live')
+        frame.pop('period')
         frame['frameIdx'] = idx
-        for player in frame['homePlayers']:
-            player.pop('playerId')
-            # player.pop('optaId')
-            # player.pop('speed')
-            coords = player.pop('xyz')
-            player['xy'] = [coords[0], coords[1]]
 
-        for player in frame['awayPlayers']:
-            player.pop('playerId')
-            # player.pop('optaId')
-            # player.pop('speed')
-            coords = player.pop('xyz')
-            player['xy'] = [coords[0], coords[1]]
+        parse_players(frame['homePlayers'],
+                      half_pitch_length, half_pitch_width)
+        parse_players(frame['awayPlayers'],
+                      half_pitch_length, half_pitch_width)
 
-        for player in frame['homePlayers']:
-            tot = 0
-            for opponent in frame['awayPlayers']:
-                tot += 1 / (get_distance(player, opponent) ** 2)
-            player['openness'] = round(math.sqrt(1 / tot), 2)
-
-        for player in frame['awayPlayers']:
-            tot = 0
-            for opponent in frame['homePlayers']:
-                tot += 1 / (get_distance(player, opponent) ** 2)
-            player['openness'] = round(math.sqrt(1 / tot), 2)
+        add_openness(frame['homePlayers'], frame['awayPlayers'])
+        add_openness(frame['awayPlayers'], frame['homePlayers'])
 
         frames.append(frame)
 

@@ -45,7 +45,7 @@ def filter_players(players: list):
     return [p for p in players if p['stats'] and p['optaId']]
 
 
-def to_game_clock(delta_time: str):
+def from_time_to_game_clock(delta_time: str):
     time_obj = datetime.datetime.strptime(delta_time, "%H:%M:%S.%f")
     total_seconds = time_obj - datetime.datetime(1900, 1, 1)
     return round(total_seconds.total_seconds(), 2)
@@ -59,13 +59,36 @@ def parse_events(events):
 
         parsed_event = {}
         parsed_event['period'] = event['period']
-        parsed_event['gameClock'] = to_game_clock(event['timestamp'])
+        parsed_event['gameClock'] = from_time_to_game_clock(event['timestamp'])
         parsed_event['type'] = event['type']
         parsed_event['outcome'] = event['outcome']
 
         parsed_events.append(parsed_event)
 
     return parsed_events
+
+
+def from_unix_to_game_clock(start_time: int, end_time: int):
+    start_datetime = datetime.datetime.fromtimestamp(start_time / 1000.0)
+    end_datetime = datetime.datetime.fromtimestamp(end_time / 1000.0)
+    return round(abs((end_datetime - start_datetime).total_seconds()), 2)
+
+
+def parse_periods(periods, start_time, downsample):
+    parsed_periods = []
+    for period in periods:
+        parsed_period = {}
+        parsed_period['number'] = period['number']
+        parsed_period['startGameClock'] = from_unix_to_game_clock(
+            start_time, period['startFrameClock'])
+        parsed_period['endGameClock'] = from_unix_to_game_clock(
+            start_time, period['endFrameClock'])
+        parsed_period['startFrameIdx'] = period['startFrameIdx'] // downsample
+        parsed_period['endFrameIdx'] = period['endFrameIdx'] // downsample
+        parsed_period['homeAttPositive'] = period['homeAttPositive']
+
+        parsed_periods.append(parsed_period)
+    return parsed_periods
 
 
 def get_id(path: str):
@@ -85,10 +108,10 @@ if __name__ == '__main__':
                         default=2000, help='Frames chunk size.')
     args = parser.parse_args()
 
-    with open(args.meta_second_spectrum, "r") as f:
+    with open(args.meta_second_spectrum, 'r', encoding='utf-8') as f:
         game_data1 = json.load(f)
 
-    with open(args.meta_stat_bomb, "r") as f:
+    with open(args.meta_stat_bomb, 'r', encoding='utf-8') as f:
         game_data2 = json.load(f)
 
     game_id = get_id(args.meta_second_spectrum)
@@ -112,11 +135,12 @@ if __name__ == '__main__':
         'gameId': game_id,
         'description': game_data1['description'],
         'startTime': game_data1['startTime'],
-        'pitchLength': game_data1['pitchLength'],
-        'pitchWidth': game_data1['pitchWidth'],
+        'pitchLength': round(game_data1['pitchLength'], 3),
+        'pitchWidth': round(game_data1['pitchWidth'], 3),
         'fps': round(game_data1['fps'] / args.downsample, 3),
+        'downsample': args.downsample,
         'framesChunkSize': args.frameschunksize,
-        'periods': game_data1['periods'],
+        'periods': parse_periods(game_data1['periods'], game_data1['startTime'], args.downsample),
         'home': {
             'color': '#B3D7DF',
             'players': filter_players(home_players.values()),

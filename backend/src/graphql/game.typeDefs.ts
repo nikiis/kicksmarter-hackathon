@@ -1,8 +1,8 @@
 export const typeDefs = `#graphql
   type Period {
     number: Int!
-    startFrameClock: Float!
-    endFrameClock: Float!
+    startGameClock: Float!
+    endGameClock: Float!
     startFrameIdx: Int!
     endFrameIdx: Int!
     homeAttPositive: Boolean!

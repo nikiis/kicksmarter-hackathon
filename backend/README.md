@@ -35,7 +35,7 @@ Where:
 
 The second script parses the frame data by basically removing some unwanted fields such as playerId, z player coordinate, wall clock, this helps to reduce the file size, which makes it quicker finding the data inside the database. You MUST specify the same downsample size as before:
 
-`python parse_frames.py xxxxx_secondSpectrum_tracking-produced.jsonl --downsample 5`
+`python parse_frames.py xxxxx_secondSpectrum_tracking-produced.jsonl xxxxx_meta_data.json`
 
 This will produce `xxxxx_frames.json` file, where `xxxxx` is the game id.
 
@@ -45,10 +45,10 @@ Then the parsed data needs to be pushed onto the database. The two already parse
 
 ```
 node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushMetaDataToDb.ts ./python-scripts/2312213_meta_data.json
-node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312213_frames.json 2000
+node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312213_frames.json 1000
 ```
 
-Where 2000 is the frames chunk size, which must be the same as before.
+Where 1000 is the frames chunk size, which must be the same as before.
 
 ## Running
 
