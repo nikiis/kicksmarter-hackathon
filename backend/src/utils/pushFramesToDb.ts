@@ -5,10 +5,10 @@ import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 import Path from 'path';
 import _ from 'lodash';
 
-if (process.argv.length < 3) {
+if (process.argv.length < 4) {
     // Run the script from root of backend!
     console.log(
-        'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312135_frames.json chunkSize\nwhere chunkSize is the selected frames chunk size in the range 1000.'
+        'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312135_frames.json chunkSize\nWhere "chunkSize" is the selected frames chunk size e.g. 1000.'
     );
     process.exit(1);
 }
