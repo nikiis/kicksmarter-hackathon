@@ -4,19 +4,23 @@ import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
 import { GameProps } from '@/interfaces/pages/GameProps';
 import { convertUnixTimeToDate } from '@/helpers/helpers';
-import { getGameQuery } from '@/queries/gameQuery';
+import { getAllGamesQuery, getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { getFramesQuery } from '@/queries/framesQuery';
 import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
 import { Period } from '@/interfaces/api/Period';
-import { PlayersPerFrame } from '@/interfaces/global';
+import { Football, Player, PlayersPerFrame } from '@/interfaces/global';
+import { useLazyQuery, useQuery } from '@apollo/client';
+import { print } from 'graphql';
 
 const Game: FC<GameProps> = ({ game, frame, gameId }) => {
     const { home, away, startTime, pitchLength, pitchWidth } = game;
     const { ball } = frame;
 
-    const players = mapFrameTeamToPlayers(frame, home, away);
-    const football = mapBallToFootball(ball);
+    const [players, setPlayers] = useState<Player[]>(mapFrameTeamToPlayers(frame, home, away));
+    const [football, setFoorball] = useState<Football>(mapBallToFootball(ball));
+    const [startGameTime, setStartGameTime] = useState(0);
+    const [stopGameTime, setStopGameTime] = useState(1);
 
     const totalGameTime =
         game.periods?.reduce(
@@ -24,18 +28,65 @@ const Game: FC<GameProps> = ({ game, frame, gameId }) => {
             0
         ) ?? 90 * 60;
     // const fps = game.fps ?? 5;
-    const fps = 1;
+    const fps = 5;
 
     const [playersPerFrame, setPlayersPerFrame] = useState<PlayersPerFrame[]>([]);
 
-    useEffect(() => {
-        const getFrames = async () => {
-            const { data } = await client.query({
-                query: getFramesQuery,
-                variables: { id: gameId, startClock: 0, stopClock: 10 },
-            });
-        };
-    });
+    // const { loading, error, data } = useQuery(getFrameQuery, {
+    // variables: { id: gameId, clock: 0 },
+    // });
+
+    // const [getGames, { loading, error, data }] = useLazyQuery(getAllGamesQuery);
+
+    const fetchFrames = async () => {
+        return await client.query({
+            query: getFramesQuery,
+            variables: { id: gameId, startClock: startGameTime, stopClock: stopGameTime },
+        });
+    };
+
+    const fetchFrame = async (clock: number) => {
+        return await client.query({
+            query: getFrameQuery,
+            variables: { id: gameId, clock: clock },
+        });
+    };
+
+    async function getFrame(clock: number) {
+        const response = await fetch('http://localhost:4000/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: print(getFrameQuery),
+                variables: { id: gameId, clock: clock },
+            }),
+        });
+
+        const { data, errors } = await response.json();
+        if (errors) {
+            throw new Error(`Failed to fetch games: ${errors[0].message}`);
+        }
+
+        return data.frame;
+    }
+
+    const handleTimeChange = async (currTime: number, index?: number) => {
+        // todo when index is defined, need to flush the whole queue and refetch the whole data, since the slider was moved manually
+        console.log('currTime: ', currTime);
+        console.log('index: ', index);
+
+        const frame1 = await getFrame(currTime);
+        // console.log(frame);
+        const { ball } = frame1;
+
+        const newPlayers = mapFrameTeamToPlayers(frame1, home, away);
+        setPlayers(newPlayers);
+        setFoorball(mapBallToFootball(ball));
+
+        // console.log(players);
+    };
 
     return (
         <div className={styles.game}>
@@ -54,6 +105,7 @@ const Game: FC<GameProps> = ({ game, frame, gameId }) => {
                     totalGameTime={totalGameTime}
                     fps={fps}
                     football={football}
+                    onGameTimeChange={(startTime: number, index?: number) => handleTimeChange(startTime, index)}
                 />
             </div>
         </div>

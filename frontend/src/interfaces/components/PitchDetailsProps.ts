@@ -7,4 +7,5 @@ export interface PitchDetailsProps {
     totalGameTime: number;
     fps: number;
     football: Football;
+    onGameTimeChange: (startTime: number, index?: number) => void;
 }

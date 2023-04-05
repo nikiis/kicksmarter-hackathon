@@ -18,6 +18,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         intervalRef.current = setInterval(() => {
             if (currentTime > totalGameTime) return;
             setCurrentTime((currentTime += period / 1000));
+            onChangeCallback(currentTime);
         }, period);
     };
 
@@ -30,6 +31,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         setIsPlaying(false);
         clearInterval(intervalRef.current);
         setCurrentTime(0);
+        onChangeCallback(currentTime);
     };
 
     return (

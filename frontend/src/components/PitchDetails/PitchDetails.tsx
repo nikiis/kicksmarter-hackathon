@@ -13,6 +13,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
     totalGameTime,
     fps,
     football,
+    onGameTimeChange,
 }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
 
@@ -49,7 +50,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                     fps={fps}
                     totalGameTime={totalGameTime}
                     // todo here get use the next frame
-                    onChangeCallback={(time, index) => console.log(time, index)}
+                    onChangeCallback={(time, index) => onGameTimeChange(time, index)}
                 />
             </div>
         </section>

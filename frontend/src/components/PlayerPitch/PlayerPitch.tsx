@@ -22,9 +22,9 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     const width = parentWidth;
     const height = width / ratio;
 
-    const [draggingItems, setDraggingItems] = useState<Player[]>(players);
+    // const [draggingItems, setDraggingItems] = useState<Player[]>(players);
 
-    if (draggingItems.length === 0 || width < 10) return null;
+    // if (draggingItems.length === 0 || width < 10) return null;
 
     return (
         <div className={styles.playerPitch} style={{ touchAction: 'none' }}>
@@ -118,7 +118,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         strokeWidth={0.2 * scale}
                     />
 
-                    {draggingItems.map((item, index) => (
+                    {players.map((item, index) => (
                         <Drag
                             key={`drag-${item.id}`}
                             width={width}
@@ -126,7 +126,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                             x={item.x}
                             y={item.y}
                             onDragStart={() => {
-                                setDraggingItems(raise(draggingItems, index));
+                                // setDraggingItems(raise(draggingItems, index));
                             }}>
                             {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
                                 return (
