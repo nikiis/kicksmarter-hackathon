@@ -6,9 +6,9 @@ const PeriodSchema = new mongoose.Schema(
     {
         number: { type: Number, required: true },
         startGameClock: { type: Number, required: true },
-        endGameClock: { type: Number, required: true },
+        stopGameClock: { type: Number, required: true },
         startFrameIdx: { type: Number, required: true },
-        endFrameIdx: { type: Number, required: true },
+        stopFrameIdx: { type: Number, required: true },
         homeAttPositive: { type: Boolean, required: true },
     },
     { _id: false }
@@ -55,9 +55,9 @@ const GameSchema = new mongoose.Schema(
 const periodValidationSchema = Joi.object({
     number: Joi.number().required(),
     startGameClock: Joi.number().required(),
-    endGameClock: Joi.number().required(),
+    stopGameClock: Joi.number().required(),
     startFrameIdx: Joi.number().required(),
-    endFrameIdx: Joi.number().required(),
+    stopFrameIdx: Joi.number().required(),
     homeAttPositive: Joi.boolean().required(),
 });
 

@@ -1,8 +1,8 @@
 export interface Period {
     number: number;
     startGameClock: number;
-    endGameClock: number;
+    stopGameClock: number;
     startFrameIdx: number;
-    endFrameIdx: number;
+    stopFrameIdx: number;
     homeAttPositive: boolean;
 }

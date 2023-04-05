@@ -21,6 +21,13 @@ def add_openness(players, opponents):
         player['openness'] = round(math.sqrt(1 / tot), 2)
 
 
+def parse_ball(ball, half_pitch_length, half_pitch_width):
+    coords = ball.pop('xyz')
+    ball['xyz'] = [round(coords[0] + half_pitch_length, 2),
+                   round(half_pitch_width - coords[1], 2),
+                   coords[2]]
+
+
 def parse_players(players, half_pitch_length, half_pitch_width):
     for player in players:
         player.pop('playerId')
@@ -54,7 +61,7 @@ if __name__ == '__main__':
         frame.pop('live')
         frame.pop('period')
         frame['frameIdx'] = idx
-
+        parse_ball(frame['ball'], half_pitch_length, half_pitch_width)
         parse_players(frame['homePlayers'],
                       half_pitch_length, half_pitch_width)
         parse_players(frame['awayPlayers'],

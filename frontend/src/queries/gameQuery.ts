@@ -54,7 +54,7 @@ export const getGameQuery = gql`
             }
             periods {
                 startGameClock
-                endGameClock
+                stopGameClock
             }
         }
     }

@@ -18,7 +18,7 @@ const Game: FC<GameProps> = ({ game, frame }) => {
 
     const totalGameTime =
         game.periods?.reduce(
-            (accumulator: number, period: Period) => accumulator + period.endGameClock - period.startGameClock,
+            (accumulator: number, period: Period) => accumulator + period.stopGameClock - period.startGameClock,
             0
         ) ?? 90 * 60;
     const fps = game.fps ?? 5;

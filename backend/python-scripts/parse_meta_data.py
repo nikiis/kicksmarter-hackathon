@@ -81,10 +81,10 @@ def parse_periods(periods, start_time, downsample):
         parsed_period['number'] = period['number']
         parsed_period['startGameClock'] = from_unix_to_game_clock(
             start_time, period['startFrameClock'])
-        parsed_period['endGameClock'] = from_unix_to_game_clock(
+        parsed_period['stopGameClock'] = from_unix_to_game_clock(
             start_time, period['endFrameClock'])
         parsed_period['startFrameIdx'] = period['startFrameIdx'] // downsample
-        parsed_period['endFrameIdx'] = period['endFrameIdx'] // downsample
+        parsed_period['stopFrameIdx'] = period['endFrameIdx'] // downsample
         parsed_period['homeAttPositive'] = period['homeAttPositive']
 
         parsed_periods.append(parsed_period)
