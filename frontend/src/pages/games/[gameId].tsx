@@ -6,14 +6,22 @@ import { GameProps } from '@/interfaces/pages/GameProps';
 import { convertUnixTimeToDate } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
+import { getFramesQuery } from '@/queries/framesQuery';
 import { mapFrameTeamToPlayers } from '@/helpers/mappers';
+import { Period } from '@/interfaces/api/Period';
 
 const Game: FC<GameProps> = ({ game, frame }) => {
     const { home, away, startTime, pitchLength, pitchWidth } = game;
     const { homePlayers, awayPlayers, ball } = frame;
 
-    const pitchScale = pitchWidth && pitchLength ? pitchLength / pitchWidth : 1.6;
     const players = mapFrameTeamToPlayers(frame, home, away);
+
+    const totalGameTime =
+        game.periods?.reduce(
+            (accumulator: number, period: Period) => accumulator + period.endGameClock - period.startGameClock,
+            0
+        ) ?? 90 * 60;
+    const fps = game.fps ?? 5;
 
     console.log(players);
 
@@ -27,7 +35,13 @@ const Game: FC<GameProps> = ({ game, frame }) => {
                     <p>Date: {convertUnixTimeToDate(startTime)}</p>
                 </div>
 
-                <PitchDetails pitchScale={pitchScale} players={players} />
+                <PitchDetails
+                    players={players}
+                    originalHeight={pitchWidth}
+                    originalWidth={pitchLength}
+                    totalGameTime={totalGameTime}
+                    fps={fps}
+                />
             </div>
         </div>
     );
@@ -55,4 +69,16 @@ export async function getServerSideProps(context: any) {
             frame: frameData.frame,
         },
     };
+}
+
+export async function getFrames(context: any) {
+    const { params } = context;
+    const { gameId } = params;
+
+    const { data: frames } = await client.query({
+        query: getFramesQuery,
+        variables: { id: gameId, startClock: 0, stopClock: 10 },
+    });
+
+    return { frames };
 }

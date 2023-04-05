@@ -10,17 +10,23 @@ import CustomDraw from '../CustomDraw/CustomDraw';
 const PlayerPitch: FC<PlayerPitchProps> = ({
     parentWidth,
     parentHeight,
+    originalWidth = 1,
+    originalHeight = 1,
     players,
     football,
     isDrawEnabled = false,
-    pitchScale,
 }) => {
-    const ratio = pitchScale;
-    let height = parentHeight;
-    let width = parentWidth;
+    const ratio = originalWidth / originalHeight;
+    const scale = parentWidth / originalWidth;
 
-    height = parentWidth / ratio;
-    const scale = height / parentHeight;
+    console.log('scale: ', scale);
+    console.log('ratio: ', ratio);
+
+    const width = parentWidth;
+    const height = width / ratio;
+
+    console.log('width: ', width);
+    console.log('height: ', height);
 
     const [draggingItems, setDraggingItems] = useState<Player[]>(players);
 
@@ -31,68 +37,93 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
             <svg width={width} height={height} className={styles.svg}>
                 <>
                     <rect fill="#E1EAE4" width={width} height={height} />
-                    <line x1={width / 2} y1={height} x2={width / 2} stroke="#4C554B" strokeWidth={4.2 * scale} />
+                    <line x1={width / 2} y1={height} x2={width / 2} stroke="#4C554B" strokeWidth={0.2 * scale} />
+
                     <circle
                         cx={width / 2}
                         cy={height / 2}
-                        r={87.57 * scale}
+                        r={9.15 * scale}
                         fill="transparent"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
                     />
                     <circle
-                        cx={129.68 * scale}
+                        cx={width / 2}
                         cy={height / 2}
-                        r={86.45 * scale}
-                        fill="transparent"
+                        r={0.3 * scale}
+                        fill="#4C554B"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
                     />
                     <circle
-                        cx={width - 129.68 * scale}
+                        cx={11 * scale}
                         cy={height / 2}
-                        r={86.45 * scale}
+                        r={9.15 * scale}
                         fill="transparent"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
+                    />
+                    <circle
+                        cx={width - 11 * scale}
+                        cy={height / 2}
+                        r={9.15 * scale}
+                        fill="transparent"
+                        stroke="#4C554B"
+                        strokeWidth={0.2 * scale}
                     />
                     <rect
                         x="0"
-                        y={(height - 389 * scale) / 2}
-                        width={158.5 * scale}
-                        height={389 * scale}
+                        y={(height - 40.32 * scale) / 2}
+                        width={16.5 * scale}
+                        height={40.32 * scale}
                         fill="#C6D7CC"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
+                    />
+                    <circle
+                        cx={11 * scale}
+                        cy={height / 2}
+                        r={0.3 * scale}
+                        fill="#4C554B"
+                        stroke="#4C554B"
+                        strokeWidth={0.2 * scale}
                     />
                     <rect
-                        x={width - 160.66 * scale}
-                        y={(height - 389 * scale) / 2}
-                        width={160.66 * scale}
-                        height={389 * scale}
+                        x={width - 16.5 * scale}
+                        y={(height - 40.32 * scale) / 2}
+                        width={16.5 * scale}
+                        height={40.32 * scale}
                         fill="#C6D7CC"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
+                    />
+                    <circle
+                        cx={width - 11 * scale}
+                        cy={height / 2}
+                        r={0.3 * scale}
+                        fill="#4C554B"
+                        stroke="#4C554B"
+                        strokeWidth={0.2 * scale}
                     />
                     <rect
                         x="0"
-                        y={(height - 172.91 * scale) / 2}
-                        width={50.43 * scale}
-                        height={172.91 * scale}
+                        y={(height - 18.32 * scale) / 2}
+                        width={5.5 * scale}
+                        height={18.32 * scale}
                         fill="#E1EAE4"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
                     />
                     <rect
-                        x={width - 52.6 * scale}
-                        y={(height - 172.9 * scale) / 2}
-                        width={52.6 * scale}
-                        height={172.9 * scale}
+                        x={width - 5.5 * scale}
+                        y={(height - 18.32 * scale) / 2}
+                        width={5.5 * scale}
+                        height={18.32 * scale}
                         fill="#E1EAE4"
                         stroke="#4C554B"
-                        strokeWidth={4.2 * scale}
+                        strokeWidth={0.2 * scale}
                     />
-                    <FootballPin x={football.x} y={football.y} scale={scale} heightScale={football.height} />
+
                     {draggingItems.map((item, index) => (
                         <Drag
                             key={`drag-${item.id}`}
@@ -100,32 +131,44 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                             height={height}
                             x={item.x}
                             y={item.y}
-                            onDragStart={() => {
-                                setDraggingItems(raise(draggingItems, index));
+                            onDragStart={({ dx, dy }) => {
+                                // dx = 0.01;
+                                // dy = 0.01;
+                                // setDraggingItems(raise(draggingItems, index));
+                            }}
+                            onDragEnd={({ x, y, dx, dy }) => {
+                                // x = x / scale;
+                                // y = y / scale;
+                                console.log('drag end', x, y);
+                                item.x = x;
+                                item.y = y;
                             }}>
-                            {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => (
-                                <PlayerPin
-                                    player={{
-                                        id: item.id,
-                                        x,
-                                        y,
-                                        playerNumber: item.playerNumber,
-                                        colour: item.colour,
-                                    }}
-                                    dx={dx}
-                                    dy={dy}
-                                    isActive={isDragging}
-                                    onMouseMove={dragMove}
-                                    onMouseUp={dragEnd}
-                                    onMouseDown={dragStart}
-                                    onTouchStart={dragStart}
-                                    onTouchMove={dragMove}
-                                    onTouchEnd={dragEnd}
-                                    scale={scale}
-                                />
-                            )}
+                            {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
+                                return (
+                                    <PlayerPin
+                                        player={{
+                                            id: item.id,
+                                            x: x,
+                                            y: y,
+                                            playerNumber: item.playerNumber,
+                                            colour: item.colour,
+                                        }}
+                                        dx={dx}
+                                        dy={dy}
+                                        isActive={isDragging}
+                                        onMouseMove={dragMove}
+                                        onMouseUp={dragEnd}
+                                        onMouseDown={dragStart}
+                                        onTouchStart={dragStart}
+                                        onTouchMove={dragMove}
+                                        onTouchEnd={dragEnd}
+                                        scale={scale}
+                                    />
+                                );
+                            }}
                         </Drag>
                     ))}
+                    <FootballPin x={football.x} y={football.y} scale={scale} heightScale={football.height} />
 
                     {isDrawEnabled && <CustomDraw width={parentWidth} height={parentHeight} />}
                 </>

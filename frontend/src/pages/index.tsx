@@ -1,4 +1,3 @@
-import PlayerPitch from '@/components/PlayerPitch/PlayerPitch';
 import SvgIcon from '@/components/SvgIcon/SvgIcon';
 import styles from '@/styles/pages/Home.module.scss';
 

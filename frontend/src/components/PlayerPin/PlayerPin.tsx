@@ -14,20 +14,37 @@ const PlayerPin: FC<PlayerPinProps> = ({
     onTouchEnd,
     scale,
 }) => {
-    const RADIUS = 20 * scale;
-    const { id, x, y, colour, playerNumber } = player;
+    const RADIUS = 1.7 * scale;
+    let { id, x, y, colour, playerNumber } = player;
+
+    // const onDragEnd = (event: any) => {
+    //     x = x;
+    //     y = y;
+    //     isActive = false;
+    // };
+
+    // a workaround to scale the position when dragging is happening
+    const isActuallyActive = dx !== 0 || dy !== 0 || isActive;
+    x = isActuallyActive ? x : x * scale;
+    y = isActuallyActive ? y : y * scale;
+
+    // x = x * scale;
+    // y = y * scale;
+
+    console.log('xy: ', x, y);
+    console.log('dxdy: ', dx, dy);
 
     return (
         <>
             <circle
                 key={id}
-                cx={x ? x / scale : 0}
-                cy={y ? y / scale : 0}
+                cx={x}
+                cy={y}
                 r={isActive ? RADIUS + 4 : RADIUS}
                 fill={colour}
                 transform={`translate(${dx}, ${dy})`}
                 stroke="#444E50"
-                strokeWidth={3 * scale}
+                strokeWidth={0.2 * scale}
                 onMouseMove={onMouseMove}
                 onMouseUp={onMouseUp}
                 onMouseDown={onMouseDown}
@@ -36,13 +53,13 @@ const PlayerPin: FC<PlayerPinProps> = ({
                 onTouchEnd={onTouchEnd}
             />
             <text
-                x={x ? x / scale : 0}
-                y={y ? y / scale : 0}
-                fontSize={24 * scale}
+                x={x}
+                y={y}
+                fontSize={1.7 * scale}
                 transform={`translate(${dx}, ${dy})`}
                 textAnchor="middle"
                 stroke="#444E50"
-                strokeWidth={2 * scale}
+                strokeWidth={0.2 * scale}
                 dy=".3em"
                 onMouseMove={onMouseMove}
                 onMouseUp={onMouseUp}

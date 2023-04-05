@@ -3,9 +3,9 @@ import styles from './PlayerControl.module.scss';
 import SvgIcon from '../SvgIcon/SvgIcon';
 import { PlayerControlProps } from '@/interfaces/components/PlayerControlProps';
 import ReactSlider from 'react-slider';
-import { convertSecondsToMinutes } from './helpers';
+import { toGameDisplayTime } from './helpers';
 
-const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback, events }) => {
+const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback, events, fps }) => {
     let [currentTime, setCurrentTime] = useState(0);
     let [isPlaying, setIsPlaying] = useState(false);
 
@@ -14,12 +14,12 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
 
     const play = () => {
         setIsPlaying(true);
-        setCurrentTime(currentTime++);
+        const period = Math.round((1 / fps) * 1000); // in msœ
         intervalRef.current = setInterval(() => {
             if (currentTime > totalGameTime) return;
             console.log(currentTime);
-            setCurrentTime(currentTime++);
-        }, 1000);
+            setCurrentTime((currentTime += period / 1000));
+        }, period);
     };
 
     const pause = () => {
@@ -62,7 +62,9 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
                     onChange={(time, index) => setCurrentTime(time)}
                     onAfterChange={(time, index) => onChangeCallback(currentTime, index)}
                 />
-                <span>{convertSecondsToMinutes(totalGameTime)}mins</span>
+                <span>
+                    {toGameDisplayTime(currentTime)} / {toGameDisplayTime(totalGameTime)}
+                </span>
             </div>
         </div>
     );

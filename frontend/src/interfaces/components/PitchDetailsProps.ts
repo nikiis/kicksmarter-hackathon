@@ -1,6 +1,9 @@
 import { Player } from '../global';
 
 export interface PitchDetailsProps {
-    pitchScale: number;
+    originalWidth?: number;
+    originalHeight?: number;
     players: Array<Player>;
+    totalGameTime: number;
+    fps: number;
 }

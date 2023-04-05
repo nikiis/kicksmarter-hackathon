@@ -52,6 +52,10 @@ export const getGameQuery = gql`
                     outcome
                 }
             }
+            periods {
+                startGameClock
+                endGameClock
+            }
         }
     }
 `;

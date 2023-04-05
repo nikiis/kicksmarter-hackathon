@@ -8,7 +8,7 @@ import PlayerControl from '../PlayerControl/PlayerControl';
 import styles from './PitchDetails.module.scss';
 import { PitchDetailsProps } from '@/interfaces/components/PitchDetailsProps';
 
-const PitchDetails: FC<PitchDetailsProps> = ({ pitchScale, players }) => {
+const PitchDetails: FC<PitchDetailsProps> = ({ players, originalHeight, originalWidth, totalGameTime, fps }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
 
     return (
@@ -23,7 +23,8 @@ const PitchDetails: FC<PitchDetailsProps> = ({ pitchScale, players }) => {
                                 players={players}
                                 football={football}
                                 isDrawEnabled={isDrawEnabled}
-                                pitchScale={pitchScale}
+                                originalHeight={originalHeight}
+                                originalWidth={originalWidth}
                             />
                         )}
                     </ParentSize>
@@ -39,7 +40,11 @@ const PitchDetails: FC<PitchDetailsProps> = ({ pitchScale, players }) => {
                 </div>
             </div>
             <div className={styles.controls}>
-                <PlayerControl totalGameTime={10} onChangeCallback={(time, index) => console.log(time, index)} />
+                <PlayerControl
+                    fps={fps}
+                    totalGameTime={totalGameTime}
+                    onChangeCallback={(time, index) => console.log(time, index)}
+                />
             </div>
         </section>
     );
