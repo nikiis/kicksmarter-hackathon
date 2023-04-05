@@ -30,6 +30,8 @@ const PlayerPin: FC<PlayerPinProps> = ({
 
     // x = x * scale;
     // y = y * scale;
+    // dx = dx / scale;
+    // dy = dy / scale;
 
     console.log('xy: ', x, y);
     console.log('dxdy: ', dx, dy);

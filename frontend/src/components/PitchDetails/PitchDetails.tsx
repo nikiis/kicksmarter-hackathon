@@ -1,14 +1,19 @@
 import { ParentSize } from '@visx/responsive';
 import { FC, useState } from 'react';
 import PlayerPitch from '../PlayerPitch/PlayerPitch';
-// import { players } from '@/data/players';
-import { football } from '@/data/football';
 import SvgIcon from '../SvgIcon/SvgIcon';
 import PlayerControl from '../PlayerControl/PlayerControl';
 import styles from './PitchDetails.module.scss';
 import { PitchDetailsProps } from '@/interfaces/components/PitchDetailsProps';
 
-const PitchDetails: FC<PitchDetailsProps> = ({ players, originalHeight, originalWidth, totalGameTime, fps }) => {
+const PitchDetails: FC<PitchDetailsProps> = ({
+    players,
+    originalHeight,
+    originalWidth,
+    totalGameTime,
+    fps,
+    football,
+}) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
 
     return (
@@ -43,6 +48,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({ players, originalHeight, original
                 <PlayerControl
                     fps={fps}
                     totalGameTime={totalGameTime}
+                    // todo here get use the next frame
                     onChangeCallback={(time, index) => console.log(time, index)}
                 />
             </div>

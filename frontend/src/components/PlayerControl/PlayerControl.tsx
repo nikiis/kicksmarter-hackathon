@@ -17,7 +17,6 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         const period = Math.round((1 / fps) * 1000); // in msœ
         intervalRef.current = setInterval(() => {
             if (currentTime > totalGameTime) return;
-            console.log(currentTime);
             setCurrentTime((currentTime += period / 1000));
         }, period);
     };

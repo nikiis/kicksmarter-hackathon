@@ -1,5 +1,7 @@
+import { Ball } from '@/interfaces/api/Ball';
 import { Frame } from '@/interfaces/api/Frame';
 import { Team } from '@/interfaces/api/Team';
+import { Football } from '@/interfaces/global';
 import { Player } from '@/interfaces/global';
 
 export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Team): Player[] => {
@@ -25,4 +27,12 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
     ];
 
     return players;
+};
+
+export const mapBallToFootball = (ball: Ball): Football => {
+    return {
+        x: ball.xyz[0],
+        y: ball.xyz[1],
+        height: ball.xyz[2],
+    };
 };

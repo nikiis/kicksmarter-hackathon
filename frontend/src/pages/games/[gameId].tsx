@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import client from '../../../apollo-client';
 import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
@@ -7,23 +7,35 @@ import { convertUnixTimeToDate } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { getFramesQuery } from '@/queries/framesQuery';
-import { mapFrameTeamToPlayers } from '@/helpers/mappers';
+import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
 import { Period } from '@/interfaces/api/Period';
+import { PlayersPerFrame } from '@/interfaces/global';
 
-const Game: FC<GameProps> = ({ game, frame }) => {
+const Game: FC<GameProps> = ({ game, frame, gameId }) => {
     const { home, away, startTime, pitchLength, pitchWidth } = game;
-    const { homePlayers, awayPlayers, ball } = frame;
+    const { ball } = frame;
 
     const players = mapFrameTeamToPlayers(frame, home, away);
+    const football = mapBallToFootball(ball);
 
     const totalGameTime =
         game.periods?.reduce(
             (accumulator: number, period: Period) => accumulator + period.stopGameClock - period.startGameClock,
             0
         ) ?? 90 * 60;
-    const fps = game.fps ?? 5;
+    // const fps = game.fps ?? 5;
+    const fps = 1;
 
-    console.log(players);
+    const [playersPerFrame, setPlayersPerFrame] = useState<PlayersPerFrame[]>([]);
+
+    useEffect(() => {
+        const getFrames = async () => {
+            const { data } = await client.query({
+                query: getFramesQuery,
+                variables: { id: gameId, startClock: 0, stopClock: 10 },
+            });
+        };
+    });
 
     return (
         <div className={styles.game}>
@@ -41,6 +53,7 @@ const Game: FC<GameProps> = ({ game, frame }) => {
                     originalWidth={pitchLength}
                     totalGameTime={totalGameTime}
                     fps={fps}
+                    football={football}
                 />
             </div>
         </div>
@@ -67,18 +80,7 @@ export async function getServerSideProps(context: any) {
         props: {
             game: gameData.game,
             frame: frameData.frame,
+            gameId: gameId,
         },
     };
-}
-
-export async function getFrames(context: any) {
-    const { params } = context;
-    const { gameId } = params;
-
-    const { data: frames } = await client.query({
-        query: getFramesQuery,
-        variables: { id: gameId, startClock: 0, stopClock: 10 },
-    });
-
-    return { frames };
 }

@@ -19,6 +19,12 @@ export interface Football {
     height: number;
 }
 
+export interface PlayersPerFrame {
+    frameIdx: number;
+    players: Array<Player>;
+    football: Football;
+}
+
 export type Line = { x: number; y: number }[];
 export type Lines = Line[];
 

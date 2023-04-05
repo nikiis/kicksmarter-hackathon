@@ -19,14 +19,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     const ratio = originalWidth / originalHeight;
     const scale = parentWidth / originalWidth;
 
-    console.log('scale: ', scale);
-    console.log('ratio: ', ratio);
-
     const width = parentWidth;
     const height = width / ratio;
-
-    console.log('width: ', width);
-    console.log('height: ', height);
 
     const [draggingItems, setDraggingItems] = useState<Player[]>(players);
 
@@ -131,17 +125,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                             height={height}
                             x={item.x}
                             y={item.y}
-                            onDragStart={({ dx, dy }) => {
-                                // dx = 0.01;
-                                // dy = 0.01;
-                                // setDraggingItems(raise(draggingItems, index));
-                            }}
-                            onDragEnd={({ x, y, dx, dy }) => {
-                                // x = x / scale;
-                                // y = y / scale;
-                                console.log('drag end', x, y);
-                                item.x = x;
-                                item.y = y;
+                            onDragStart={() => {
+                                setDraggingItems(raise(draggingItems, index));
                             }}>
                             {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
                                 return (

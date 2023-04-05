@@ -1,4 +1,4 @@
-import { Player } from '../global';
+import { Football, Player } from '../global';
 
 export interface PitchDetailsProps {
     originalWidth?: number;
@@ -6,4 +6,5 @@ export interface PitchDetailsProps {
     players: Array<Player>;
     totalGameTime: number;
     fps: number;
+    football: Football;
 }
