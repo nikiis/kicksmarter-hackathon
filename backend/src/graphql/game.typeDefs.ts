@@ -40,7 +40,8 @@ export const typeDefs = `#graphql
   }
 
   type Team {
-    color: String!
+    jerseyColor: String!
+    secondaryColor: String!
     name: String!
     score: Int!
     players: [Player!]!

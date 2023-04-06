@@ -79,12 +79,14 @@ query {
     description
     startTime
     home {
-      color
+      jerseyColor
+      secondaryColor
       name
       score
     }
     away {
-      color
+      jerseyColor
+      secondaryColor
       name
       score
     }

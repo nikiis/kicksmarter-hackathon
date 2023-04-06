@@ -11,7 +11,8 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
                 playerNumber: awayPlayer.number,
                 x: awayPlayer.xy ? awayPlayer.xy[0] : 0,
                 y: awayPlayer.xy ? awayPlayer.xy[1] : 0,
-                colour: awayTeam.color ?? '#1A3966',
+                jerseyColor: awayTeam.jerseyColor ?? '#1A3966',
+                secondaryColor: awayTeam.secondaryColor ?? '#000000',
                 openness: awayPlayer.openness,
             };
         }),
@@ -21,7 +22,8 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
                 playerNumber: homePlayer.number,
                 x: homePlayer.xy ? homePlayer.xy[0] : 0,
                 y: homePlayer.xy ? homePlayer.xy[1] : 0,
-                colour: homeTeam.color ?? '#B3D7DF',
+                jerseyColor: homeTeam.jerseyColor ?? '#B3D7DF',
+                secondaryColor: homeTeam.secondaryColor ?? '#000000',
                 openness: homePlayer.openness,
             };
         }),
@@ -32,7 +34,7 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
 
 export const mapBallToFootball = (frame: Frame, homeTeam: Team, awayTeam: Team): Football => {
     const { ball, lastTouch } = frame;
-    const color = (lastTouch === 'home' ? homeTeam.color : awayTeam.color) ?? '#FFFFFF';
+    const color = (lastTouch === 'home' ? homeTeam.jerseyColor : awayTeam.jerseyColor) ?? '#FFFFFF';
     return {
         x: ball.xyz[0],
         y: ball.xyz[1],

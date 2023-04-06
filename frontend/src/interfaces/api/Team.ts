@@ -2,7 +2,8 @@ import { Player } from './Player';
 import { Event } from './Event';
 
 export interface Team {
-    color?: string;
+    jerseyColor?: string;
+    secondaryColor?: string;
     name: string;
     score?: number;
     players?: Array<Player>;

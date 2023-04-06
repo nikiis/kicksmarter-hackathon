@@ -27,7 +27,8 @@ const EventSchema = new mongoose.Schema(
 const TeamSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
-        color: { type: String, required: true },
+        jerseyColor: { type: String, required: true },
+        secondaryColor: { type: String, required: true },
         score: { type: Number, required: true },
         players: [PlayerSchema],
         events: [EventSchema],
@@ -70,7 +71,8 @@ const eventValidationSchema = Joi.object({
 
 const teamValidationSchema = Joi.object({
     name: Joi.string().required(),
-    color: Joi.string().required(),
+    jerseyColor: Joi.string().required(),
+    secondaryColor: Joi.string().required(),
     score: Joi.number().required(),
     players: Joi.array().items(playerValidationSchema).required(),
     events: Joi.array().items(eventValidationSchema).required(),

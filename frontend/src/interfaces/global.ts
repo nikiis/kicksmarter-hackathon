@@ -5,7 +5,8 @@ export interface Player {
     playerNumber: number;
     x?: number;
     y?: number;
-    colour: string;
+    jerseyColor: string;
+    secondaryColor: string;
     openness: number;
 }
 

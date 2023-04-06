@@ -108,51 +108,53 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     with open(args.meta_second_spectrum, 'r', encoding='utf-8') as f:
-        game_data1 = json.load(f)
+        game_data_spectrum = json.load(f)
 
     with open(args.meta_stat_bomb, 'r', encoding='utf-8') as f:
-        game_data2 = json.load(f)
+        game_data_stat_bomb = json.load(f)
 
     game_id = get_id(args.meta_second_spectrum)
     home_players = {}
 
-    for player in game_data1['homePlayers']:
+    for player in game_data_spectrum['homePlayers']:
         home_players[player['number']] = from_second_spectrum(player)
 
-    for player in game_data2[0]['lineup']:
+    for player in game_data_stat_bomb[0]['lineup']:
         home_players[player['jersey_number']].update(from_stat_bomb(player))
 
     away_players = {}
 
-    for player in game_data1['awayPlayers']:
+    for player in game_data_spectrum['awayPlayers']:
         away_players[player['number']] = from_second_spectrum(player)
 
-    for player in game_data2[1]['lineup']:
+    for player in game_data_stat_bomb[1]['lineup']:
         away_players[player['jersey_number']].update(from_stat_bomb(player))
 
     game_data = {
         'gameId': game_id,
-        'description': game_data1['description'],
-        'startTime': game_data1['startTime'],
-        'pitchLength': round(game_data1['pitchLength'], 3),
-        'pitchWidth': round(game_data1['pitchWidth'], 3),
-        'fps': round(game_data1['fps'] / args.downsample, 3),
+        'description': game_data_spectrum['description'],
+        'startTime': game_data_spectrum['startTime'],
+        'pitchLength': round(game_data_spectrum['pitchLength'], 3),
+        'pitchWidth': round(game_data_spectrum['pitchWidth'], 3),
+        'fps': round(game_data_spectrum['fps'] / args.downsample, 3),
         'downsample': args.downsample,
         'framesChunkSize': args.frameschunksize,
-        'periods': parse_periods(game_data1['periods'], game_data1['startTime'], args.downsample),
+        'periods': parse_periods(game_data_spectrum['periods'], game_data_spectrum['startTime'], args.downsample),
         'home': {
-            'color': '#B3D7DF',
+            'jerseyColor': '#B3D7DF',
+            'secondaryColor': '#444E50',
             'players': filter_players(home_players.values()),
-            'name': game_data2[0]['team_name'],
-            'score': game_data1['homeScore'],
-            'events': parse_events(game_data2[0]['events'])
+            'name': game_data_stat_bomb[0]['team_name'],
+            'score': game_data_spectrum['homeScore'],
+            'events': parse_events(game_data_stat_bomb[0]['events'])
         },
         'away': {
-            'color': '#C85B75',
+            'jerseyColor': '#1A3966',
+            'secondaryColor': '#FFFFFF',
             'players': filter_players(away_players.values()),
-            'score': game_data1['awayScore'],
-            'name': game_data2[1]['team_name'],
-            'events': parse_events(game_data2[1]['events'])
+            'score': game_data_spectrum['awayScore'],
+            'name': game_data_stat_bomb[1]['team_name'],
+            'events': parse_events(game_data_stat_bomb[1]['events'])
         }
     }
 

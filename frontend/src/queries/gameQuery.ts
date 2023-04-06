@@ -27,7 +27,8 @@ export const getGameQuery = gql`
             home {
                 name
                 score
-                color
+                jerseyColor
+                secondaryColor
                 players {
                     optaId
                     number
@@ -42,7 +43,8 @@ export const getGameQuery = gql`
             away {
                 name
                 score
-                color
+                jerseyColor
+                secondaryColor
                 players {
                     optaId
                     number
