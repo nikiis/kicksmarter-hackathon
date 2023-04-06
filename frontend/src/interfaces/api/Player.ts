@@ -21,4 +21,5 @@ export interface Player {
     country: string;
     stats: PlayerStats;
     xy?: Array<number>;
+    openness: number;
 }

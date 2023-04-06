@@ -6,6 +6,7 @@ export interface Player {
     x?: number;
     y?: number;
     colour: string;
+    openness: number;
 }
 
 export interface Coords {

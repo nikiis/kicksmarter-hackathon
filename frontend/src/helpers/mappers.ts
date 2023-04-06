@@ -13,6 +13,7 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
                 x: awayPlayer.xy ? awayPlayer.xy[0] : 0,
                 y: awayPlayer.xy ? awayPlayer.xy[1] : 0,
                 colour: awayTeam.color ?? '#1A3966',
+                openness: awayPlayer.openness,
             };
         }),
         ...frame.homePlayers.map((homePlayer) => {
@@ -22,6 +23,7 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
                 x: homePlayer.xy ? homePlayer.xy[0] : 0,
                 y: homePlayer.xy ? homePlayer.xy[1] : 0,
                 colour: homeTeam.color ?? '#B3D7DF',
+                openness: homePlayer.openness,
             };
         }),
     ];

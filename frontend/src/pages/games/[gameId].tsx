@@ -22,8 +22,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
             (accumulator: number, period: Period) => accumulator + period.stopGameClock - period.startGameClock,
             0
         ) ?? 90 * 60;
-    // const fps = game.fps ?? 5;
-    const fps = 5;
+    const fps = game.fps ?? 5;
 
     useEffect(() => {
         const fetchFrame = async (clock: number) => {

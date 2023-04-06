@@ -7,11 +7,13 @@ export const getFramesQuery = gql`
                 number
                 xy
                 optaId
+                openness
             }
             awayPlayers {
                 xy
                 number
                 optaId
+                openness
             }
             ball {
                 xyz

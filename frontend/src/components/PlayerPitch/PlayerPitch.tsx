@@ -126,6 +126,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                                             y: y,
                                             playerNumber: item.playerNumber,
                                             colour: item.colour,
+                                            openness: item.openness
                                         }}
                                         dx={dx}
                                         dy={dy}

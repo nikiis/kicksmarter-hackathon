@@ -15,7 +15,7 @@ const PlayerPin: FC<PlayerPinProps> = ({
     scale,
 }) => {
     const RADIUS = 1.7 * scale;
-    let { id, x, y, colour, playerNumber } = player;
+    let { id, x, y, colour, playerNumber, openness } = player;
 
     // const onDragEnd = (event: any) => {
     //     x = x;
@@ -39,7 +39,22 @@ const PlayerPin: FC<PlayerPinProps> = ({
     return (
         <>
             <circle
-                key={id}
+                cx={x}
+                cy={y}
+                r={isActive ? openness * scale + 4 : openness * scale}
+                fill={colour + "50"}
+                transform={`translate(${dx}, ${dy})`}
+                stroke="#444E5050"
+                strokeWidth={0.05 * scale}
+                onMouseMove={onMouseMove}
+                onMouseUp={onMouseUp}
+                onMouseDown={onMouseDown}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            />
+
+            <circle
                 cx={x}
                 cy={y}
                 r={isActive ? RADIUS + 4 : RADIUS}
@@ -54,6 +69,7 @@ const PlayerPin: FC<PlayerPinProps> = ({
                 onTouchMove={onTouchMove}
                 onTouchEnd={onTouchEnd}
             />
+            
             <text
                 x={x}
                 y={y}
