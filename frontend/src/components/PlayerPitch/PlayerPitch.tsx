@@ -22,15 +22,12 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     const width = parentWidth;
     const height = width / ratio;
 
-    // const [draggingItems, setDraggingItems] = useState<Player[]>(players);
-
-    // if (draggingItems.length === 0 || width < 10) return null;
-
     return (
         <div className={styles.playerPitch} style={{ touchAction: 'none' }}>
             <svg width={width} height={height} className={styles.svg}>
                 <>
-                    <rect fill="#E1EAE4" width={width} height={height} />
+                    <rect fill="#E1EAE4" width={width + 80} height={height + 80} x={-40} y={-40} />
+                    <rect fill="#E1EAE4" width={width} height={height} stroke="#4C554B" strokeWidth={0.3 * scale} />
                     <line x1={width / 2} y1={height} x2={width / 2} stroke="#4C554B" strokeWidth={0.2 * scale} />
 
                     <circle
@@ -119,15 +116,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                     />
 
                     {players.map((item, index) => (
-                        <Drag
-                            key={`drag-${item.id}`}
-                            width={width}
-                            height={height}
-                            x={item.x}
-                            y={item.y}
-                            onDragStart={() => {
-                                // setDraggingItems(raise(draggingItems, index));
-                            }}>
+                        <Drag key={`drag-${item.id}`} width={width} height={height} x={item.x} y={item.y}>
                             {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
                                 return (
                                     <PlayerPin
