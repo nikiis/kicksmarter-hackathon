@@ -31,6 +31,7 @@ export const getGameQuery = gql`
                 players {
                     optaId
                     number
+                    position
                 }
                 events {
                     type
@@ -45,6 +46,7 @@ export const getGameQuery = gql`
                 players {
                     optaId
                     number
+                    position
                 }
                 events {
                     type

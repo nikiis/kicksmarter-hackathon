@@ -1,4 +1,3 @@
-import { Ball } from '@/interfaces/api/Ball';
 import { Frame } from '@/interfaces/api/Frame';
 import { Team } from '@/interfaces/api/Team';
 import { Football } from '@/interfaces/global';

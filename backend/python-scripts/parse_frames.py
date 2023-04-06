@@ -13,9 +13,11 @@ def get_distance(p1, p2):
     return math.dist(p1['xy'], p2['xy'])
 
 
-def add_openness(players, opponents):
+def add_openness(players, opponents, player_meta):
     for player in players:
-        player['openness'] = get_player_openness(player, opponents)
+        isGoalie = player_meta[player['optaId']]['position'] == 'GK'
+        player['openness'] = 0 if isGoalie else get_player_openness(
+            player, opponents)
 
 
 def get_player_openness(player, opponents):
@@ -57,6 +59,16 @@ if __name__ == '__main__':
     half_pitch_width = meta_data['pitchWidth'] / 2
     downsample = meta_data['downsample']
 
+    player_meta = {}
+    for player in meta_data['home']['players']:
+        player_meta.update({player['optaId']: player})
+    for player in meta_data['away']['players']:
+        player_meta.update({player['optaId']: player})
+
+    # import pprint
+    # p = pprint.PrettyPrinter(indent=2)
+    # p.pprint(player_meta)
+
     with open(args.frames_file, 'r', encoding='utf-8') as f:
         raw_frames = [json.loads(line) for line in f]
 
@@ -74,8 +86,8 @@ if __name__ == '__main__':
         parse_players(frame['awayPlayers'],
                       half_pitch_length, half_pitch_width)
 
-        add_openness(frame['homePlayers'], frame['awayPlayers'])
-        add_openness(frame['awayPlayers'], frame['homePlayers'])
+        add_openness(frame['homePlayers'], frame['awayPlayers'], player_meta)
+        add_openness(frame['awayPlayers'], frame['homePlayers'], player_meta)
 
         frames.append(frame)
 
