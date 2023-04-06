@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 const FootballPin: FC<FootballPinProps> = ({ football, scale }) => {
     const { x, y, height } = football;
-    const ballSize = 1 + Math.sqrt(height);
+    const ballSize = 0.6 + Math.sqrt(height);
     const shadowShift = 10 * height;
     return (
         <>
