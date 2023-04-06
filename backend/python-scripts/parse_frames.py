@@ -15,10 +15,17 @@ def get_distance(p1, p2):
 
 def add_openness(players, opponents):
     for player in players:
-        tot = 0
-        for opponent in opponents:
-            tot += 1 / (get_distance(player, opponent) ** 2)
-        player['openness'] = round(math.sqrt(1 / tot), 2)
+        player['openness'] = get_player_openness(player, opponents)
+
+
+def get_player_openness(player, opponents):
+    tot = 0
+    for opponent in opponents:
+        openness = get_distance(player, opponent) ** 2
+        if openness == 0:
+            return 0
+        tot += 1 / openness
+    return round(math.sqrt(1 / tot), 2)
 
 
 def parse_ball(ball, half_pitch_length, half_pitch_width):
