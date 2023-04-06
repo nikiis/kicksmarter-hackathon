@@ -1,6 +1,6 @@
+import { Football } from "../global";
+
 export interface FootballPinProps {
-    x: number;
-    y: number;
+    football: Football;
     scale: number;
-    heightScale: number;
 }

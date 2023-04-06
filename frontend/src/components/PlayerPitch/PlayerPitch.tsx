@@ -153,7 +153,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                             }}
                         </Drag>
                     ))}
-                    <FootballPin x={football.x} y={football.y} scale={scale} heightScale={football.height} />
+                    <FootballPin football={football} scale={scale} />
 
                     {isDrawEnabled && <CustomDraw width={parentWidth} height={parentHeight} />}
                 </>

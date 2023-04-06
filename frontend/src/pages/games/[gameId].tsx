@@ -15,10 +15,9 @@ import { print } from 'graphql';
 
 const Game: FC<GameProps> = ({ game, frame, gameId }) => {
     const { home, away, startTime, pitchLength, pitchWidth } = game;
-    const { ball } = frame;
 
     const [players, setPlayers] = useState<Player[]>(mapFrameTeamToPlayers(frame, home, away));
-    const [football, setFoorball] = useState<Football>(mapBallToFootball(ball));
+    const [football, setFootball] = useState<Football>(mapBallToFootball(frame, home, away));
     const [startGameTime, setStartGameTime] = useState(0);
     const [stopGameTime, setStopGameTime] = useState(1);
 
@@ -53,7 +52,7 @@ const Game: FC<GameProps> = ({ game, frame, gameId }) => {
     };
 
     async function getFrame(clock: number) {
-        const response = await fetch('http://localhost:4000/graphql', {
+        const response = await fetch(process.env.API_ENDPOINT ?? 'hello', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -65,11 +64,7 @@ const Game: FC<GameProps> = ({ game, frame, gameId }) => {
         });
 
         const { data, errors } = await response.json();
-        if (errors) {
-            throw new Error(`Failed to fetch games: ${errors[0].message}`);
-        }
-
-        return data.frame;
+        return { frame: data?.frame, errors: errors };
     }
 
     const handleTimeChange = async (currTime: number, index?: number) => {
@@ -77,15 +72,13 @@ const Game: FC<GameProps> = ({ game, frame, gameId }) => {
         console.log('currTime: ', currTime);
         console.log('index: ', index);
 
-        const frame1 = await getFrame(currTime);
-        // console.log(frame);
-        const { ball } = frame1;
+        const queryResult = await fetchFrame(currTime);
+        const frame = queryResult.data.frame;
 
-        const newPlayers = mapFrameTeamToPlayers(frame1, home, away);
-        setPlayers(newPlayers);
-        setFoorball(mapBallToFootball(ball));
+        // const { frame, errors } = await getFrame(currTime);
 
-        // console.log(players);
+        setPlayers(mapFrameTeamToPlayers(frame, home, away));
+        setFootball(mapBallToFootball(frame, home, away));
     };
 
     return (

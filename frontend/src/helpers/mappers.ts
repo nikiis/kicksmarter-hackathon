@@ -29,10 +29,13 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
     return players;
 };
 
-export const mapBallToFootball = (ball: Ball): Football => {
+export const mapBallToFootball = (frame: Frame, homeTeam: Team, awayTeam: Team): Football => {
+    const { ball, lastTouch } = frame;
+    const color = (lastTouch === 'home' ? homeTeam.color : awayTeam.color) ?? '#FFFFFF';
     return {
         x: ball.xyz[0],
         y: ball.xyz[1],
         height: ball.xyz[2],
+        color: color,
     };
 };

@@ -17,6 +17,7 @@ export interface Football {
     x: number;
     y: number;
     height: number;
+    color: string;
 }
 
 export interface PlayersPerFrame {

@@ -1,8 +1,10 @@
 import { FootballPinProps } from '@/interfaces/components/FootballPinProps';
 import { FC } from 'react';
 
-const FootballPin: FC<FootballPinProps> = ({ x, y, scale, heightScale }) => {
-    let ballSize = 1 * (1 + heightScale);
+const FootballPin: FC<FootballPinProps> = ({ football, scale }) => {
+    const { x, y, height } = football;
+    const ballSize = 1 + Math.sqrt(height);
+    const shadowShift = 10 * height;
     return (
         <>
             <filter id="shadow" colorInterpolationFilters="sRGB">
@@ -21,11 +23,11 @@ const FootballPin: FC<FootballPinProps> = ({ x, y, scale, heightScale }) => {
                 </pattern>
             </defs>
             <circle
-                cx={x * scale - 15 * heightScale}
-                cy={y * scale + 15 * heightScale}
+                cx={x * scale - shadowShift}
+                cy={y * scale + shadowShift}
                 r={ballSize * scale}
                 filter="url(#blur)"
-                fill="#363636"
+                fill="#363636AA"
             />
             <circle cx={x * scale} cy={y * scale} r={ballSize * scale} fill="url(#footballSvg)" />
         </>
