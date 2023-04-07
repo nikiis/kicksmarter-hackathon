@@ -15,6 +15,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     players,
     football,
     isDrawEnabled = false,
+    leftGoalColor,
+    rightGoalColor
 }) => {
     const ratio = originalWidth / originalHeight;
     const scale = parentWidth / originalWidth;
@@ -26,7 +28,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
         <div className={styles.playerPitch} style={{ touchAction: 'none' }}>
             <svg width={width} height={height} className={styles.svg}>
                 <>
-                    <rect fill="#E1EAE4" width={width + 80} height={height + 80} x={-40} y={-40} />
+                    <rect fill="#E1EAE4" width={width + 8 * scale} height={height + 8 * scale} x={-4 * scale} y={-4 * scale} />
                     <rect fill="#E1EAE4" width={width} height={height} stroke="#4C554B" strokeWidth={0.3 * scale} />
                     <line x1={width / 2} y1={height} x2={width / 2} stroke="#4C554B" strokeWidth={0.2 * scale} />
 
@@ -113,6 +115,28 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         fill="#E1EAE4"
                         stroke="#4C554B"
                         strokeWidth={0.2 * scale}
+                    />
+
+                    {/* left goalie */}
+                    <rect
+                        x={-3.05 * scale}
+                        y={(height-7.32 * scale) / 2}
+                        width={3 * scale}
+                        height={7.32 * scale}
+                        fill={leftGoalColor}
+                        stroke="#4C554B"
+                        strokeWidth={0.3 * scale}
+                    />
+
+                    {/* right goalie */}
+                    <rect
+                        x={0.05 * scale + width}
+                        y={(height-7.32 * scale) / 2}
+                        width={3 * scale}
+                        height={7.32 * scale}
+                        fill={rightGoalColor}
+                        stroke="#4C554B"
+                        strokeWidth={0.3 * scale}
                     />
 
                     {players.map((item, index) => (

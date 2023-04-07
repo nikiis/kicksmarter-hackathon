@@ -36,7 +36,6 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
             setFootball(mapBallToFootball(frame, home, away));
         };
 
-        // call the function
         fetchFrame(currentGameTime).catch(console.error);
     }, [away, currentGameTime, gameId, home]);
 
@@ -57,6 +56,9 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                     totalGameTime={totalGameTime}
                     fps={fps}
                     football={football}
+                    // todo: update the colours as the game progresses, this is stored inside periods 
+                    leftGoalColor={home.jerseyColor ?? ''}
+                    rightGoalColor={away.jerseyColor ?? ''}
                     onGameTimeChange={(startTime: number, index?: number) => setCurrentGameTime(startTime)}
                 />
             </div>

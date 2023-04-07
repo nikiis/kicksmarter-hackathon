@@ -13,6 +13,8 @@ const PitchDetails: FC<PitchDetailsProps> = ({
     totalGameTime,
     fps,
     football,
+    leftGoalColor,
+    rightGoalColor,
     onGameTimeChange,
 }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
@@ -31,6 +33,8 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                                 isDrawEnabled={isDrawEnabled}
                                 originalHeight={originalHeight}
                                 originalWidth={originalWidth}
+                                leftGoalColor={leftGoalColor}
+                                rightGoalColor={rightGoalColor}
                             />
                         )}
                     </ParentSize>
