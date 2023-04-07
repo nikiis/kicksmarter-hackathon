@@ -31,7 +31,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         setIsPlaying(false);
         clearInterval(intervalRef.current);
         setCurrentTime(0);
-        onChangeCallback(currentTime);
+        onChangeCallback(0);
     };
 
     return (
