@@ -12,5 +12,6 @@ export interface PlayerPinProps {
     onTouchStart?: (event: MouseTouchOrPointerEvent) => void;
     onTouchMove?: (event: MouseTouchOrPointerEvent) => void;
     onTouchEnd?: (event: MouseTouchOrPointerEvent) => void;
+    getOpenness?: (player: Player) => number;
     scale: number;
 }

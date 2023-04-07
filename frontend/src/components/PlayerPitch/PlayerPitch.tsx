@@ -6,6 +6,7 @@ import styles from './PlayerPitch.module.scss';
 import PlayerPin from '../PlayerPin/PlayerPin';
 import FootballPin from '../FootballPin/FootballPin';
 import CustomDraw from '../CustomDraw/CustomDraw';
+import calculateOpenness from '@/helpers/openness';
 
 const PlayerPitch: FC<PlayerPitchProps> = ({
     parentWidth,
@@ -24,6 +25,10 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     const width = parentWidth;
     const height = width / ratio;
 
+    const getOpenness = (player: Player) => {
+        return calculateOpenness(player, players);
+    }
+    
     return (
         <div className={styles.playerPitch} style={{ touchAction: 'none' }}>
             <svg width={width} height={height} className={styles.svg}>
@@ -117,7 +122,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         strokeWidth={0.2 * scale}
                     />
 
-                    {/* left goalie */}
+                    {/* left goal */}
                     <rect
                         x={-3.05 * scale}
                         y={(height-7.32 * scale) / 2}
@@ -128,7 +133,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         strokeWidth={0.3 * scale}
                     />
 
-                    {/* right goalie */}
+                    {/* right goal */}
                     <rect
                         x={0.05 * scale + width}
                         y={(height-7.32 * scale) / 2}
@@ -163,6 +168,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                                         onTouchMove={dragMove}
                                         onTouchEnd={dragEnd}
                                         scale={scale}
+                                        getOpenness={getOpenness}
                                     />
                                 );
                             }}
