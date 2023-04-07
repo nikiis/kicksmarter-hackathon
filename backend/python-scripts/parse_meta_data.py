@@ -52,13 +52,23 @@ def from_time_to_game_clock(delta_time: str):
 
 def parse_events(events):
     parsed_events = []
+    prev_period = 1
+    prev_game_clock = 0
+    extra_game_clock = 0
     for event in events:
+        curr_game_clock = from_time_to_game_clock(event['timestamp'])
+        if event['period'] != prev_period:  # new period started
+            extra_game_clock += abs(curr_game_clock - prev_game_clock)
+
+        prev_period = event['period']
+        prev_game_clock = curr_game_clock
+
         if not event.get('outcome', None):
             continue
 
         parsed_event = {}
         parsed_event['period'] = event['period']
-        parsed_event['gameClock'] = from_time_to_game_clock(event['timestamp'])
+        parsed_event['gameClock'] = curr_game_clock + extra_game_clock
         parsed_event['type'] = event['type']
         parsed_event['outcome'] = event['outcome']
 
