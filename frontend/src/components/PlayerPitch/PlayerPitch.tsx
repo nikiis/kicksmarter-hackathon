@@ -7,6 +7,7 @@ import PlayerPin from '../PlayerPin/PlayerPin';
 import FootballPin from '../FootballPin/FootballPin';
 import CustomDraw from '../CustomDraw/CustomDraw';
 import calculateOpenness from '@/helpers/openness';
+import ShadowPlayer from '../ShadowPlayer/ShadowPlayer';
 
 const PlayerPitch: FC<PlayerPitchProps> = ({
     parentWidth,
@@ -17,7 +18,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     football,
     isDrawEnabled = false,
     leftGoalColor,
-    rightGoalColor
+    rightGoalColor,
 }) => {
     const ratio = originalWidth / originalHeight;
     const scale = parentWidth / originalWidth;
@@ -27,13 +28,19 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
 
     const getOpenness = (player: Player) => {
         return calculateOpenness(player, players);
-    }
-    
+    };
+
     return (
         <div className={styles.playerPitch} style={{ touchAction: 'none' }}>
             <svg width={width} height={height} className={styles.svg}>
                 <>
-                    <rect fill="#E1EAE4" width={width + 8 * scale} height={height + 8 * scale} x={-4 * scale} y={-4 * scale} />
+                    <rect
+                        fill="#E1EAE4"
+                        width={width + 8 * scale}
+                        height={height + 8 * scale}
+                        x={-4 * scale}
+                        y={-4 * scale}
+                    />
                     <rect fill="#E1EAE4" width={width} height={height} stroke="#4C554B" strokeWidth={0.3 * scale} />
                     <line x1={width / 2} y1={height} x2={width / 2} stroke="#4C554B" strokeWidth={0.2 * scale} />
 
@@ -125,7 +132,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                     {/* left goal */}
                     <rect
                         x={-3.05 * scale}
-                        y={(height-7.32 * scale) / 2}
+                        y={(height - 7.32 * scale) / 2}
                         width={3 * scale}
                         height={7.32 * scale}
                         fill={leftGoalColor}
@@ -136,7 +143,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                     {/* right goal */}
                     <rect
                         x={0.05 * scale + width}
-                        y={(height-7.32 * scale) / 2}
+                        y={(height - 7.32 * scale) / 2}
                         width={3 * scale}
                         height={7.32 * scale}
                         fill={rightGoalColor}
@@ -148,15 +155,11 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         <Drag key={`drag-${item.id}`} width={width} height={height} x={item.x} y={item.y}>
                             {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
                                 return (
-                                    <PlayerPin
+                                    <ShadowPlayer
                                         player={{
-                                            id: item.id,
+                                            ...item,
                                             x: x,
                                             y: y,
-                                            playerNumber: item.playerNumber,
-                                            openness: item.openness,
-                                            jerseyColor: item.jerseyColor,
-                                            secondaryColor: item.secondaryColor
                                         }}
                                         dx={dx}
                                         dy={dy}
@@ -173,6 +176,9 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                                 );
                             }}
                         </Drag>
+                    ))}
+                    {players.map((item, index) => (
+                        <PlayerPin key={`player-${item.id}`} player={item} scale={scale} />
                     ))}
                     <FootballPin football={football} scale={scale} />
 
