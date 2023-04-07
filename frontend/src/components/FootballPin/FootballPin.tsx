@@ -3,8 +3,10 @@ import { FC } from 'react';
 
 const FootballPin: FC<FootballPinProps> = ({ football, scale }) => {
     const { x, y, height } = football;
-    const ballSize = 0.6 + Math.sqrt(height);
-    const shadowShift = 10 * height;
+    const physicalBallRadius = 0.23;
+    
+    const ballSize = 0.6 + Math.sqrt(physicalBallRadius < height ? height : physicalBallRadius);
+    const shadowShift = 10 * (physicalBallRadius < height ? height : physicalBallRadius);
     return (
         <>
             <filter id="shadow" colorInterpolationFilters="sRGB">
