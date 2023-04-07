@@ -46,6 +46,7 @@ const PlayerPin: FC<PlayerPinProps> = ({
                 transform={`translate(${dx}, ${dy})`}
                 stroke={`${secondaryColor}50`}
                 strokeWidth={0.05 * scale}
+                pointerEvents="none" // disable mouse events on the larger circle
             />
 
             <circle
