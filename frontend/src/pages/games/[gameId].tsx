@@ -16,6 +16,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });
     const [currentGameTime, setCurrentGameTime] = useState(0);
+    const [period, setPeriod] = useState(game.periods?.at(0));
 
     const totalGameTime =
         game.periods?.reduce(
@@ -34,6 +35,9 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
             const frame = queryResult.data.frame;
             setPlayers(mapFrameTeamToPlayers(frame, home, away));
             setFootball(mapBallToFootball(frame, home, away));
+
+            const newPeriod = game.periods?.find(p => clock < p.stopGameClock);
+            setPeriod(newPeriod);
         };
 
         fetchFrame(currentGameTime).catch(console.error);
@@ -56,9 +60,8 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                     totalGameTime={totalGameTime}
                     fps={fps}
                     football={football}
-                    // todo: update the colours as the game progresses, this is stored inside periods 
-                    leftGoalColor={home.jerseyColor ?? ''}
-                    rightGoalColor={away.jerseyColor ?? ''}
+                    leftGoalColor={(period?.homeAttPositive ? home.jerseyColor : away.jerseyColor) ?? ''}
+                    rightGoalColor={(period?.homeAttPositive ? away.jerseyColor : home.jerseyColor) ?? ''}
                     onGameTimeChange={(startTime: number, index?: number) => setCurrentGameTime(startTime)}
                 />
             </div>
