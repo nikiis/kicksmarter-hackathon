@@ -46,12 +46,6 @@ const PlayerPin: FC<PlayerPinProps> = ({
                 transform={`translate(${dx}, ${dy})`}
                 stroke={`${secondaryColor}50`}
                 strokeWidth={0.05 * scale}
-                onMouseMove={onMouseMove}
-                onMouseUp={onMouseUp}
-                onMouseDown={onMouseDown}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
             />
 
             <circle
