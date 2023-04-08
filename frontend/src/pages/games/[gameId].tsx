@@ -53,6 +53,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         const frameIdx = Math.round(currentGameTime * fps);
         prefetchFrames(frameIdx, frameIdx + cachedFramesCount);
         renderSingle({ variables: { id: gameId, clock: currentGameTime } });
+        console.log('initiating reloading...');
     }, [away, gameId, home, currentGameTime]);
 
     const prefetchFrames = (startFrameIdx: number, stopFrameIdx: number) => {
