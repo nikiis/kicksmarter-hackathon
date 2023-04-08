@@ -34,7 +34,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         setIsPlaying(false);
         clearInterval(intervalRef.current);
         resetShadow();
-        updateWith(0);
+        updateWith(0, 0);
     };
 
     const updateWith = (newTime: number, index?: number) => {
