@@ -5,4 +5,5 @@ export interface PlayerControlProps {
     fps: number;
     events?: Array<Event>;
     onChangeCallback: (newTime: number, index?: number) => void;
+    resetShadow: () => void;
 }

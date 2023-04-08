@@ -18,6 +18,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
     onGameTimeChange,
 }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
+    const [resetShadow, setResetShadow] = useState(false);
 
     return (
         <section className={styles.pitchDetails}>
@@ -35,6 +36,8 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                                 originalWidth={originalWidth}
                                 leftGoalColor={leftGoalColor}
                                 rightGoalColor={rightGoalColor}
+                                isResetShadow={resetShadow}
+                                reInitialiseShadow={() => setResetShadow(false)}
                             />
                         )}
                     </ParentSize>
@@ -55,6 +58,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                     totalGameTime={totalGameTime}
                     // todo here get use the next frame
                     onChangeCallback={(time, index) => onGameTimeChange(time, index)}
+                    resetShadow={() => setResetShadow(true)}
                 />
             </div>
         </section>

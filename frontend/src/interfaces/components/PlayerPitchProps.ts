@@ -10,4 +10,6 @@ export interface PlayerPitchProps {
     isDrawEnabled?: boolean;
     leftGoalColor: string;
     rightGoalColor: string;
+    isResetShadow: boolean;
+    reInitialiseShadow: () => void;
 }

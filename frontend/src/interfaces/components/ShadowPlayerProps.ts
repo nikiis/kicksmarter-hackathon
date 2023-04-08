@@ -14,4 +14,6 @@ export interface ShadowPlayerProps {
     onTouchEnd: (event: MouseTouchOrPointerEvent) => void;
     getOpenness: (player: Player) => number;
     scale: number;
+    isResetShadow: boolean;
+    reInitialiseShadow: () => void;
 }

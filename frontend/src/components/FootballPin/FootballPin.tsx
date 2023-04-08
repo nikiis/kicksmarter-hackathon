@@ -4,7 +4,7 @@ import { FC } from 'react';
 const FootballPin: FC<FootballPinProps> = ({ football, scale }) => {
     const { x, y, height } = football;
     const physicalBallRadius = 0.23;
-    
+
     const ballSize = 0.6 + Math.sqrt(physicalBallRadius < height ? height : physicalBallRadius);
     const shadowShift = 10 * (physicalBallRadius < height ? height : physicalBallRadius);
     return (
@@ -30,8 +30,9 @@ const FootballPin: FC<FootballPinProps> = ({ football, scale }) => {
                 r={ballSize * scale}
                 filter="url(#blur)"
                 fill="#363636AA"
+                pointerEvents="none"
             />
-            <circle cx={x * scale} cy={y * scale} r={ballSize * scale} fill="url(#footballSvg)" />
+            <circle cx={x * scale} cy={y * scale} r={ballSize * scale} fill="url(#footballSvg)" pointerEvents="none" />
         </>
     );
 };

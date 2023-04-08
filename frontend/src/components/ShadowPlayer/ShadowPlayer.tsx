@@ -1,6 +1,6 @@
 import { ShadowPlayerProps } from '@/interfaces/components/ShadowPlayerProps';
 import { MouseTouchOrPointerEvent } from '@visx/drag/lib/useDrag';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 const ShadowPlayer: FC<ShadowPlayerProps> = ({
     player,
@@ -15,12 +15,16 @@ const ShadowPlayer: FC<ShadowPlayerProps> = ({
     onTouchEnd,
     getOpenness,
     scale,
+    isResetShadow,
+    reInitialiseShadow,
 }) => {
     const RADIUS = 1.7 * scale;
     let { x, y, jerseyColor, secondaryColor, playerNumber } = player;
 
     const [isShadowPlayer, setIsShadowPlayer] = useState<boolean>(false);
     const [shadowOpenness, setShadowOpenness] = useState<number>(0);
+
+    useEffect(() => setShadowOpenness(0), [isResetShadow]);
 
     // a workaround to scale the position when dragging is happening
     const isActuallyActive = dx !== 0 || dy !== 0 || isActive;
@@ -43,6 +47,7 @@ const ShadowPlayer: FC<ShadowPlayerProps> = ({
         shadowPlayer.x = x / scale + dx / scale;
         shadowPlayer.y = y / scale + dy / scale;
 
+        reInitialiseShadow();
         setShadowOpenness(getOpenness(shadowPlayer));
 
         event.type === 'touchmove' ? onTouchMove(event) : onMouseMove(event);

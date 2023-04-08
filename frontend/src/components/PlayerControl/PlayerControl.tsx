@@ -5,7 +5,7 @@ import { PlayerControlProps } from '@/interfaces/components/PlayerControlProps';
 import ReactSlider from 'react-slider';
 import { toGameDisplayTime } from './helpers';
 
-const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback, events, fps }) => {
+const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback, events, fps, resetShadow }) => {
     let [currentTime, setCurrentTime] = useState(0);
     let [isPlaying, setIsPlaying] = useState(false);
 
@@ -19,6 +19,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
             if (currentTime > totalGameTime) return;
             setCurrentTime((currentTime += period / 1000));
             onChangeCallback(currentTime);
+            resetShadow();
         }, period);
     };
 
@@ -32,6 +33,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         clearInterval(intervalRef.current);
         setCurrentTime(0);
         onChangeCallback(0);
+        resetShadow();
     };
 
     return (
@@ -61,7 +63,10 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
                     max={totalGameTime}
                     marks={events ? eventsTimeStamp : false}
                     onChange={(time, index) => setCurrentTime(time)}
-                    onAfterChange={(time, index) => onChangeCallback(currentTime, index)}
+                    onAfterChange={(time, index) => {
+                        onChangeCallback(currentTime, index);
+                        resetShadow();
+                    }}
                 />
                 <span>
                     {toGameDisplayTime(currentTime)} / {toGameDisplayTime(totalGameTime)}

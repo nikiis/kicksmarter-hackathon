@@ -19,6 +19,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     isDrawEnabled = false,
     leftGoalColor,
     rightGoalColor,
+    isResetShadow,
+    reInitialiseShadow,
 }) => {
     const ratio = originalWidth / originalHeight;
     const scale = parentWidth / originalWidth;
@@ -172,6 +174,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                                         onTouchEnd={dragEnd}
                                         scale={scale}
                                         getOpenness={getOpenness}
+                                        isResetShadow={isResetShadow}
+                                        reInitialiseShadow={reInitialiseShadow}
                                     />
                                 );
                             }}
