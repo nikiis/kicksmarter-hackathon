@@ -21,7 +21,7 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
                 pause();
                 return;
             }
-            updateWith(gameClock.current + period / 1000, undefined);
+            updateWith(gameClock.current + period / 1000);
         }, period);
     };
 
@@ -34,10 +34,10 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
         setIsPlaying(false);
         clearInterval(intervalRef.current);
         resetShadow();
-        updateWith(0, undefined);
+        updateWith(0);
     };
 
-    const updateWith = (newTime: number, index: number | undefined) => {
+    const updateWith = (newTime: number, index?: number) => {
         gameClock.current = newTime;
         onChangeCallback(newTime, index);
         setCurrentTime(newTime);
