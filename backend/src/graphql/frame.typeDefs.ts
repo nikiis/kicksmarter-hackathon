@@ -19,7 +19,6 @@ export const typeDefs = `#graphql
     homePlayers: [Player!]!
     awayPlayers: [Player!]!
     ball: Ball!
-
   }
 
   type Query {

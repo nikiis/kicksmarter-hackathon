@@ -56,7 +56,6 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                 <PlayerControl
                     fps={fps}
                     totalGameTime={totalGameTime}
-                    // todo here get use the next frame
                     onChangeCallback={(time, index) => onGameTimeChange(time, index)}
                     resetShadow={() => setResetShadow(true)}
                 />

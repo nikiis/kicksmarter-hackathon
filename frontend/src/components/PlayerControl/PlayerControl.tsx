@@ -6,20 +6,22 @@ import ReactSlider from 'react-slider';
 import { toGameDisplayTime } from './helpers';
 
 const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback, events, fps, resetShadow }) => {
-    let [currentTime, setCurrentTime] = useState(0);
-    let [isPlaying, setIsPlaying] = useState(false);
-
+    const [currentTime, setCurrentTime] = useState<number>(0);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const gameClock = useRef<number>(0);
     const eventsTimeStamp = events?.map((x) => x.time);
     const intervalRef = useRef<any>(null);
 
     const play = () => {
         setIsPlaying(true);
-        const period = Math.round((1 / fps) * 1000); // in msœ
+        resetShadow();
+        const period = Math.round((1 / fps) * 1000); // in ms
         intervalRef.current = setInterval(() => {
-            if (currentTime > totalGameTime) return;
-            setCurrentTime((currentTime += period / 1000));
-            onChangeCallback(currentTime);
-            resetShadow();
+            if (gameClock.current > totalGameTime) {
+                pause();
+                return;
+            }
+            updateWith(gameClock.current + period / 1000);
         }, period);
     };
 
@@ -31,9 +33,14 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
     const stop = () => {
         setIsPlaying(false);
         clearInterval(intervalRef.current);
-        setCurrentTime(0);
-        onChangeCallback(0);
         resetShadow();
+        updateWith(0);
+    };
+
+    const updateWith = (newTime: number) => {
+        gameClock.current = newTime;
+        onChangeCallback(newTime);
+        setCurrentTime(newTime);
     };
 
     return (
@@ -56,16 +63,17 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
 
             <div className={styles.sliderWrapper}>
                 <ReactSlider
-                    value={currentTime}
+                    disabled={isPlaying}
+                    value={gameClock.current}
                     className={styles.playerSlider}
                     thumbClassName={styles.sliderThumb}
                     trackClassName={styles.sliderTrack}
                     max={totalGameTime}
                     marks={events ? eventsTimeStamp : false}
-                    onChange={(time, index) => setCurrentTime(time)}
                     onAfterChange={(time, index) => {
-                        onChangeCallback(currentTime, index);
                         resetShadow();
+                        if (typeof time !== 'number') return;
+                        updateWith(time);
                     }}
                 />
                 <span>
