@@ -8,6 +8,7 @@ export interface Player {
     jerseyColor: string;
     secondaryColor: string;
     openness: number;
+    position: string;
 }
 
 export interface Coords {

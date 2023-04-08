@@ -36,12 +36,12 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
             setPlayers(mapFrameTeamToPlayers(frame, home, away));
             setFootball(mapBallToFootball(frame, home, away));
 
-            const newPeriod = game.periods?.find(p => clock < p.stopGameClock);
+            const newPeriod = game.periods?.find((p) => clock < p.stopGameClock);
             setPeriod(newPeriod);
         };
 
         fetchFrame(currentGameTime).catch(console.error);
-    }, [away, currentGameTime, gameId, home]);
+    }, [away, currentGameTime, game.periods, gameId, home]);
 
     return (
         <div className={styles.game}>

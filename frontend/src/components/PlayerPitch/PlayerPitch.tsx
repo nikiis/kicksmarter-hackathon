@@ -19,14 +19,16 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     isDrawEnabled = false,
     leftGoalColor,
     rightGoalColor,
-    isResetShadow,
-    reInitialiseShadow,
+    isResetOpenness,
+    reInitialiseOpenness,
 }) => {
     const ratio = originalWidth / originalHeight;
     const scale = parentWidth / originalWidth;
 
     const width = parentWidth;
     const height = width / ratio;
+
+    const [shadowPlayers, setShadowPlayers] = useState<Player[]>([]);
 
     const getOpenness = (player: Player) => {
         return calculateOpenness(player, players);
@@ -152,12 +154,14 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         stroke="#4C554B"
                         strokeWidth={0.3 * scale}
                     />
-
+                    {shadowPlayers.map((item, index) => (
+                        <ShadowPlayer key={`player-${item.id}`} player={item} scale={scale} />
+                    ))}
                     {players.map((item, index) => (
                         <Drag key={`drag-${item.id}`} width={width} height={height} x={item.x} y={item.y}>
                             {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
                                 return (
-                                    <ShadowPlayer
+                                    <PlayerPin
                                         player={{
                                             ...item,
                                             x: x,
@@ -174,16 +178,20 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                                         onTouchEnd={dragEnd}
                                         scale={scale}
                                         getOpenness={getOpenness}
-                                        isResetShadow={isResetShadow}
-                                        reInitialiseShadow={reInitialiseShadow}
+                                        isResetOpenness={isResetOpenness}
+                                        resetShadows={() => {
+                                            setShadowPlayers([]);
+                                            reInitialiseOpenness();
+                                        }}
+                                        onCreateNewShadow={(player: Player) =>
+                                            setShadowPlayers([...shadowPlayers, player])
+                                        }
                                     />
                                 );
                             }}
                         </Drag>
                     ))}
-                    {players.map((item, index) => (
-                        <PlayerPin key={`player-${item.id}`} player={item} scale={scale} />
-                    ))}
+
                     <FootballPin football={football} scale={scale} />
 
                     {isDrawEnabled && <CustomDraw width={parentWidth} height={parentHeight} />}

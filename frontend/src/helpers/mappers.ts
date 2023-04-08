@@ -14,6 +14,7 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
                 jerseyColor: awayTeam.jerseyColor ?? '#1A3966',
                 secondaryColor: awayTeam.secondaryColor ?? '#000000',
                 openness: awayPlayer.openness,
+                position: awayTeam.players?.filter((i) => i.optaId === awayPlayer.optaId)[0].position,
             };
         }),
         ...frame.homePlayers.map((homePlayer) => {
@@ -25,6 +26,7 @@ export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Te
                 jerseyColor: homeTeam.jerseyColor ?? '#B3D7DF',
                 secondaryColor: homeTeam.secondaryColor ?? '#000000',
                 openness: homePlayer.openness,
+                position: homeTeam.players?.filter((i) => i.optaId === homePlayer.optaId)[0].position,
             };
         }),
     ];

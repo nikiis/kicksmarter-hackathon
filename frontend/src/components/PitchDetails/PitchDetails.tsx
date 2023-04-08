@@ -36,8 +36,8 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                                 originalWidth={originalWidth}
                                 leftGoalColor={leftGoalColor}
                                 rightGoalColor={rightGoalColor}
-                                isResetShadow={resetShadow}
-                                reInitialiseShadow={() => setResetShadow(false)}
+                                isResetOpenness={resetShadow}
+                                reInitialiseOpenness={() => setResetShadow(false)}
                             />
                         )}
                     </ParentSize>
