@@ -14,13 +14,13 @@ const PlayerControl: FC<PlayerControlProps> = ({ totalGameTime, onChangeCallback
 
     const play = () => {
         setIsPlaying(true);
-        resetShadow();
         const period = Math.round((1 / fps) * 1000); // in ms
         intervalRef.current = setInterval(() => {
             if (gameClock.current > totalGameTime) {
                 pause();
                 return;
             }
+            resetShadow();
             updateWith(gameClock.current + period / 1000);
         }, period);
     };
