@@ -15,11 +15,21 @@
 
 .pitch {
     @include media.minWidth(smallDesktop) {
-        width: 95%;
+        width: 80%;
     }
 }
 
 .editBtns {
+    margin-top: 50px;
+
+    @include media.minWidth(smallDesktop) {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 33px;
+    }
+
     button {
         @include focus.focus(var(--colour-darkGreen));
         cursor: pointer;

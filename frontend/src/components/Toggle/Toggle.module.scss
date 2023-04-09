@@ -1,0 +1,61 @@
+.toggleWrapper {
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+
+        &:checked + .toggle {
+            background-color: var(--colour-pink);
+        }
+
+        &:checked + .toggle:before {
+            transform: translateX(26px);
+        }
+    }
+}
+
+.label {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--colour-black);
+    text-align: center;
+}
+
+.input {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin: 0 auto;
+}
+
+.toggle {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #d7d2d2;
+    transition: 0.4s;
+    border-radius: 34px;
+
+    &:before {
+        position: absolute;
+        content: '';
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+}

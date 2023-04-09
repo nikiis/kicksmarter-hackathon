@@ -5,6 +5,7 @@ import SvgIcon from '../SvgIcon/SvgIcon';
 import PlayerControl from '../PlayerControl/PlayerControl';
 import styles from './PitchDetails.module.scss';
 import { PitchDetailsProps } from '@/interfaces/components/PitchDetailsProps';
+import Toggle from '../Toggle/Toggle';
 
 const PitchDetails: FC<PitchDetailsProps> = ({
     players,
@@ -43,6 +44,16 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                     </ParentSize>
                 </div>
                 <div className={styles.editBtns}>
+                    <Toggle
+                        label="Reposition"
+                        id="resposition-input"
+                        onToggleChange={(isChecked: boolean) => console.log(isChecked)}
+                    />
+                    <Toggle
+                        label="Player Openness"
+                        id="openness-input"
+                        onToggleChange={(isChecked: boolean) => console.log(isChecked)}
+                    />
                     <button onClick={() => setIsDrawEnabled(true)} className={`${isDrawEnabled && styles.active}`}>
                         <SvgIcon svgName="pencil" />
                     </button>

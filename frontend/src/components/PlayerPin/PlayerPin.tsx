@@ -49,14 +49,15 @@ const PlayerPin: FC<PlayerPinProps> = ({
     const handlePlayerRelease = (event: any) => (event.type === 'touchend' ? onTouchEnd(event) : onMouseUp(event));
 
     const handlePlayerDrag = (event: any) => {
-        if (player.position === 'GK') return;
+        console.log(event);
+        if (player.position !== 'GK') {
+            const shadowPlayer = { ...player };
 
-        const shadowPlayer = { ...player };
+            shadowPlayer.x = (x ?? 0) / scale + dx / scale;
+            shadowPlayer.y = (y ?? 0) / scale + dy / scale;
 
-        shadowPlayer.x = (x ?? 0) / scale + dx / scale;
-        shadowPlayer.y = (y ?? 0) / scale + dy / scale;
-
-        setPlayerOpenness(getOpenness(shadowPlayer));
+            setPlayerOpenness(getOpenness(shadowPlayer));
+        }
 
         event.type === 'touchmove' ? onTouchMove(event) : onMouseMove(event);
     };
