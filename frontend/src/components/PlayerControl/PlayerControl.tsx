@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useImperativeHandle, useRef, useState } from 'react';
 import styles from './PlayerControl.module.scss';
 import SvgIcon from '../SvgIcon/SvgIcon';
 import { PlayerControlProps } from '@/interfaces/components/PlayerControlProps';
@@ -12,12 +12,25 @@ const PlayerControl: FC<PlayerControlProps> = ({
     fps,
     resetShadow,
     isLoading,
+    controlRef,
 }) => {
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const gameClock = useRef<number>(0);
     const eventsTimeStamp = events?.map((x) => x.time);
     const intervalRef = useRef<any>(null);
+
+    useImperativeHandle(controlRef, () => ({
+        pause() {
+            pause();
+        },
+        play() {
+            play();
+        },
+        stop() {
+            stop();
+        },
+    }));
 
     const play = () => {
         setIsPlaying(true);

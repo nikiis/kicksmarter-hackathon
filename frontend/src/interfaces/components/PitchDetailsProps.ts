@@ -11,4 +11,5 @@ export interface PitchDetailsProps {
     leftGoalColor: string;
     rightGoalColor: string;
     onGameTimeChange: (currTime: number, index?: number) => void;
+    controlRef: any;
 }

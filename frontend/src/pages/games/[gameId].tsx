@@ -24,6 +24,8 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
     const framesArrived = useRef<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [prefetchFrameIdx, setPrefetchFrameIdx] = useState<number>(0);
+    const shouldPlayAfterFetch = useRef<boolean>(false);
+    const controlRef = useRef<any>(null);
 
     const fps = game.fps ?? 5;
     const PRECACHE_SECONDS = 10;
@@ -35,14 +37,18 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         variables: { id: gameId, startFrameIdx: prefetchFrameIdx, stopFrameIdx: prefetchFrameIdx + cachedFramesCount },
         deps: [gameId, prefetchFrameIdx],
         onCompleted: (data) => {
-            setIsLoading(false);
             framesCache.current.push(...data.frames);
             console.log(
-                `Fetched Frames ${data.frames.at(0).frameIdx} to ${data.frames.at(-1).frameIdx}. Cached ${
+                `Fetched Frames ${data.frames.at(0)?.frameIdx ?? -1} to ${data.frames.at(-1)?.frameIdx ?? -1}. Cached ${
                     framesCache.current.length
                 } frames.`
             );
+            setIsLoading(false);
             framesArrived.current = true;
+            if (shouldPlayAfterFetch.current) {
+                shouldPlayAfterFetch.current = false;
+                controlRef?.current?.play();
+            }
         },
         fetchPolicy: 'network-only', // if we use cache-and-network, then returns two requests 1. cache, 2. network, but I only need one.
     });
@@ -96,6 +102,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                     football={football}
                     leftGoalColor={(period?.homeAttPositive ? home.jerseyColor : away.jerseyColor) ?? ''}
                     rightGoalColor={(period?.homeAttPositive ? away.jerseyColor : home.jerseyColor) ?? ''}
+                    controlRef={controlRef}
                     onGameTimeChange={(currTime: number, index?: number) => {
                         // manually shifted
                         if (index !== undefined) {
@@ -113,7 +120,14 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                         const currFrameIdx = Math.round(currTime * fps);
 
                         const currFrame = framesCache.current.shift();
-                        if (currFrame) renderFrame(currFrame);
+                        if (!currFrame) {
+                            setIsLoading(true);
+                            controlRef?.current?.pause();
+                            shouldPlayAfterFetch.current = true;
+                            console.log('Whoops, ran out, but should continue playing...');
+                            return;
+                        }
+                        renderFrame(currFrame);
 
                         const lastFrame = framesCache.current.at(-1);
                         const lastFrameIdx = lastFrame?.frameIdx ?? 0;
