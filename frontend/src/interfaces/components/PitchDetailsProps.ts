@@ -6,6 +6,7 @@ export interface PitchDetailsProps {
     players: Array<Player>;
     totalGameTime: number;
     fps: number;
+    isLoading: boolean;
     football: Football;
     leftGoalColor: string;
     rightGoalColor: string;

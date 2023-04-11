@@ -7,10 +7,10 @@
         "start": "npm run start --workspaces",
         "test": "npm run test --workspaces",
         "dev:frontend": "npm run dev -w frontend",
+        "build:frontend": "npm run build -w frontend",
         "build:icons": "node frontend/tasks/icons -w frontend",
         "dev:backend": "npm run dev -w backend",
         "build:backend": "npm run build -w backend",
-        "build:frontend": "npm run build -w frontend",
         "start:backend": "npm run start -w backend"
     },
     "author": "",

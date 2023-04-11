@@ -13,6 +13,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
     originalWidth,
     totalGameTime,
     fps,
+    isLoading,
     football,
     leftGoalColor,
     rightGoalColor,
@@ -69,6 +70,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                     totalGameTime={totalGameTime}
                     onChangeCallback={(time, index) => onGameTimeChange(time, index)}
                     resetShadow={() => setResetShadow(true)}
+                    isLoading={isLoading}
                 />
             </div>
         </section>

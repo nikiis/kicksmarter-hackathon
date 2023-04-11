@@ -6,4 +6,5 @@ export interface PlayerControlProps {
     events?: Array<Event>;
     onChangeCallback: (newTime: number, index?: number) => void;
     resetShadow: () => void;
+    isLoading: boolean;
 }

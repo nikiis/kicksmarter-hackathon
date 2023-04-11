@@ -3,8 +3,8 @@ import { Team } from '@/interfaces/api/Team';
 import { Football } from '@/interfaces/global';
 import { Player } from '@/interfaces/global';
 
-export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Team): Player[] => {
-    const players = [
+export const mapFrameTeamToPlayers = (frame: Frame, homeTeam: Team, awayTeam: Team): Array<Player> => {
+    const players: Array<Player> = [
         ...frame.awayPlayers.map((awayPlayer) => {
             return {
                 id: awayPlayer.optaId,
