@@ -1,32 +1,40 @@
-@use '@styles/objects/container' as container;
-@use '@styles/settings/media' as media;
-@use '@styles/tools/focus';
+@use "@styles/objects/container" as container;
+@use "@styles/settings/media" as media;
+@use "@styles/tools/focus";
+
+.home {
+  background-image: url("../../assets/images/homepage-background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 25%;
+  min-height: 100vh;
+}
 
 .splashScreen {
-    position: fixed;
-    inset: 0;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.6s ease-out, visibility 1s ease-out;
+  position: fixed;
+  inset: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease-out, visibility 1s ease-out;
 }
 
 .hide {
-    opacity: 0;
-    visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .container {
-    @include container.container;
+  @include container.container;
 }
 
 .logo {
-    min-width: 320px;
-    padding: 170px 0 0 0;
+  min-width: 320px;
+  padding: 170px 0 0 0;
 
-    @include media.minWidth(smallDesktop) {
-        padding: 0;
-        margin-bottom: 150px;
-        min-width: 660px;
-        min-height: 210px;
-    }
+  @include media.minWidth(smallDesktop) {
+    padding: 0;
+    margin-bottom: 150px;
+    min-width: 660px;
+    min-height: 210px;
+  }
 }
