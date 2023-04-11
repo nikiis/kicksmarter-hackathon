@@ -33,7 +33,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         client: client,
         query: getFramesQuery,
         variables: { id: gameId, startFrameIdx: prefetchFrameIdx, stopFrameIdx: prefetchFrameIdx + cachedFramesCount },
-        deps: [away, gameId, home, prefetchFrameIdx],
+        deps: [gameId, prefetchFrameIdx],
         onCompleted: (data) => {
             setIsLoading(false);
             framesCache.current.push(...data.frames);
@@ -63,8 +63,8 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
 
     useEffect(() => {
         setIsLoading(true);
-        renderSingle({ variables: { id: gameId, idx: prefetchFrameIdx } });
-    }, [away, gameId, home, renderSingle]);
+        renderSingle({ variables: { id: gameId, idx: 0 } });
+    }, [gameId, renderSingle]);
 
     const renderFrame = (frame: Frame) => {
         if (!frame) return;
