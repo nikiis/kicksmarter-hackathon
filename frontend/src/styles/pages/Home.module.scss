@@ -1,32 +1,145 @@
-@use '@styles/objects/container' as container;
-@use '@styles/settings/media' as media;
-@use '@styles/tools/focus';
+@use "@styles/objects/container" as container;
+@use "@styles/settings/media" as media;
+@use "@styles/tools/focus";
+
+.home {
+  background-image: url("../../assets/images/homepage-background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 25%;
+  min-height: 100vh;
+}
 
 .splashScreen {
-    position: fixed;
-    inset: 0;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.6s ease-out, visibility 1s ease-out;
+  position: fixed;
+  inset: 0;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.6s ease-out, visibility 1s ease-out;
 }
 
 .hide {
-    opacity: 0;
-    visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .container {
-    @include container.container;
+  @include container.container;
 }
 
 .logo {
-    min-width: 320px;
-    padding: 170px 0 0 0;
+  min-width: 320px;
+  padding: 170px 0 0 0;
 
-    @include media.minWidth(smallDesktop) {
-        padding: 0;
-        margin-bottom: 150px;
-        min-width: 660px;
-        min-height: 210px;
-    }
+  @include media.minWidth(smallDesktop) {
+    padding: 0;
+    margin-bottom: 150px;
+    min-width: 660px;
+    min-height: 210px;
+  }
 }
+
+.pageHome {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 0.1fr 0.3fr 0.5fr 0.1fr;
+  align-items: center;
+  grid-template-areas:
+    "head head"
+    "btn btn"
+    "match upcoming"
+    "logo logo";
+
+  h1 {
+    font-family: var(--font-karla);
+    font-weight: 500;
+    color: var(--colour-black);
+    font-size: 4.5rem;
+    letter-spacing: 2.5px;
+  }
+}
+.heading {
+  grid-area: head;
+  justify-self: end;
+}
+
+.name {
+  font-weight: 200;
+  margin-left: 15px;
+}
+
+.homebutton {
+  grid-area: btn;
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+
+  .btn {
+    color: var(--colour-white);
+    background-color: var(--colour-darkGreen);
+  
+    &:hover,
+    &:active {
+      color: var(--colour-darkGreen);
+      background-color: var(--colour-mintGreen);
+    }
+  }
+}
+
+
+
+.upcomingContainer {
+  grid-area: upcoming;
+  font-size: 2.75rem;
+  color: var(--colour-black);
+
+  align-self: start;
+  justify-self: end;
+
+  display: flex;
+  align-items: flex-end;
+  gap: 50px;
+}
+
+.upcoming {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  gap: 25px;
+  font-family: var(--font-karla);
+}
+
+.live {
+  max-width: 75px;
+}
+
+.logocontainer {
+  grid-area: logo;
+  justify-self: flex-end;
+}
+
+.logo {
+  min-width: 520px;
+  //
+}
+
+.recentMatches {
+  grid-area: match;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-family: var(--font-karla);
+    font-weight: 400;
+    font-size: 3.25rem;
+    color: var(--colour-black);
+  }
+}
+
+.matchesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+

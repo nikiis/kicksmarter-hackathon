@@ -1,36 +1,20 @@
-@use '@styles/tools/focus' as focus;
+@use "@styles/tools/focus" as focus;
 
 .primaryButton {
-    @include focus.focus(var(--colour-darkGreen));
-    background-color: var(--colour-lightBeige);
-    color: var(--colour-text);
-    text-align: center;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 1.8rem;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    min-width: 150px;
-    min-height: 60px;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  @include focus.focus(var(--colour-darkGreen));
+  background-color: var(--colour-lightPink);
+  color: var(--colour-greenBlack);
+  font-size: 4.75rem;
+  padding: 40px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  min-width: 150px;
+  min-height: 60px;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 
-    &:hover,
-    &:active {
-        background-color: var(--colour-darkGreen);
-        color: var(--colour-white);
-
-        .svg {
-            color: var(--colour-white);
-        }
-    }
-}
-
-.svg {
-    width: 20px;
-    height: 20px;
-    color: var(--colour-beige);
-    transition: color 0.3s ease-in-out;
+  &:hover,
+  &:active {
+    background-color: var(--colour-darkPink);
+    color: var(--colour-white);
+  }
 }

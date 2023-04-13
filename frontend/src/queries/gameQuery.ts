@@ -4,11 +4,14 @@ export const getAllGamesQuery = gql`
     query {
         allGames {
             gameId
+            startTime
             home {
                 name
+                score
             }
             away {
                 name
+                score
             }
             description
         }
