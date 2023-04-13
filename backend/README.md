@@ -98,7 +98,7 @@ query {
 
 ```
 query {
-  frame(gameId: "2312213", gameClock: 10.4) {
+  frame(gameId: "2312213", frameIdx: 10.4) {
     frameIdx
     gameClock
     live
@@ -121,9 +121,9 @@ query {
 
 ```
 query{
-  frames(gameId: "2312213", startGameClock: 0, stopGameClock: 10) {
-    gameClock
+  frames(gameId: "2312213", startFrameIdx: 0, stopFrameIdx: 10) {
     frameIdx
+    lastTouch
   }
 }
 ```
@@ -144,7 +144,7 @@ query {
 
 ## Production Deployment
 
-### MongoDB
+### MongoDB with Atlas
 
 Currently we are using MongoDB Atlas to provide us with an online based database with the access API. To setup this online database one is required to:
 
@@ -153,7 +153,7 @@ Currently we are using MongoDB Atlas to provide us with an online based database
 -   Follow the procedures in section `Populate Database`, which requires running a couple of scripts to push the data to the database.
 -   Go into `Network Access` within MongoDB Atlas and add an IP address of the `Render` web service API (next step) or `0.0.0.0/0` for the moment being to allow anyone have access to the database, but change the IP to only allow the `Render` later on.
 
-### Render
+### Web API with Render
 
 We are currently using `Render` to create a web service API. When deploying the API one is required to add environmental variables:
 
@@ -163,8 +163,29 @@ We are currently using `Render` to create a web service API. When deploying the 
 And then also add `Secret Files`:
 
 -   `default.json`, which has the same contents as `config/default.json`
--   `production.json`, which has the same contents as `config/production.json`
+-   `production.json`, which has the same contents as `config/production.json` (or `deployment.json` when creating dev).
+
+#### Repeated access with Cron-job.org
+
+One problem with render free tier is that the API goes to sleep after 15 min of inactivity. After that it would take anywhere between 1 to 2 min for it to spin up again after it has been accessed, leading to timeouts on the frontend and in general massive loading times. To _fix_ that one can create a job with the purpose of repeatedly accessing the API let's say every 5 min.
+
+[cron-job.org](cron-job.org) was used to create a repeated task accessing https://kicksmarter-api-dev.onrender.com/, which is the home page of the API. This simply returns `Hello from kickstarter!`, so it consumes barely any bandwidth. Most importantly, that fixes the issue, at least for now. Note that there is also a `Free Instance Hours` limit, but theoretically the given 750 hours is good enough for the whole month when running a single Web API.
 
 ### Graphql
 
-To test Grqphql queries when using the web service API one is required to go to [Apollo Sandbox](https://studio.apollographql.com/sandbox/explorer) and enter https://kicksmarter-api.onrender.com/ as the target address within the top-left box.
+To test Grqphql queries when using the web service API in release mode one is required to go to [Apollo Sandbox](https://studio.apollographql.com/sandbox/explorer) and enter https://kicksmarter-api.onrender.com/ as the target address within the top-left box. Alternative
+
+### Cloud image storage with BackBlaze
+
+We needed to be able to store some game related images and serve these during the gameplay. For that a database isn't a good choice to keep it running fast thus we needed a Cloud based storage. Keeping it on the free size we chose [Backblaze](https://www.backblaze.com/). 
+
+Backblaze is accessed from the backend and frontend would perform queries to the backend to store and retrieve the required image information. In this case we are only serving images and not storing them, so in theory we don't even need to have the access to the database. The simplest way is to create a `bucket` called `kicksmarter` and then set it as public access. This will allow anyone to access any information within the bucket. Then one should structurise the images as required into folders based on gameId and some other index value. Then one could access each image using a friendly link, by creating the following URL:
+
+```
+<downloadUrl>/file/kicksmarter/<gameId>/<index>.png
+e.g. https://f005.backblazeb2.com/file/kicksmarter/2312135/0.png
+```
+
+The downloadUrl can be retrieved from the backblaze API when authorizing it under `authRes.data.downloadUrl` once and then storing it as the baseUrl. Alternatively, it can be checked by uploading some image to the bucket and then clicking on it. Under details you will find `Friendly URL`, where the base is the downloadUrl. You should also be able to confirm there that you created a correct friendly URL.
+
+Note, when creating (if needed) an Application Key, the Key ID (aka username) and the Key (aka password) will be shown once only, you won't be able to read it again, so note it down.
