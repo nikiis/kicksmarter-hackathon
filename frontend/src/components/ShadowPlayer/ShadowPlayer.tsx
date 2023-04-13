@@ -1,8 +1,7 @@
 import { ShadowPlayerProps } from '@/interfaces/components/ShadowPlayerProps';
-import { MouseTouchOrPointerEvent } from '@visx/drag/lib/useDrag';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
-const ShadowPlayer: FC<ShadowPlayerProps> = ({ player, isActive = false, scale }) => {
+const ShadowPlayer: FC<ShadowPlayerProps> = ({ player, isActive = false, scale, showOpenness = true }) => {
     const RADIUS = 1.7 * scale;
     let { x, y, jerseyColor, secondaryColor, playerNumber, openness } = player;
 
@@ -11,15 +10,17 @@ const ShadowPlayer: FC<ShadowPlayerProps> = ({ player, isActive = false, scale }
 
     return (
         <>
-            <circle
-                cx={x}
-                cy={y}
-                r={isActive ? openness * scale + 4 : openness * scale}
-                fill={`${jerseyColor}30`}
-                stroke="#4C554B50"
-                strokeWidth={0.05 * scale}
-                pointerEvents="none"
-            />
+            {showOpenness && (
+                <circle
+                    cx={x}
+                    cy={y}
+                    r={isActive ? openness * scale + 4 : openness * scale}
+                    fill={`${jerseyColor}30`}
+                    stroke="#4C554B50"
+                    strokeWidth={0.05 * scale}
+                    pointerEvents="none"
+                />
+            )}
 
             <text
                 x={x}

@@ -3,7 +3,7 @@ import client from '../../../apollo-client';
 import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
 import { GameProps } from '@/interfaces/pages/GameProps';
-import { convertUnixTimeToDate } from '@/helpers/helpers';
+import { convertUnixTimeToDate, getTypeFromGameDescription } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
@@ -15,7 +15,7 @@ import { Frame } from '@/interfaces/api/Frame';
 import useAbortiveQuery from '@/hooks/useAbortiveQuery';
 
 const Game: FC<GameProps> = ({ game, gameId }) => {
-    const { home, away, startTime, pitchLength, pitchWidth } = game;
+    const { home, away, startTime, pitchLength, pitchWidth, description } = game;
 
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });
@@ -57,6 +57,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         client,
         onCompleted: (data) => {
             const frame = data.frame;
+            console.log('fetched...', frame);
             renderFrame(frame);
         },
     });
@@ -87,9 +88,16 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
             <div className={styles.container}>
                 <div className={styles.info}>
                     <h1>
-                        {home.name} {home.score} - {away.score} {away.name}
+                        <span style={{ color: home.jerseyColor }}>{home.name} </span>
+                        <span className={styles.score}>
+                            {home.score} - {away.score} {''}
+                        </span>
+                        <span style={{ color: away.jerseyColor }}>{away.name}</span>
                     </h1>
-                    <p>Date: {convertUnixTimeToDate(startTime)}</p>
+                    <p className={styles.date}>
+                        {convertUnixTimeToDate(startTime)}{' '}
+                        <span className={styles.type}>{getTypeFromGameDescription(description)}</span>
+                    </p>
                 </div>
 
                 <PitchDetails

@@ -1,12 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 viewBox="0 0 32 32" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-</style>
-<path class="st0" d="M5,21l-2,8l8-2L30,8l0,0c-0.6-3-3-5.4-6-6l0,0L5,21z"/>
-<path class="st0" d="M26,12L26,12c-0.6-3-3-5.4-6-6l0,0"/>
-<line class="st0" x1="9" y1="23" x2="21" y2="11"/>
+<svg role="img" aria-hidden="true" width="54" height="58" viewBox="0 0 54 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.0709798" y="1.27757" width="48.0925" height="14.4763" rx="2.71431" transform="matrix(-0.666793 0.745243 0.745243 0.666793 34.2565 7.89648)" fill="white" stroke="#D7D2D2" stroke-width="1.80954"/>
+<rect x="0.0709798" y="1.27757" width="9.64023" height="14.4763" transform="matrix(-0.666793 0.745243 0.745243 0.666793 40.2351 1.13085)" fill="#F3E5E5" stroke="#D7D2D2" stroke-width="1.80954"/>
+<line x1="0.90477" y1="-0.90477" x2="12.2689" y2="-0.90477" transform="matrix(-0.961524 0.274721 0.274721 0.961524 14.564 53.7627)" stroke="#D7D2D2" stroke-width="1.80954" stroke-linecap="round"/>
+<line x1="0.90477" y1="-0.90477" x2="12.2689" y2="-0.90477" transform="matrix(-0.244618 0.96962 0.96962 0.244618 5.5166 44.6084)" stroke="#D7D2D2" stroke-width="1.80954" stroke-linecap="round"/>
 </svg>

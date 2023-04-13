@@ -22,6 +22,8 @@ const PitchDetails: FC<PitchDetailsProps> = ({
 }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
     const [resetShadow, setResetShadow] = useState(false);
+    const [isShowOpenness, setIsShowOpenness] = useState(false);
+    const [isShowOriginalPosition, setIsShowOriginalPosition] = useState(true);
 
     return (
         <section className={styles.pitchDetails}>
@@ -41,20 +43,22 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                                 rightGoalColor={rightGoalColor}
                                 isResetOpenness={resetShadow}
                                 reInitialiseOpenness={() => setResetShadow(false)}
+                                showShadowPlayer={isShowOriginalPosition}
+                                showOpenness={isShowOpenness}
                             />
                         )}
                     </ParentSize>
                 </div>
                 <div className={styles.editBtns}>
                     <Toggle
-                        label="Reposition"
-                        id="resposition-input"
-                        onToggleChange={(isChecked: boolean) => console.log(isChecked)}
-                    />
-                    <Toggle
                         label="Player Openness"
                         id="openness-input"
-                        onToggleChange={(isChecked: boolean) => console.log(isChecked)}
+                        onToggleChange={(isChecked: boolean) => setIsShowOpenness(isChecked)}
+                    />
+                    <Toggle
+                        label="Hide Original Position(s)"
+                        id="hidePosition-input"
+                        onToggleChange={(isChecked: boolean) => setIsShowOriginalPosition(!isChecked)}
                     />
                     <button onClick={() => setIsDrawEnabled(true)} className={`${isDrawEnabled && styles.active}`}>
                         <SvgIcon svgName="pencil" />

@@ -34,13 +34,13 @@ const PlayerControl: FC<PlayerControlProps> = ({
 
     const play = () => {
         setIsPlaying(true);
+        resetShadow();
         const period = Math.round((1 / fps) * 1000); // in ms
         intervalRef.current = setInterval(() => {
             if (gameClock.current > totalGameTime) {
                 pause();
                 return;
             }
-            resetShadow();
             updateWith(gameClock.current + period / 1000);
         }, period);
     };
@@ -74,7 +74,7 @@ const PlayerControl: FC<PlayerControlProps> = ({
                     </button>
                 ) : (
                     <button onClick={play} aria-label="play" disabled={isLoading}>
-                        <SvgIcon svgName="play" customClass={styles.icon} />
+                        <SvgIcon svgName="play" customClass={`${styles.icon} ${isLoading && styles.disabled}`} />
                     </button>
                 )}
 
@@ -88,7 +88,7 @@ const PlayerControl: FC<PlayerControlProps> = ({
                     disabled={isPlaying}
                     value={gameClock.current}
                     className={styles.playerSlider}
-                    thumbClassName={styles.sliderThumb}
+                    thumbClassName={`${styles.sliderThumb} ${isPlaying && styles.disabled}`}
                     trackClassName={styles.sliderTrack}
                     max={totalGameTime}
                     marks={events ? eventsTimeStamp : false}

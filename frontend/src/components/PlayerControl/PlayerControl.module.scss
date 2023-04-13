@@ -19,6 +19,12 @@
 .icon {
     max-height: 40px;
     max-width: 40px;
+    color: var(--colour-darkGreen);
+
+    &.disabled {
+        opacity: 0.8;
+        color: grey;
+    }
 }
 
 .sliderWrapper {
@@ -56,4 +62,9 @@
     top: -10px;
     bottom: -10px;
     border-radius: 20px;
+
+    &.disabled {
+        background-color: grey;
+        opacity: 0.8;
+    }
 }

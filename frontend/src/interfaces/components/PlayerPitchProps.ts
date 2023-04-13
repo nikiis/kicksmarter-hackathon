@@ -12,4 +12,6 @@ export interface PlayerPitchProps {
     rightGoalColor: string;
     isResetOpenness: boolean;
     reInitialiseOpenness: () => void;
+    showOpenness: boolean;
+    showShadowPlayer: boolean;
 }

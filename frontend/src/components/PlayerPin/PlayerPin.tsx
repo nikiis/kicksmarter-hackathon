@@ -18,6 +18,7 @@ const PlayerPin: FC<PlayerPinProps> = ({
     isResetOpenness,
     resetShadows,
     onCreateNewShadow,
+    showOpenness = true,
 }) => {
     const RADIUS = 1.7 * scale;
     let { x, y, jerseyColor, secondaryColor, playerNumber, openness, position } = player;
@@ -30,7 +31,11 @@ const PlayerPin: FC<PlayerPinProps> = ({
             resetShadows();
             setPlayerOpenness(openness);
         }
-    }, [isResetOpenness, resetShadows, openness]);
+    }, [isResetOpenness]);
+
+    useEffect(() => {
+        setPlayerOpenness(openness);
+    }, [openness]);
 
     // a workaround to scale the position when dragging is happening
     const isActuallyActive = dx !== 0 || dy !== 0 || isActive;
@@ -49,7 +54,6 @@ const PlayerPin: FC<PlayerPinProps> = ({
     const handlePlayerRelease = (event: any) => (event.type === 'touchend' ? onTouchEnd(event) : onMouseUp(event));
 
     const handlePlayerDrag = (event: any) => {
-        console.log(event);
         if (player.position !== 'GK' && dx !== 0 && dy !== 0) {
             const shadowPlayer = { ...player };
 
@@ -64,16 +68,18 @@ const PlayerPin: FC<PlayerPinProps> = ({
 
     return (
         <>
-            <circle
-                cx={x}
-                cy={y}
-                r={isActive ? playerOpenness * scale + 4 : playerOpenness * scale}
-                fill={`${jerseyColor}50`}
-                stroke={'#4C554B20'}
-                strokeWidth={0.05 * scale}
-                transform={`translate(${dx}, ${dy})`}
-                pointerEvents="none"
-            />
+            {showOpenness && (
+                <circle
+                    cx={x}
+                    cy={y}
+                    r={isActive ? playerOpenness * scale + 4 : playerOpenness * scale}
+                    fill={`${jerseyColor}50`}
+                    stroke={'#4C554B20'}
+                    strokeWidth={0.05 * scale}
+                    transform={`translate(${dx}, ${dy})`}
+                    pointerEvents="none"
+                />
+            )}
             <circle
                 cx={x}
                 cy={y}

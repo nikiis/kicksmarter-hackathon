@@ -17,4 +17,5 @@ export interface PlayerPinProps {
     isResetOpenness: boolean;
     resetShadows: () => void;
     onCreateNewShadow: (player: Player) => void;
+    showOpenness?: boolean;
 }

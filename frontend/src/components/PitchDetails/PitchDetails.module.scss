@@ -2,6 +2,11 @@
 @use '@styles/settings/media' as media;
 
 .pitchDetails {
+    margin-top: 50px;
+
+    @include media.minWidth(smallDesktop) {
+        margin-left: 35px;
+    }
 }
 
 .row {
@@ -21,13 +26,13 @@
 
 .editBtns {
     margin-top: 50px;
+    display: flex;
+    gap: 33px;
+    align-items: center;
 
     @include media.minWidth(smallDesktop) {
         margin-top: 0;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 33px;
     }
 
     button {
@@ -51,4 +56,5 @@
 }
 
 .controls {
+    margin-left: -60px;
 }

@@ -1,6 +1,6 @@
 import { PlayerPitchProps } from '@/interfaces/components/PlayerPitchProps';
 import { Player } from '@/interfaces/global';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Drag, raise } from '@visx/drag';
 import styles from './PlayerPitch.module.scss';
 import PlayerPin from '../PlayerPin/PlayerPin';
@@ -21,6 +21,8 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
     rightGoalColor,
     isResetOpenness,
     reInitialiseOpenness,
+    showOpenness,
+    showShadowPlayer,
 }) => {
     const ratio = originalWidth / originalHeight;
     const scale = parentWidth / originalWidth;
@@ -154,9 +156,15 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                         stroke="#4C554B"
                         strokeWidth={0.3 * scale}
                     />
-                    {shadowPlayers.map((item, index) => (
-                        <ShadowPlayer key={`player-${item.id}`} player={item} scale={scale} />
-                    ))}
+                    {showShadowPlayer &&
+                        shadowPlayers.map((item, index) => (
+                            <ShadowPlayer
+                                key={`shadow-${index}`}
+                                player={item}
+                                scale={scale}
+                                showOpenness={showOpenness}
+                            />
+                        ))}
                     {players.map((item, index) => (
                         <Drag key={`drag-${item.id}`} width={width} height={height} x={item.x} y={item.y}>
                             {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => {
@@ -179,6 +187,7 @@ const PlayerPitch: FC<PlayerPitchProps> = ({
                                         scale={scale}
                                         getOpenness={getOpenness}
                                         isResetOpenness={isResetOpenness}
+                                        showOpenness={showOpenness}
                                         resetShadows={() => {
                                             setShadowPlayers([]);
                                             reInitialiseOpenness();

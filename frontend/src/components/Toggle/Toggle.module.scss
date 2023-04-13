@@ -11,7 +11,7 @@
         height: 0;
 
         &:checked + .toggle {
-            background-color: var(--colour-pink);
+            background-color: var(--colour-darkPink);
         }
 
         &:checked + .toggle:before {

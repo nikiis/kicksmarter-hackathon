@@ -4,4 +4,5 @@ export interface ShadowPlayerProps {
     player: Player;
     isActive?: boolean;
     scale: number;
+    showOpenness?: boolean;
 }
