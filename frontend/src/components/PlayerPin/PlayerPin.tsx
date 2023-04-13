@@ -50,7 +50,7 @@ const PlayerPin: FC<PlayerPinProps> = ({
 
     const handlePlayerDrag = (event: any) => {
         console.log(event);
-        if (player.position !== 'GK') {
+        if (player.position !== 'GK' && dx !== 0 && dy !== 0) {
             const shadowPlayer = { ...player };
 
             shadowPlayer.x = (x ?? 0) / scale + dx / scale;
