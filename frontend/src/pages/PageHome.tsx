@@ -17,7 +17,7 @@ const PageHome = () => {
           customClass={`${styles.btn} `}
         />
       </div>
-      <RecentMatches />
+      <RecentMatches /> {/*props and map? api data*/}
       <div className={styles.upcomingContainer}>
         <SvgIcon svgName="live" customClass={styles.live} />
         <div className={styles.upcoming}>
