@@ -8,4 +8,5 @@ export interface Team {
     score?: number;
     players?: Array<Player>;
     events?: Array<Event>;
+    type?: string;
 }

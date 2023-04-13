@@ -1,4 +1,4 @@
-export const convertUnixTimeToDate = (unixTime: number): string => {
+const convertUnixTimeToDate = (unixTime: number): string => {
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const date = new Date(unixTime);
     const dayOfWeek = daysOfWeek[date.getUTCDay()];
@@ -11,3 +11,14 @@ export const convertUnixTimeToDate = (unixTime: number): string => {
     const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     return `${dayOfWeek}, ${dateOfMonth}/${month}/${year} ${formattedHours}:${formattedMinutes}`;
 };
+
+const getTypeFromGameDescription = (description: string): string => {
+    const pattern = /^([A-Z]+-[A-Z]+)\s-\s([A-Z]+-[A-Z]+)\s:\s\d{4}-\d{1,2}-\d{1,2}$/;
+    const matches = description.match(pattern);
+
+    if (!matches) return '';
+
+    return `${matches[1]}-${matches[2]}`;
+};
+
+export { convertUnixTimeToDate, getTypeFromGameDescription };
