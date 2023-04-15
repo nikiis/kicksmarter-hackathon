@@ -14,10 +14,12 @@ import logging from '@/startup/logging';
 import { dbConnect } from '@/startup/dbConnect';
 import prod from '@/startup/deploy';
 import routes from '@/startup/routes';
-import { resolvers as gameResolvers } from './graphql/game.resolvers';
-import { resolvers as frameResolvers } from './graphql/frame.resolvers';
-import { typeDefs as GameDefs } from './graphql/game.typeDefs';
-import { typeDefs as FrameDefs } from './graphql/frame.typeDefs';
+import { resolvers as gameResolvers } from '@/graphql/game.resolvers';
+import { resolvers as frameResolvers } from '@/graphql/frame.resolvers';
+import { resolvers as eventResolvers } from '@/graphql/event.resolvers';
+import { typeDefs as GameDefs } from '@/graphql/game.typeDefs';
+import { typeDefs as FrameDefs } from '@/graphql/frame.typeDefs';
+import { typeDefs as EventDefs } from '@/graphql/event.typeDefs';
 import morgan from 'morgan';
 
 logging();
@@ -28,8 +30,8 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const apolloServer = new ApolloServer({
-    typeDefs: [GameDefs, FrameDefs],
-    resolvers: merge(gameResolvers, frameResolvers),
+    typeDefs: [GameDefs, FrameDefs, EventDefs],
+    resolvers: merge(gameResolvers, frameResolvers, eventResolvers),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 

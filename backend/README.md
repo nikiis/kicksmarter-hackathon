@@ -1,6 +1,6 @@
 ## Preinstallation
 
-From the project root run `npm i -w backend`, then also from anywhere `npm install -g ts-node`.
+From the project root run `npm i -w backend`, then also from anywhere `npm install -g nodemon`.
 
 ## Requirements
 
@@ -41,11 +41,16 @@ This will produce `xxxxx_frames.json` file, where `xxxxx` is the game id.
 
 ### Populate Database
 
-Then the parsed data needs to be pushed onto the database. The two already parsed json files for one of the games are given in dropbox as [game_meta_data.json](https://www.dropbox.com/s/dnnsz8zp4y87ent/2312213_meta_data.json?dl=0) and [game_frames.json](https://www.dropbox.com/s/70j23zpna6ypzsc/2312213_frames.json?dl=0). Then one needs to run the two scripts as given below to store both the meta data and the frames onto the database by passing two generated json files (have to run from `backend` folder):
+Then the parsed data needs to be pushed onto the database. The already parsed json files for one of the games are given in dropbox as [2312213_meta_data.json](https://www.dropbox.com/s/dnnsz8zp4y87ent/2312213_meta_data.json?dl=0), [2312213_frames.json](https://www.dropbox.com/s/70j23zpna6ypzsc/2312213_frames.json?dl=0), [2312213_events.json](https://www.dropbox.com/s/ga23ces88t4gjsh/2312213_events.json?dl=0). You can download these and store inside the `python-scripts` folder for simplicity.
+
+Then one needs to run the scripts as given below to store all the data onto the database (run from `backend` folder):
 
 ```
 node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushMetaDataToDb.ts ./python-scripts/2312213_meta_data.json
+
 node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushFramesToDb.ts ./python-scripts/2312213_frames.json 1000
+
+node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushEventsToDb.ts ./python-scripts/2312213_events.json
 ```
 
 Where 1000 is the frames chunk size, which must be the same as before.
@@ -177,7 +182,7 @@ To test Grqphql queries when using the web service API in release mode one is re
 
 ### Cloud image storage with BackBlaze
 
-We needed to be able to store some game related images and serve these during the gameplay. For that a database isn't a good choice to keep it running fast thus we needed a Cloud based storage. Keeping it on the free size we chose [Backblaze](https://www.backblaze.com/). 
+We needed to be able to store some game related images and serve these during the gameplay. For that a database isn't a good choice to keep it running fast thus we needed a Cloud based storage. Keeping it on the free size we chose [Backblaze](https://www.backblaze.com/).
 
 Backblaze is accessed from the backend and frontend would perform queries to the backend to store and retrieve the required image information. In this case we are only serving images and not storing them, so in theory we don't even need to have the access to the database. The simplest way is to create a `bucket` called `kicksmarter` and then set it as public access. This will allow anyone to access any information within the bucket. Then one should structurise the images as required into folders based on gameId and some other index value. Then one could access each image using a friendly link, by creating the following URL:
 

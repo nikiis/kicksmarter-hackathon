@@ -23,14 +23,12 @@ async function storeGameData(filename: string) {
     const validationResult = gameValidationSchema.validate(gameData);
     if (validationResult.error) {
         console.log(`Validation error: ${validationResult.error.message}`);
-        return;
+    } else {
+        console.log('Validation complete!');
+        const newGame = new Game(gameData);
+        await newGame.save();
     }
 
-    console.log('Validation complete!');
-
-    const newGame = new Game(gameData);
-    await newGame.save();
     console.log('Complete!');
-
     await dbDisconnect();
 }

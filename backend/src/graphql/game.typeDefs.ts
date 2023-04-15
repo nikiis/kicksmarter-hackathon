@@ -32,20 +32,12 @@ export const typeDefs = `#graphql
     stats: PlayerStats!
   }
 
-  type Event {
-    period: Int!
-    gameClock: Float!
-    type: String!
-    outcome: String!
-  }
-
   type Team {
     jerseyColor: String!
     secondaryColor: String!
     name: String!
     score: Int!
     players: [Player!]!
-    events: [Event!]!
   }
 
   type Game {
