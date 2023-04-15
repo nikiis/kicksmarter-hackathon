@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import config from 'config';
-import { Frame, FramesChunk, framesChunkValidationSchema } from '@/models/FrameSchema';
+import { FramesChunk, framesChunkValidationSchema } from '@/models/FrameSchema';
 import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 import Path from 'path';
 import _ from 'lodash';
@@ -38,7 +38,7 @@ async function storeFrames(filename: string, chunkSize: number, gameId: string) 
         const validationResult = framesChunkValidationSchema.validate(chunk);
         if (validationResult.error) {
             console.log(`Validation error: ${validationResult.error.message}`);
-            process.exit(1);
+            break;
         }
 
         console.log(`Chunk ${chunkIdx} validated!`);
@@ -49,6 +49,5 @@ async function storeFrames(filename: string, chunkSize: number, gameId: string) 
     }
 
     console.log('Complete!');
-
     await dbDisconnect();
 }

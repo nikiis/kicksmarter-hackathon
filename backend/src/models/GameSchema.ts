@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import { PlayerSchema, playerValidationSchema } from '@/models/PlayerSchema';
+import { EventsSchema } from '@/models/EventsSchema';
 
 const PeriodSchema = new mongoose.Schema(
     {
@@ -49,6 +50,7 @@ const GameSchema = new mongoose.Schema(
         periods: [PeriodSchema],
         home: TeamSchema,
         away: TeamSchema,
+        events: EventsSchema,
     },
     { collection: 'games' }
 );
