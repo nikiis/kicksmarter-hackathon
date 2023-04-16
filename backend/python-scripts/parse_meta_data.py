@@ -50,33 +50,6 @@ def from_time_to_game_clock(delta_time: str):
     return round(total_seconds.total_seconds(), 2)
 
 
-def parse_events(events):
-    parsed_events = []
-    prev_period = 1
-    prev_game_clock = 0
-    extra_game_clock = 0
-    for event in events:
-        curr_game_clock = from_time_to_game_clock(event['timestamp'])
-        if event['period'] != prev_period:  # new period started
-            extra_game_clock += abs(curr_game_clock - prev_game_clock)
-
-        prev_period = event['period']
-        prev_game_clock = curr_game_clock
-
-        if not event.get('outcome', None):
-            continue
-
-        parsed_event = {}
-        parsed_event['period'] = event['period']
-        parsed_event['gameClock'] = curr_game_clock + extra_game_clock
-        parsed_event['type'] = event['type']
-        parsed_event['outcome'] = event['outcome']
-
-        parsed_events.append(parsed_event)
-
-    return parsed_events
-
-
 def from_unix_to_game_clock(start_time: int, end_time: int):
     start_datetime = datetime.datetime.fromtimestamp(start_time / 1000.0)
     end_datetime = datetime.datetime.fromtimestamp(end_time / 1000.0)
@@ -156,7 +129,6 @@ if __name__ == '__main__':
             'players': filter_players(home_players.values()),
             'name': game_data_stat_bomb[0]['team_name'],
             'score': game_data_spectrum['homeScore'],
-            'events': parse_events(game_data_stat_bomb[0]['events'])
         },
         'away': {
             'jerseyColor': '#1A3966',
@@ -164,7 +136,6 @@ if __name__ == '__main__':
             'players': filter_players(away_players.values()),
             'score': game_data_spectrum['awayScore'],
             'name': game_data_stat_bomb[1]['team_name'],
-            'events': parse_events(game_data_stat_bomb[1]['events'])
         }
     }
 
