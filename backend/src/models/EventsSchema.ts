@@ -39,6 +39,4 @@ const eventsValidationSchema = Joi.object({
     keyPasses: Joi.array().items(eventValidationSchema),
 });
 
-const Events = model('EventsSchema', EventsSchema);
-
-export { Events, EventsSchema, eventsValidationSchema };
+export { EventsSchema, eventsValidationSchema };

@@ -15,20 +15,21 @@ const filename = process.argv[2];
 storeGameData(filename);
 
 async function storeGameData(filename: string) {
-    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
-
     const raw = readFileSync(filename, 'utf8');
     const gameData = JSON.parse(raw);
 
     const validationResult = gameValidationSchema.validate(gameData);
     if (validationResult.error) {
         console.log(`Validation error: ${validationResult.error.message}`);
-    } else {
-        console.log('Validation complete!');
-        const newGame = new Game(gameData);
-        await newGame.save();
+        return;
     }
 
-    console.log('Complete!');
+    console.log('Validation complete!');
+    
+    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
+    const newGame = new Game(gameData);
+    await newGame.save();
     await dbDisconnect();
+
+    console.log('Complete!');
 }

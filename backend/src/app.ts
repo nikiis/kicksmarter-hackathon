@@ -17,9 +17,11 @@ import routes from '@/startup/routes';
 import { resolvers as gameResolvers } from '@/graphql/game.resolvers';
 import { resolvers as frameResolvers } from '@/graphql/frame.resolvers';
 import { resolvers as eventResolvers } from '@/graphql/event.resolvers';
+import { resolvers as notificationResolvers } from '@/graphql/notification.resolvers';
 import { typeDefs as GameDefs } from '@/graphql/game.typeDefs';
 import { typeDefs as FrameDefs } from '@/graphql/frame.typeDefs';
 import { typeDefs as EventDefs } from '@/graphql/event.typeDefs';
+import { typeDefs as NotificationDefs } from '@/graphql/notification.typeDefs';
 import morgan from 'morgan';
 
 logging();
@@ -30,8 +32,8 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const apolloServer = new ApolloServer({
-    typeDefs: [GameDefs, FrameDefs, EventDefs],
-    resolvers: merge(gameResolvers, frameResolvers, eventResolvers),
+    typeDefs: [GameDefs, FrameDefs, EventDefs, NotificationDefs],
+    resolvers: merge(gameResolvers, frameResolvers, eventResolvers, notificationResolvers),
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 

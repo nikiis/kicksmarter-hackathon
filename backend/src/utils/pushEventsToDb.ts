@@ -19,20 +19,19 @@ const gameId = Path.parse(filename).name.split('_')[0];
 storeGameData(filename, gameId);
 
 async function storeGameData(filename: string, gameId: string) {
-    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
-
     const raw = readFileSync(filename, 'utf8');
     const eventsData = JSON.parse(raw);
 
     const validationResult = eventsValidationSchema.validate(eventsData);
     if (validationResult.error) {
         console.log(`Validation error: ${validationResult.error.message}`);
-    } else {
-        console.log('Validation complete!');
-
-        await Game.findOneAndUpdate({ gameId }, { $set: { events: eventsData } });
     }
 
-    console.log('Complete!');
+    console.log('Validation complete!');
+
+    await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
+    await Game.findOneAndUpdate({ gameId }, { $set: { events: eventsData } });
     await dbDisconnect();
+
+    console.log('Complete!');
 }
