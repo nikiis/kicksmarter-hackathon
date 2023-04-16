@@ -1,4 +1,12 @@
 export const typeDefs = `#graphql
+  enum EventType {
+    SHOTS
+    GOALS
+    KEY_PASSES
+    PROGRESSIVE_PASSES
+    PROGRESSIVE_CARRIES
+  }
+
   type Event {
     gameClock: Int!
     player: Player
@@ -7,14 +15,7 @@ export const typeDefs = `#graphql
     length: Float
   }
 
-  type Events {
-    shots: [Event]
-    goals: [Event]
-    keyPasses: [Event]
-    progressivePasses: [Event]
-    progressiveCarries: [Event]
-  }
   type Query {
-    allEvents(gameId: String!): Events!
+    events(gameId: String!, type: EventType!): [Event]!
   }
 `;
