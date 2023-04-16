@@ -2,7 +2,7 @@ export const typeDefs = `#graphql
   type Notification {
     gameClock: Int!
     message: String!
-    img: String
+    imgs: [String]
   }
 
   type Query {

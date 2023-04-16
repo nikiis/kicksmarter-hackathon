@@ -23,8 +23,10 @@ async function storeNotifications(filename: string, gameId: string) {
     const raw = readFileSync(filename, 'utf8');
     const notifications = JSON.parse(raw);
     notifications.forEach((notification) => {
-        if (notification.img) notification.img = `${baseUrl}/file/kicksmarter/${gameId}/${notification.img}`;
+        const imgs = notification.imgs.map((img) => `${baseUrl}/file/kicksmarter/${gameId}/${img}`);
+        notification.imgs = imgs;
     });
+
     const toStore = { gameId, notifications };
 
     const validationResult = notificationsValidationSchema.validate(toStore);

@@ -5,7 +5,7 @@ const NotificationSchema = new Schema(
     {
         gameClock: { type: Number, required: true },
         message: { type: String, required: true },
-        img: { type: String },
+        imgs: [String],
     },
     { _id: false }
 );
@@ -18,7 +18,7 @@ const NotificationsSchema = new Schema({
 const notificationValidationSchema = Joi.object({
     gameClock: Joi.number().required(),
     message: Joi.string().required(),
-    img: Joi.string().allow(null),
+    imgs: Joi.array().items(Joi.string()).allow(null),
 });
 
 const notificationsValidationSchema = Joi.object({
