@@ -5,7 +5,7 @@ import { Game } from '@/models/GameSchema';
 import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 import Path from 'path';
 
-if (process.argv.length < 4) {
+if (process.argv.length < 3) {
     // Run the script from root of backend!
     console.log(
         'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushEventsToDb.ts ./python-scripts/2312213_events.json'
@@ -30,7 +30,7 @@ async function storeGameData(filename: string, gameId: string) {
     } else {
         console.log('Validation complete!');
 
-        await Game.findOneAndUpdate({ gameId }, { events: eventsData });
+        await Game.findOneAndUpdate({ gameId }, { $set: { events: eventsData } });
     }
 
     console.log('Complete!');

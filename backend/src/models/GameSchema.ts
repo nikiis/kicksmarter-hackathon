@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import { PlayerSchema, playerValidationSchema } from '@/models/PlayerSchema';
-import { EventsSchema } from '@/models/EventsSchema';
+import { EventsSchema, eventsValidationSchema } from '@/models/EventsSchema';
 
 const PeriodSchema = new mongoose.Schema(
     {
@@ -15,16 +15,6 @@ const PeriodSchema = new mongoose.Schema(
     { _id: false }
 );
 
-const EventSchema = new mongoose.Schema(
-    {
-        period: { type: Number, required: true },
-        gameClock: { type: Number, required: true },
-        type: { type: String, required: true },
-        outcome: { type: String, required: true },
-    },
-    { _id: false }
-);
-
 const TeamSchema = new mongoose.Schema(
     {
         name: { type: String, required: true },
@@ -32,7 +22,6 @@ const TeamSchema = new mongoose.Schema(
         secondaryColor: { type: String, required: true },
         score: { type: Number, required: true },
         players: [PlayerSchema],
-        events: [EventSchema],
     },
     { _id: false }
 );
@@ -64,20 +53,12 @@ const periodValidationSchema = Joi.object({
     homeAttPositive: Joi.boolean().required(),
 });
 
-const eventValidationSchema = Joi.object({
-    period: Joi.number().required(),
-    gameClock: Joi.number().required(),
-    type: Joi.string().required(),
-    outcome: Joi.string().required(),
-});
-
 const teamValidationSchema = Joi.object({
     name: Joi.string().required(),
     jerseyColor: Joi.string().required(),
     secondaryColor: Joi.string().required(),
     score: Joi.number().required(),
     players: Joi.array().items(playerValidationSchema).required(),
-    events: Joi.array().items(eventValidationSchema).required(),
 });
 
 const gameValidationSchema = Joi.object({
@@ -93,6 +74,7 @@ const gameValidationSchema = Joi.object({
     periods: Joi.array().items(periodValidationSchema).required(),
     home: teamValidationSchema.required(),
     away: teamValidationSchema.required(),
+    events: eventsValidationSchema,
 });
 
 const Game = mongoose.model('Game', GameSchema);
