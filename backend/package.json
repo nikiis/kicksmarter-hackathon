@@ -28,7 +28,9 @@
     },
     "dependencies": {
         "@apollo/server": "^4.5.0",
+        "@types/backblaze-b2": "^1.5.2",
         "@types/lodash": "^4.14.192",
+        "backblaze-b2": "^1.7.0",
         "compression": "^1.7.4",
         "config": "^3.3.9",
         "cors": "^2.8.5",
