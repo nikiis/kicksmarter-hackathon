@@ -14,6 +14,8 @@ export const resolvers = {
 
             const data = await Game.findOne({ gameId: value.gameId }).select('events home away').lean();
 
+            if (!data) return null;
+
             const type = _.camelCase(value.type);
             let events = data.events[type];
             events.forEach((event: any) => {
