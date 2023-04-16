@@ -3,7 +3,6 @@ import styles from './MatchCard.module.scss';
 import { MatchCardProps } from '@/interfaces/components/MatchCardProps';
 
 const MatchCard: FC<MatchCardProps> = ({ date, type, homeTeam, awayTeam }) => {
-    console.log(type);
     return (
         <div className={styles.matches}>
             <div className={styles.dateTime}>

@@ -1,0 +1,39 @@
+.eventcard {
+    padding: 10px;
+    border-radius: 16px;
+    border: 2px solid;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: center;
+    color: var(--colour-black);
+}
+
+.time {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.player {
+    font-weight: 700;
+    font-size: 2rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    span {
+        display: block;
+        min-width: 30px;
+        min-height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        display: grid;
+        place-items: center;
+    }
+}
+
+.end {
+    p {
+        font-size: 2rem;
+    }
+}

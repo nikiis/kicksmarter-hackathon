@@ -17,4 +17,17 @@ body {
     font-family: var(--font-body);
     color: var(--colour-text);
     font-size: 1.6rem;
+
+    &.addOverlay {
+        height: 100vh;
+        overflow: hidden;
+
+        &:before {
+            content: '';
+            position: fixed;
+            background-color: rgba(#000, 0.4);
+            inset: 0;
+            z-index: 100;
+        }
+    }
 }

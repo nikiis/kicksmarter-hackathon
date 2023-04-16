@@ -7,6 +7,7 @@ import GoalKeeper from '@/components/PlayerRole/GoalKeeper';
 import Defender from '@/components/PlayerRole/Defender';
 import MidField from '@/components/PlayerRole/MidField';
 import Forward from '@/components/PlayerRole/Forward';
+import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
 
 const PlayerPage = () => {
     const [toggle, setToggle] = useState(false);
@@ -14,9 +15,7 @@ const PlayerPage = () => {
     return (
         <section className={styles.playerPage}>
             <div className={styles.head}>
-                <button>
-                    <SvgIcon svgName="toggle-icon" customClass={styles.icon} />
-                </button>
+                <HamburgerMenu />
                 <div className={styles.heading}>
                     <h1>
                         Manchester City WFC <span>3 - 1</span> Tottenham Hotspur WFC

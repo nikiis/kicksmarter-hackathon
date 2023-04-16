@@ -1,8 +1,10 @@
 @use '@styles/objects/container' as container;
 @use '@styles/elements/header' as header;
+@use '@styles/settings/media' as media;
 
 .game {
     padding: 60px 0;
+    position: relative;
 
     h1 {
         @include header.h1;
@@ -31,4 +33,27 @@
     padding: 8px;
     border-radius: 20px;
     font-weight: 700;
+}
+
+.info {
+    position: relative;
+
+    h1 {
+        padding-right: 180px;
+    }
+
+    .eventsBtn {
+        font-size: 1.8rem;
+        padding: 15px 10px;
+        text-align: center;
+
+        @include media.minWidth(smallDesktop) {
+            font-size: 2.6rem;
+            padding: 20px 15px;
+            border-radius: 30px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
 }

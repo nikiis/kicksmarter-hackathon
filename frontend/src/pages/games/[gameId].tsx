@@ -13,6 +13,11 @@ import { useLazyQuery } from '@apollo/client/react/hooks/useLazyQuery';
 import { getFramesQuery } from '@/queries/framesQuery';
 import { Frame } from '@/interfaces/api/Frame';
 import useAbortiveQuery from '@/hooks/useAbortiveQuery';
+import SidePanel from '@/components/SidePanel/SidePanel';
+import PrimaryButton from '@/components/PrimaryButton/PrimaryButton';
+import Accordion from '@/components/Accordion/Accordion';
+import EventCard from '@/components/EventCard/EventCard';
+import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
 
 const Game: FC<GameProps> = ({ game, gameId }) => {
     const { home, away, startTime, pitchLength, pitchWidth, description } = game;
@@ -83,10 +88,31 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         setPeriod(newPeriod);
     };
 
+    const [showPanel, setShowPanel] = useState(false);
+
     return (
         <div className={styles.game}>
+            <HamburgerMenu />
             <div className={styles.container}>
                 <div className={styles.info}>
+                    <PrimaryButton
+                        onClick={() => setShowPanel(true)}
+                        label="View events"
+                        customClass={styles.eventsBtn}
+                    />
+                    <SidePanel isOpen={showPanel} onCloseCallback={() => setShowPanel(false)}>
+                        <Accordion headerLabel="Goals">
+                            <EventCard
+                                time="14:25"
+                                name="D.Spence"
+                                number={9}
+                                jerseyColour="#1A3966"
+                                position="Header"
+                                xGoals="0.3"
+                                textColour="white"
+                            />
+                        </Accordion>
+                    </SidePanel>
                     <h1>
                         <span style={{ color: home.jerseyColor }}>{home.name} </span>
                         <span className={styles.score}>

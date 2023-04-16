@@ -1,0 +1,33 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 5px solid rgba(128, 123, 120, 0.4);
+    font-size: 2.4rem;
+    color: var(--colour-darkGreen);
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.arrow {
+    max-width: 28px;
+    max-height: 28px;
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+
+    &.rotate {
+        transform: rotate(0);
+    }
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+
+    &.expand {
+        max-height: 1000px;
+        transition: max-height 1s ease-in-out;
+    }
+}

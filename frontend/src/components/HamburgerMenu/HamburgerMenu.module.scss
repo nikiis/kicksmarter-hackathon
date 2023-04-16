@@ -1,0 +1,33 @@
+.btn {
+    position: absolute;
+    top: 65px;
+    left: 30px;
+    cursor: pointer;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+}
+
+.panel {
+    width: 15%;
+
+    button {
+        color: var(--colour-white);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-size: 2.6rem;
+        gap: 30px;
+
+        & + button {
+            margin-top: 30px;
+        }
+    }
+}
+
+.linkIcon {
+    width: 30px;
+    height: 30px;
+}
