@@ -12,9 +12,9 @@ export const resolvers = {
 
             if (error) throw new GraphQLError(error.details[0].message);
 
-            let data = await Game.findOne({ gameId: value.gameId }).select('events home away').lean();
+            const data = await Game.findOne({ gameId: value.gameId }).select('events home away').lean();
 
-            for (let type in data.events) {
+            for (let type in data?.events) {
                 let events = data.events[type];
                 events.forEach((event: any) => {
                     const team = data[event.team];
@@ -25,7 +25,7 @@ export const resolvers = {
                 });
             }
 
-            return data.events;
+            return data?.events;
         },
     },
 };
