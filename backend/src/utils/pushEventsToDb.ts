@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import config from 'config';
-import { Events, eventsValidationSchema } from '@/models/EventsSchema';
+import { eventsValidationSchema } from '@/models/EventsSchema';
 import { Game } from '@/models/GameSchema';
 import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 import Path from 'path';
