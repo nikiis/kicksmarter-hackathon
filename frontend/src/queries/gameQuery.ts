@@ -37,11 +37,6 @@ export const getGameQuery = gql`
                     number
                     position
                 }
-                events {
-                    type
-                    period
-                    outcome
-                }
             }
             away {
                 name
@@ -52,11 +47,6 @@ export const getGameQuery = gql`
                     optaId
                     number
                     position
-                }
-                events {
-                    type
-                    period
-                    outcome
                 }
             }
             periods {

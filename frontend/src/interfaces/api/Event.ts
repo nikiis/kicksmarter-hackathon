@@ -1,6 +1,10 @@
+import { Player } from './Player';
+import { Team } from './Team';
+
 export interface Event {
-    period: number;
     gameClock: number;
-    type: string;
-    outcome: string;
+    player: Player;
+    team: Team;
+    xG: number;
+    length: number;
 }
