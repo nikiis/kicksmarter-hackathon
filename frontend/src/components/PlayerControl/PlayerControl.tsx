@@ -4,6 +4,7 @@ import SvgIcon from '../SvgIcon/SvgIcon';
 import { PlayerControlProps } from '@/interfaces/components/PlayerControlProps';
 import ReactSlider from 'react-slider';
 import { toGameDisplayTime } from './helpers';
+import LoadSpinner from '../LoadSpinner/LoadSpinner';
 
 const PlayerControl: FC<PlayerControlProps> = ({
     totalGameTime,
@@ -65,15 +66,14 @@ const PlayerControl: FC<PlayerControlProps> = ({
 
     return (
         <div className={styles.playerControl}>
-            <div>{isLoading && <p>Loading...</p>}</div>
-
             <div className={styles.controls}>
                 {isPlaying ? (
                     <button onClick={pause} aria-label="pause">
                         <SvgIcon svgName="pause" customClass={styles.icon} />
                     </button>
                 ) : (
-                    <button onClick={play} aria-label="play" disabled={isLoading}>
+                    <button onClick={play} aria-label="play" disabled={isLoading} className={styles.playButton}>
+                        {isLoading && LoadSpinner()}
                         <SvgIcon svgName="play" customClass={`${styles.icon} ${isLoading && styles.disabled}`} />
                     </button>
                 )}
