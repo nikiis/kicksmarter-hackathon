@@ -60,7 +60,10 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                         id="hidePosition-input"
                         onToggleChange={(isChecked: boolean) => setIsShowOriginalPosition(!isChecked)}
                     />
-                    <button onClick={() => setIsDrawEnabled(true)} className={`${isDrawEnabled && styles.active}`}>
+                    <button
+                        onClick={() => setIsDrawEnabled(!isDrawEnabled)}
+                        className={`${isDrawEnabled && styles.active}`}
+                    >
                         <SvgIcon svgName="pencil" />
                     </button>
 
