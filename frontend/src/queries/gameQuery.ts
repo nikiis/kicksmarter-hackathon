@@ -8,10 +8,12 @@ export const getAllGamesQuery = gql`
             home {
                 name
                 score
+                jerseyColor
             }
             away {
                 name
                 score
+                jerseyColor
             }
             description
         }

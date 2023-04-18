@@ -5,4 +5,5 @@ export interface MatchCardProps {
     type: string;
     homeTeam: Team;
     awayTeam: Team;
+    altDisplay?: boolean;
 }
