@@ -2,6 +2,7 @@ export const typeDefs = `#graphql
   type Notification {
     gameClock: Int!
     message: String!
+    team: String!
     imgs: [String]
   }
 
