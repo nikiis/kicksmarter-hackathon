@@ -69,6 +69,7 @@ async function findFrames(gameId: String, startFrameIdx: number, stopFrameIdx: n
     const stopChunkIdx = Math.floor(stopFrameIdx / chunkSize);
 
     const result = await FramesChunk.aggregate([
+        { $match: { gameId } },
         {
             $match: {
                 chunkIdx: {
