@@ -31,7 +31,7 @@ const Games: FC<GamesProps> = ({ allGames }) => {
                                     {home.name} - {away.name}
                                 </Link>
                                 <p>{description}</p> */}
-                                <Link href={`/games/analysis/${gameId}`}>
+                                <Link href={`/games/${gameId}`}>
                                     <MatchCard
                                         date={convertUnixTimeToDate(startTime)}
                                         type={getTypeFromGameDescription(game.description)}

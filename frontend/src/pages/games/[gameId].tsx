@@ -1,14 +1,12 @@
 import PrimaryButton from '@/components/PrimaryButton/PrimaryButton';
-import styles from '../styles/pages/PlayerPage.module.scss';
-
-import GoalKeeper from '@/components/PlayerRole/GoalKeeper';
-import Defender from '@/components/PlayerRole/Defender';
-import MidField from '@/components/PlayerRole/MidField';
-import Forward from '@/components/PlayerRole/Forward';
+import styles from '@styles/pages/PlayerPage.module.scss';
 import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
 import { FC } from 'react';
+import { useRouter } from 'next/router';
 
-const PlayerPage: FC<{ GameId: string }> = ({ GameId }) => {
+const PlayerPage: FC<{ gameId: { gameId: string } }> = (gameId) => {
+    const router = useRouter();
+
     return (
         <section className={styles.playerPage}>
             <div className={styles.head}>
@@ -24,12 +22,12 @@ const PlayerPage: FC<{ GameId: string }> = ({ GameId }) => {
             </div>
             <div className={styles.container}>
                 <h2>Analyse Match</h2>
-                <PrimaryButton label="Analyse Full Match" customClass={styles.btn} />
+                <PrimaryButton
+                    label="Analyse Full Match"
+                    customClass={styles.btn}
+                    onClick={() => router.push(`/games/analysis/${gameId.gameId}`)}
+                />
                 <h2>Analyse Match Players</h2>
-                <GoalKeeper />
-                <Defender />
-                <MidField />
-                <Forward />
             </div>
         </section>
     );

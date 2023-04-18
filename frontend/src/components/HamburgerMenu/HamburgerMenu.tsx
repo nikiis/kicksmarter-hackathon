@@ -16,6 +16,7 @@ const HamburgerMenu: FC<HamburgerMenuProps> = ({ customClass = '' }) => {
     };
 
     const routeBack = () => {
+    
         setIsNavOpen(false);
         router.back();
     };
