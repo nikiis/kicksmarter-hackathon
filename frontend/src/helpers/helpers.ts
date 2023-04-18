@@ -12,6 +12,29 @@ const convertUnixTimeToDate = (unixTime: number): string => {
     return `${dayOfWeek}, ${dateOfMonth}/${month}/${year} ${formattedHours}:${formattedMinutes}`;
 };
 
+const getMonthYearFromUnixTime = (unixTime: number): string => {
+    const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ];
+
+    const date = new Date(unixTime);
+    const month = months[date.getMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${month} ${year}`;
+};
+
 const getTypeFromGameDescription = (description: string): string => {
     const pattern = /^([A-Z]+-[A-Z]+)\s-\s([A-Z]+-[A-Z]+)\s:\s\d{4}-\d{1,2}-\d{1,2}$/;
     const matches = description.match(pattern);
@@ -21,4 +44,4 @@ const getTypeFromGameDescription = (description: string): string => {
     return `${matches[1]}-${matches[2]}`;
 };
 
-export { convertUnixTimeToDate, getTypeFromGameDescription };
+export { convertUnixTimeToDate, getTypeFromGameDescription, getMonthYearFromUnixTime };
