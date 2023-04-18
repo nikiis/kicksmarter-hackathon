@@ -8,10 +8,13 @@ import { getAllGamesQuery } from '@/queries/gameQuery';
 import { GamesProps } from '@/interfaces/pages/GamesProps';
 import MatchCard from '@/components/MatchCard/MatchCard';
 import { convertUnixTimeToDate, getTypeFromGameDescription } from '@/helpers/helpers';
+import { useRouter } from 'next/router';
 
 const Home: FC<GamesProps> = ({ allGames }) => {
     const games = allGames.allGames;
     const [showSplashScreen, setShowSplashScreen] = useState(true);
+
+    const router = useRouter();
 
     setTimeout(() => setShowSplashScreen(false), 4000);
 
@@ -25,7 +28,7 @@ const Home: FC<GamesProps> = ({ allGames }) => {
                     <main className={styles.pageHome}>
                         <h1 className={styles.heading}>Welcome Back</h1>
                         <div className={styles.homebutton}>
-                            <PrimaryButton label="View Past Matches" />
+                            <PrimaryButton label="View Past Matches" onClick={() => router.push('/games')} />
                             <PrimaryButton label="Live Match Analysis" customClass={styles.btn} />
                         </div>
                         <div className={styles.recentMatches}>

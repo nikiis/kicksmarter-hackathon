@@ -4,8 +4,9 @@ import SvgIcon from '../SvgIcon/SvgIcon';
 import SidePanel from '../SidePanel/SidePanel';
 import { PanelSide } from '@/interfaces/enums/enums';
 import { useRouter } from 'next/router';
+import { HamburgerMenuProps } from '@/interfaces/components/HamburgerMenuProps';
 
-const HamburgerMenu: FC = () => {
+const HamburgerMenu: FC<HamburgerMenuProps> = ({ customClass = '' }) => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const router = useRouter();
 
@@ -21,7 +22,10 @@ const HamburgerMenu: FC = () => {
 
     return (
         <>
-            <button aria-label="open navigation menu" onClick={() => setIsNavOpen(true)} className={styles.btn}>
+            <button
+                aria-label="open navigation menu"
+                onClick={() => setIsNavOpen(true)}
+                className={`${styles.btn} ${customClass}`}>
                 <SvgIcon svgName="hamburger" customClass={styles.icon} />
             </button>
             <SidePanel

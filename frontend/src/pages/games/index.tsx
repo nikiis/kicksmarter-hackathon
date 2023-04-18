@@ -5,14 +5,17 @@ import styles from '@styles/pages/Games.module.scss';
 import { Game } from '@/interfaces/api/Game';
 import Link from 'next/link';
 import { getAllGamesQuery } from '@/queries/gameQuery';
+import PageHeader from '@/components/PageHeader/PageHeader';
 
 const Games: FC<GamesProps> = ({ allGames }) => {
     const games = allGames.allGames;
 
     return (
         <section className={styles.games}>
+            <PageHeader>
+                <h1>Past matches</h1>
+            </PageHeader>
             <div className={styles.container}>
-                <h1>List of Games</h1>
                 <ul>
                     {games.map((game: Game) => {
                         const { home, away, gameId, description } = game;

@@ -1,3 +1,5 @@
+@use '@styles/settings/media' as media;
+
 .btn {
     position: absolute;
     top: 65px;
@@ -11,7 +13,9 @@
 }
 
 .panel {
-    width: 15%;
+    @include media.minWidth(smallDesktop) {
+        width: 15% !important;
+    }
 
     button {
         color: var(--colour-white);

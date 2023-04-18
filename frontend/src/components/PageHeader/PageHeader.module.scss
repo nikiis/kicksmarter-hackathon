@@ -1,0 +1,21 @@
+@use '@styles/settings/media' as media;
+@use '@styles/objects/container' as container;
+
+.pageHeader {
+    position: relative;
+    background-color: #eae2e2;
+    padding: 15px 0 80px 0;
+}
+
+.hamburger {
+    top: 15px !important;
+}
+
+.container {
+    @include container.container;
+}
+
+.inner {
+    display: flex;
+    justify-content: flex-end;
+}
