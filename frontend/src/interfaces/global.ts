@@ -36,3 +36,9 @@ export type Event = {
     time: number; // in seconds
     type: EventType;
 };
+
+export const GOALKEEPER = ['GK'];
+export const DEFENDERS = ['RB', 'RCB', 'CB', 'LCB', 'LB', 'RWB', 'LWB'];
+export const MIDFIELDERS = ['LM', 'RM', 'LDM', 'CDM', 'RDM', 'RCM', 'CM', 'LCM', 'RAM', 'LAM', 'AM'];
+export const FORWARDS = ['RW', 'LW', 'RST', 'LST', 'ST'];
+export const SUBSTITUTES = ['SUB'];

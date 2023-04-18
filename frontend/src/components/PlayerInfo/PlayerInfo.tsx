@@ -1,23 +1,22 @@
-import React from "react";
-import styles from "./PlayerInfo.module.scss";
-import SvgIcon from "../SvgIcon/SvgIcon";
+import React, { FC } from 'react';
+import styles from './PlayerInfo.module.scss';
+import { PlayerInfoProps } from '@/interfaces/components/PlayerInfoProps';
 
-const PlayerInfo = () => {
-  return (
-    <div className={styles.playerWrapper}>
-      <div className={styles.img}></div>
-      <div className={styles.playerInfo}>
-        <div className={styles.nameNumber}>
-          <p>Steph Houghton</p>
-          <span>6</span>
+const PlayerInfo: FC<PlayerInfoProps> = ({ name, number, country, colour, secondaryColour }) => {
+    return (
+        <div className={styles.playerWrapper} style={{ backgroundColor: colour }}>
+            <div className={styles.img}></div>
+            <div className={styles.playerInfo}>
+                <div className={styles.nameNumber}>
+                    <p style={{ color: secondaryColour }}>{name}</p>
+                    <span style={{ color: secondaryColour }}>{number}</span>
+                </div>
+                <div className={styles.country}>
+                    <p style={{ color: secondaryColour }}>{country}</p>
+                </div>
+            </div>
         </div>
-        <div className={styles.country}>
-          <SvgIcon svgName="england-flag" customClass={styles.flag} />
-          <p>ENG</p>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default PlayerInfo;

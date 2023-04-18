@@ -1,4 +1,6 @@
 @use '@styles/objects/container' as container;
+@use '@styles/elements/header' as header;
+@use '@styles/settings/media' as media;
 
 .playerPage {
     h1 {
@@ -42,5 +44,49 @@
     &:active {
         color: var(--colour-white);
         background-color: var(--colour-darkGreen);
+    }
+}
+
+.playerSection {
+    & + & {
+        margin-top: 50px;
+    }
+
+    h3 {
+        @include header.h3;
+        font-family: var(--font-karla);
+        font-weight: 400;
+        letter-spacing: 3%;
+
+        &.goalie {
+            color: var(--colour-darkBlue);
+        }
+
+        &.midfield {
+            color: var(--colour-darkerPink);
+        }
+
+        &.defenders {
+            color: var(--colour-darkGreen);
+        }
+
+        &.forwards {
+            color: var(--colour-beigeBrown);
+        }
+    }
+
+    .players {
+        display: grid;
+        row-gap: 30px;
+
+        @include media.minWidth(tablet) {
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 50px;
+        }
+
+        @include media.minWidth(desktop) {
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 70px;
+        }
     }
 }

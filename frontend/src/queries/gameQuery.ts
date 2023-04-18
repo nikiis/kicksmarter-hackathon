@@ -38,6 +38,8 @@ export const getGameQuery = gql`
                     optaId
                     number
                     position
+                    name
+                    country
                 }
             }
             away {
@@ -49,6 +51,8 @@ export const getGameQuery = gql`
                     optaId
                     number
                     position
+                    name
+                    country
                 }
             }
             periods {

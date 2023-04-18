@@ -44,3 +44,37 @@ export const mapBallToFootball = (frame: Frame, homeTeam: Team, awayTeam: Team):
         color: color,
     };
 };
+
+export const mapTeamToPlayerInfo = (homeTeam: Team, awayTeam: Team) => {
+    const players =
+        homeTeam.players && awayTeam.players
+            ? [
+                  ...homeTeam.players?.map((player) => {
+                      return {
+                          name: player.name,
+                          number: player.number,
+                          country: player.country,
+                          colour: homeTeam.jerseyColor,
+                          secondaryColour: homeTeam.secondaryColor,
+                          team: homeTeam.name,
+                          position: player.position,
+                          id: player.optaId,
+                      };
+                  }),
+                  ...awayTeam.players?.map((player) => {
+                      return {
+                          name: player.name,
+                          number: player.number,
+                          country: player.country,
+                          colour: awayTeam.jerseyColor,
+                          secondaryColour: awayTeam.secondaryColor,
+                          team: awayTeam.name,
+                          position: player.position,
+                          id: player.optaId,
+                      };
+                  }),
+              ]
+            : [];
+
+    return players;
+};
