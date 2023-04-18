@@ -41,7 +41,10 @@
   align-items: center;
   padding: 15px 40px;
 }
+
 .heading {
+  display: flex;
+  flex-direction: column;
   text-align: end;
 
   span {
@@ -51,12 +54,6 @@
   p {
     font-size: 2rem;
   }
-}
-
-.icon {
-  max-width: 40px;
-  max-height: 60px;
-  cursor: pointer;
 }
 
 .container {
