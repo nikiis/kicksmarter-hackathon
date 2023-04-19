@@ -44,6 +44,8 @@ export const typeDefs = `#graphql
     id: ID!
     gameId: String!
     description: String!
+    league: String!
+    live: Boolean!
     startTime: Float!
     pitchLength: Float!
     pitchWidth: Float!

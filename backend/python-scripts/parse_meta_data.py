@@ -116,6 +116,8 @@ if __name__ == '__main__':
     game_data = {
         'gameId': game_id,
         'description': game_data_spectrum['description'],
+        'league': 'ENTER_LEAGUE',
+        'live': False,
         'startTime': game_data_spectrum['startTime'],
         'pitchLength': round(game_data_spectrum['pitchLength'], 3),
         'pitchWidth': round(game_data_spectrum['pitchWidth'], 3),

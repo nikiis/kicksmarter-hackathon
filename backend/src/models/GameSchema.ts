@@ -30,6 +30,8 @@ const GameSchema = new mongoose.Schema(
     {
         gameId: { type: String, required: true },
         description: { type: String, required: true },
+        league: { type: String, required: true },
+        live: { type: Boolean, required: true },
         startTime: { type: Number, required: true },
         pitchLength: { type: Number, required: true },
         pitchWidth: { type: Number, required: true },
@@ -64,6 +66,8 @@ const teamValidationSchema = Joi.object({
 const gameValidationSchema = Joi.object({
     gameId: Joi.string().required(),
     description: Joi.string().required(),
+    league: Joi.string().required(),
+    live: Joi.boolean().required(),
     startTime: Joi.number().required(),
     pitchLength: Joi.number().required(),
     pitchWidth: Joi.number().required(),
