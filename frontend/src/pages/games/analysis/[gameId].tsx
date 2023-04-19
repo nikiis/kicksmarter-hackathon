@@ -24,7 +24,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
 
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });
-    const [period, setPeriod] = useState(game.periods?.at(0));
+    const [period, setPeriod] = useState<Period | undefined>(game.periods?.at(0));
     const framesCache = useRef<Array<Frame>>([]);
     const framesArrived = useRef<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -83,8 +83,8 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         setPlayers(mapFrameTeamToPlayers(frame, home, away));
         setFootball(mapBallToFootball(frame, home, away));
 
-        const clock = frame.gameClock ?? 0;
-        const newPeriod = game.periods?.find((p) => clock < p.stopGameClock);
+        const frameIdx = frame.frameIdx ?? 0;
+        const newPeriod = game.periods?.find((p) => frameIdx <= p.stopFrameIdx);
         setPeriod(newPeriod);
     };
 
@@ -134,6 +134,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                     fps={fps}
                     isLoading={isLoading}
                     football={football}
+                    // this is reversed, since this is what is given to us
                     leftGoalColor={(period?.homeAttPositive ? home.jerseyColor : away.jerseyColor) ?? ''}
                     rightGoalColor={(period?.homeAttPositive ? away.jerseyColor : home.jerseyColor) ?? ''}
                     controlRef={controlRef}

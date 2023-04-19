@@ -58,6 +58,8 @@ export const getGameQuery = gql`
             periods {
                 startGameClock
                 stopGameClock
+                startFrameIdx
+                stopFrameIdx
                 homeAttPositive
             }
         }

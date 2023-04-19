@@ -3,6 +3,8 @@ import { gql } from '@apollo/client';
 export const getFrameQuery = gql`
     query ($id: String!, $idx: Int) {
         frame(gameId: $id, frameIdx: $idx) {
+            gameClock
+            frameIdx
             homePlayers {
                 number
                 xy
