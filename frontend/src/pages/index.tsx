@@ -7,7 +7,7 @@ import client from '../../apollo-client';
 import { getAllGamesQuery } from '@/queries/gameQuery';
 import { GamesProps } from '@/interfaces/pages/GamesProps';
 import MatchCard from '@/components/MatchCard/MatchCard';
-import { convertUnixTimeToDate, getTypeFromGameDescription } from '@/helpers/helpers';
+import { convertUnixTimeToDate } from '@/helpers/helpers';
 import { useRouter } from 'next/router';
 
 const Home: FC<GamesProps> = ({ allGames }) => {
@@ -41,7 +41,7 @@ const Home: FC<GamesProps> = ({ allGames }) => {
                                         awayTeam={game.away}
                                         homeTeam={game.home}
                                         date={convertUnixTimeToDate(game.startTime)}
-                                        type={getTypeFromGameDescription(game.description)}
+                                        type={game.league}
                                     />
                                 ))}
                             </div>

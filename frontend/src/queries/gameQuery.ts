@@ -16,6 +16,7 @@ export const getAllGamesQuery = gql`
                 jerseyColor
             }
             description
+            league
         }
     }
 `;
@@ -25,6 +26,7 @@ export const getGameQuery = gql`
         game(gameId: $id) {
             gameId
             description
+            league
             startTime
             pitchLength
             pitchWidth

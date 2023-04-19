@@ -4,6 +4,7 @@ import { Team } from './Team';
 export interface Game {
     gameId: string;
     description: string;
+    league: string;
     startTime: number;
     pitchLength?: number;
     pitchWidth?: number;

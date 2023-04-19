@@ -8,7 +8,7 @@ import { getAllGamesQuery } from '@/queries/gameQuery';
 import DropDown from '@/components/DropDown/DropDown';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import MatchCard from '@/components/MatchCard/MatchCard';
-import { convertUnixTimeToDate, getMonthYearFromUnixTime, getTypeFromGameDescription } from '@/helpers/helpers';
+import { convertUnixTimeToDate, getMonthYearFromUnixTime } from '@/helpers/helpers';
 
 const Games: FC<GamesProps> = ({ allGames }) => {
     const games = allGames.allGames;
@@ -23,14 +23,14 @@ const Games: FC<GamesProps> = ({ allGames }) => {
 
                 <ul>
                     {games.map((game: Game) => {
-                        const { home, away, gameId, description, startTime } = game;
+                        const { home, away, gameId, league, startTime } = game;
                         return (
                             <li key={`game-${gameId}`}>
                                 <h2>{getMonthYearFromUnixTime(startTime)}</h2>
                                 <Link href={`/games/${gameId}`}>
                                     <MatchCard
                                         date={convertUnixTimeToDate(startTime)}
-                                        type={getTypeFromGameDescription(description)}
+                                        type={league}
                                         homeTeam={home}
                                         awayTeam={away}
                                         altDisplay={true}

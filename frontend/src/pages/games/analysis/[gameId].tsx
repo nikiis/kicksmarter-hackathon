@@ -3,7 +3,7 @@ import client from '../../../../apollo-client';
 import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
 import { GameProps } from '@/interfaces/pages/GameProps';
-import { convertUnixTimeToDate, getTypeFromGameDescription } from '@/helpers/helpers';
+import { convertUnixTimeToDate } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
@@ -20,7 +20,7 @@ import EventCard from '@/components/EventCard/EventCard';
 import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
 
 const Game: FC<GameProps> = ({ game, gameId }) => {
-    const { home, away, startTime, pitchLength, pitchWidth, description } = game;
+    const { home, away, startTime, pitchLength, pitchWidth, league } = game;
 
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });
@@ -122,7 +122,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                     </h1>
                     <p className={styles.date}>
                         {convertUnixTimeToDate(startTime)}{' '}
-                        <span className={styles.type}>{getTypeFromGameDescription(description)}</span>
+                        <span className={styles.type}>{league}</span>
                     </p>
                 </div>
 
