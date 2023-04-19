@@ -12,6 +12,16 @@
     }
 }
 
+.accordion {
+    padding-top: 70px;
+}
+
+.dropdown {
+    position: absolute;
+    right: 17px;
+    top: -5px;
+}
+
 .container {
     @include container.container;
 }

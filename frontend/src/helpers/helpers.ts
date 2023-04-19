@@ -52,4 +52,13 @@ const splitName = (name = '') => {
     };
 };
 
-export { convertUnixTimeToDate, getTypeFromGameDescription, getMonthYearFromUnixTime, splitName };
+const convertSecondsToHHmm = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const formattedHours = hours < 10 ? `0${hours}` : `${hours}`;
+    const formattedMinutes = remainingMinutes < 10 ? `0${remainingMinutes}` : `${remainingMinutes}`;
+    return `${formattedHours}:${formattedMinutes}`;
+};
+
+export { convertUnixTimeToDate, getTypeFromGameDescription, getMonthYearFromUnixTime, splitName, convertSecondsToHHmm };

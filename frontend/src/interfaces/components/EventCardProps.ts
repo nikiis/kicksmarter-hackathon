@@ -3,7 +3,8 @@ export interface EventCardProps {
     name: string;
     number: number;
     position: string;
-    xGoals: string;
-    jerseyColour: string;
-    textColour: string;
+    xGoals?: number;
+    length?: number;
+    jerseyColour?: string;
+    textColour?: string;
 }

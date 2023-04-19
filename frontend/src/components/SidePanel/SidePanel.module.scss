@@ -8,6 +8,7 @@
     z-index: 1000;
     width: 100%;
     transition: transform 0.3s ease-in;
+    overflow-y: auto;
 
     @include media.minWidth(tablet) {
         width: 35%;

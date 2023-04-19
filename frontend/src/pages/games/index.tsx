@@ -19,7 +19,7 @@ const Games: FC<GamesProps> = ({ allGames }) => {
                 <h1>Past Matches</h1>
             </PageHeader>
             <div className={styles.container}>
-                <DropDown />
+                <DropDown label="Season" subLabel="2022-2023" />
 
                 <ul>
                     {games.map((game: Game) => {

@@ -27,7 +27,7 @@
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
 
     &.expand {
-        max-height: 1000px;
+        max-height: 1000vh;
         transition: max-height 1s ease-in-out;
     }
 }

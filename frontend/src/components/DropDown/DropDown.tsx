@@ -1,32 +1,20 @@
-import { useState } from "react";
-import styles from "./DropDown.module.scss";
-import SvgIcon from "../SvgIcon/SvgIcon";
+import { FC, useState } from 'react';
+import styles from './DropDown.module.scss';
+import SvgIcon from '../SvgIcon/SvgIcon';
 
-const DropDown = () => {
-  const [show, setShow] = useState(false);
+const DropDown: FC<{ label: string; subLabel?: string; width?: string }> = ({ label, subLabel, width }) => {
+    const [show, setShow] = useState(false);
 
-  const showDropDown = () => {
-    if (!show) {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
-  };
-
-  return (
-    <div className={styles.dropdown} onClick={showDropDown}>
-      <div className={styles.dropdownPlaceholder}>
-        <p>Season</p>
-        <div className={styles.inner}>
-          <span>2022-2023</span>
-          <SvgIcon
-            svgName="arrow-down"
-            customClass={`${styles.arrow} ${show ? styles.open : ""}`}
-          />
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        <button className={styles.dropdown} onClick={() => setShow(!show)}>
+            <div className={styles.dropdownPlaceholder} style={{ minWidth: width }}>
+                <p>
+                    {label} {subLabel && <span>2022-2023</span>}
+                </p>
+                <SvgIcon svgName="arrow-down" customClass={`${styles.arrow} ${show ? styles.open : ''}`} />
+            </div>
+        </button>
+    );
 };
 
 export default DropDown;

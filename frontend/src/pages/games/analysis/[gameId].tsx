@@ -3,7 +3,7 @@ import client from '../../../../apollo-client';
 import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
 import { GameProps } from '@/interfaces/pages/GameProps';
-import { convertUnixTimeToDate } from '@/helpers/helpers';
+import { convertSecondsToHHmm, convertUnixTimeToDate } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
@@ -18,9 +18,11 @@ import PrimaryButton from '@/components/PrimaryButton/PrimaryButton';
 import Accordion from '@/components/Accordion/Accordion';
 import EventCard from '@/components/EventCard/EventCard';
 import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
+import { getAllEventsQuery } from '@/queries/EventQuery';
+import DropDown from '@/components/DropDown/DropDown';
 
-const Game: FC<GameProps> = ({ game, gameId }) => {
-    const { home, away, startTime, pitchLength, pitchWidth, league } = game;
+const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
+    const { home, away, startTime, pitchLength, pitchWidth, description, league } = game;
 
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });
@@ -90,6 +92,12 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
 
     const [showPanel, setShowPanel] = useState(false);
 
+    const goalEvents = allEvents.goals;
+    const shotEvents = allEvents.shots;
+    const progressivePassesEvents = allEvents.progressivePasses;
+    const progressiveCarriesEvents = allEvents.progressiveCarries;
+    const keyPasses = allEvents.keyPasses;
+
     return (
         <div className={styles.game}>
             <HamburgerMenu />
@@ -101,17 +109,82 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                         customClass={styles.eventsBtn}
                     />
                     <SidePanel isOpen={showPanel} onCloseCallback={() => setShowPanel(false)}>
-                        <Accordion headerLabel="Goals">
-                            <EventCard
-                                time="14:25"
-                                name="D.Spence"
-                                number={9}
-                                jerseyColour="#1A3966"
-                                position="Header"
-                                xGoals="0.3"
-                                textColour="white"
-                            />
-                        </Accordion>
+                        <div className={styles.dropdown}>
+                            <DropDown label="All events" width="200px" />
+                        </div>
+
+                        <div className={styles.accordion}>
+                            <Accordion headerLabel="Goals">
+                                {goalEvents.map((goal, index) => (
+                                    <EventCard
+                                        key={`goalevent-${index}`}
+                                        time={convertSecondsToHHmm(goal.gameClock)}
+                                        name={goal.player.name}
+                                        jerseyColour={goal.team.jerseyColor}
+                                        number={goal.player.number}
+                                        position={goal.player.position}
+                                        textColour={goal.team.secondaryColor}
+                                        xGoals={goal.xG}
+                                    />
+                                ))}
+                            </Accordion>
+                            <Accordion headerLabel="Shots">
+                                {shotEvents.map((shot, index) => (
+                                    <EventCard
+                                        key={`shotevents-${index}`}
+                                        time={convertSecondsToHHmm(shot.gameClock)}
+                                        name={shot.player.name}
+                                        jerseyColour={shot.team.jerseyColor}
+                                        number={shot.player.number}
+                                        position={shot.player.position}
+                                        textColour={shot.team.secondaryColor}
+                                        xGoals={shot.xG}
+                                    />
+                                ))}
+                            </Accordion>
+                            <Accordion headerLabel="Progressive Passes">
+                                {progressivePassesEvents.map((progressivePass, index) => (
+                                    <EventCard
+                                        key={`progressPassevents-${index}`}
+                                        time={convertSecondsToHHmm(progressivePass.gameClock)}
+                                        name={progressivePass.player.name}
+                                        jerseyColour={progressivePass.team.jerseyColor}
+                                        number={progressivePass.player.number}
+                                        position={progressivePass.player.position}
+                                        textColour={progressivePass.team.secondaryColor}
+                                        length={progressivePass.length}
+                                    />
+                                ))}
+                            </Accordion>
+                            <Accordion headerLabel="Progressive Carries">
+                                {progressiveCarriesEvents.map((progressiveCarry, index) => (
+                                    <EventCard
+                                        key={`progressCarryevents-${index}`}
+                                        time={convertSecondsToHHmm(progressiveCarry.gameClock)}
+                                        name={progressiveCarry.player.name}
+                                        jerseyColour={progressiveCarry.team.jerseyColor}
+                                        number={progressiveCarry.player.number}
+                                        position={progressiveCarry.player.position}
+                                        textColour={progressiveCarry.team.secondaryColor}
+                                        length={progressiveCarry.length}
+                                    />
+                                ))}
+                            </Accordion>
+                            <Accordion headerLabel="Key Passes">
+                                {keyPasses.map((keypass, index) => (
+                                    <EventCard
+                                        key={`keyPass-${index}`}
+                                        time={convertSecondsToHHmm(keypass.gameClock)}
+                                        name={keypass.player.name}
+                                        jerseyColour={keypass.team.jerseyColor}
+                                        number={keypass.player.number}
+                                        position={keypass.player.position}
+                                        textColour={keypass.team.secondaryColor}
+                                        length={keyPasses.length}
+                                    />
+                                ))}
+                            </Accordion>
+                        </div>
                     </SidePanel>
                     <h1>
                         <span style={{ color: home.jerseyColor }}>{home.name} </span>
@@ -121,8 +194,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
                         <span style={{ color: away.jerseyColor }}>{away.name}</span>
                     </h1>
                     <p className={styles.date}>
-                        {convertUnixTimeToDate(startTime)}{' '}
-                        <span className={styles.type}>{league}</span>
+                        {convertUnixTimeToDate(startTime)} <span className={styles.type}>{league}</span>
                     </p>
                 </div>
 
@@ -192,9 +264,15 @@ export async function getServerSideProps(context: any) {
         variables: { id: gameId },
     });
 
+    const { data: allEventsData } = await client.query({
+        query: getAllEventsQuery,
+        variables: { gameId: gameId },
+    });
+
     return {
         props: {
             game: gameData.game,
+            allEvents: allEventsData.allEvents,
             gameId: gameId,
         },
     };
