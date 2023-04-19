@@ -1,6 +1,6 @@
-<svg role="img" aria-hidden="true" width="54" height="58" viewBox="0 0 54 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0.0709798" y="1.27757" width="48.0925" height="14.4763" rx="2.71431" transform="matrix(-0.666793 0.745243 0.745243 0.666793 34.2565 7.89648)" fill="white" stroke="#D7D2D2" stroke-width="1.80954"/>
-<rect x="0.0709798" y="1.27757" width="9.64023" height="14.4763" transform="matrix(-0.666793 0.745243 0.745243 0.666793 40.2351 1.13085)" fill="#F3E5E5" stroke="#D7D2D2" stroke-width="1.80954"/>
-<line x1="0.90477" y1="-0.90477" x2="12.2689" y2="-0.90477" transform="matrix(-0.961524 0.274721 0.274721 0.961524 14.564 53.7627)" stroke="#D7D2D2" stroke-width="1.80954" stroke-linecap="round"/>
-<line x1="0.90477" y1="-0.90477" x2="12.2689" y2="-0.90477" transform="matrix(-0.244618 0.96962 0.96962 0.244618 5.5166 44.6084)" stroke="#D7D2D2" stroke-width="1.80954" stroke-linecap="round"/>
+<svg width="201" height="187" viewBox="0 0 201 187" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="163.103" y="70.5792" width="161.464" height="48.6024" rx="9.11294" transform="rotate(138.18 163.103 70.5792)" fill="white" stroke="#D7D2D2" stroke-width="6.07529"/>
+<rect x="185.817" y="50.5078" width="32.3658" height="48.6024" transform="rotate(138.18 185.817 50.5078)" fill="#F3E5E5" stroke="#D7D2D2" stroke-width="6.07529"/>
+<line x1="14.2374" y1="143.487" x2="3.75581" y2="180.173" stroke="#D7D2D2" stroke-width="6.07529" stroke-linecap="round"/>
+<line x1="40.6827" y1="173.797" x2="3.68832" y2="183.13" stroke="#D7D2D2" stroke-width="6.07529" stroke-linecap="round"/>
 </svg>

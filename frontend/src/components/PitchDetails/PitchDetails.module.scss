@@ -42,11 +42,6 @@
         @include media.minWidth(smallDesktop) {
             display: block;
         }
-
-        &.active {
-            background-color: var(--colour-blush);
-            border-radius: 50%;
-        }
     }
 
     svg {
