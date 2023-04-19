@@ -7,7 +7,7 @@ import { GraphQLError } from 'graphql';
 
 export const resolvers = {
     Query: {
-        notifications: async (parent: any, args: any, context: any, info: GraphQLResolveInfo) => {
+        allNotifications: async (parent: any, args: any, context: any, info: GraphQLResolveInfo) => {
             const { error, value } = validateNotificationsRequest(args);
 
             if (error) throw new GraphQLError(error.details[0].message);

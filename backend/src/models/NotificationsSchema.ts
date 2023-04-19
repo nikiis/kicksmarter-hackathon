@@ -4,6 +4,7 @@ import Joi from 'joi';
 const NotificationSchema = new Schema(
     {
         gameClock: { type: Number, required: true },
+        name: { type: String, required: true },
         message: { type: String, required: true },
         team: { type: String, required: true },
         imgs: [String],
@@ -18,6 +19,7 @@ const NotificationsSchema = new Schema({
 
 const notificationValidationSchema = Joi.object({
     gameClock: Joi.number().required(),
+    name: Joi.string().required(),
     message: Joi.string().required(),
     team: Joi.string().required(),
     imgs: Joi.array().items(Joi.string()).allow(null),
