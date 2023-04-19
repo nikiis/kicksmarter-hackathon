@@ -15,7 +15,16 @@ export const typeDefs = `#graphql
     length: Float
   }
 
+  type Events {
+    shots: [Event!]!
+    goals: [Event!]!
+    keyPasses: [Event!]!
+    progressivePasses: [Event!]!
+    progressiveCarries: [Event!]!
+  }
+
   type Query {
     events(gameId: String!, type: EventType!): [Event]!
+    allEvents(gameId: String!): Events!
   }
 `;
