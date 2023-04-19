@@ -38,7 +38,7 @@ export type Event = {
 };
 
 export const GOALKEEPER = ['GK'];
-export const DEFENDERS = ['RB', 'RCB', 'CB', 'LCB', 'LB', 'RWB', 'LWB'];
-export const MIDFIELDERS = ['LM', 'RM', 'LDM', 'CDM', 'RDM', 'RCM', 'CM', 'LCM', 'RAM', 'LAM', 'AM'];
-export const FORWARDS = ['RW', 'LW', 'RST', 'LST', 'ST'];
+export const DEFENDERS = ['DF', 'RB', 'RCB', 'CB', 'LCB', 'LB', 'RWB', 'LWB'];
+export const MIDFIELDERS = ['MF', 'LM', 'RM', 'LDM', 'CDM', 'RDM', 'RCM', 'CM', 'LCM', 'RAM', 'LAM', 'AM'];
+export const FORWARDS = ['FW', 'RW', 'LW', 'RST', 'LST', 'ST'];
 export const SUBSTITUTES = ['SUB'];
