@@ -44,9 +44,9 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         onCompleted: (data) => {
             framesCache.current.push(...data.frames);
             console.log(
-                `Fetched Frames ${data.frames.at(0)?.frameIdx ?? -1} to ${data.frames.at(-1)?.frameIdx ?? -1}. Cached ${
-                    framesCache.current.length
-                } frames.`
+                `Fetched FrameIdx ${data.frames.at(0)?.frameIdx ?? -1} to ${
+                    data.frames.at(-1)?.frameIdx ?? -1
+                }. Cached ${framesCache.current.length} frames.`
             );
             setIsLoading(false);
             framesArrived.current = true;
@@ -62,7 +62,7 @@ const Game: FC<GameProps> = ({ game, gameId }) => {
         client,
         onCompleted: (data) => {
             const frame = data.frame;
-            console.log('fetched...', frame);
+            console.log(`fetched frameIdx ${frame?.frameIdx}.`);
             renderFrame(frame);
         },
     });

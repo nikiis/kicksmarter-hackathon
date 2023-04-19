@@ -44,4 +44,12 @@ const getTypeFromGameDescription = (description: string): string => {
     return `${matches[1]}-${matches[2]}`;
 };
 
-export { convertUnixTimeToDate, getTypeFromGameDescription, getMonthYearFromUnixTime };
+const splitName = (name = '') => {
+    const [firstName, ...lastName] = name.split(' ').filter(Boolean);
+    return {
+        firstName: firstName,
+        lastName: lastName.join(' '),
+    };
+};
+
+export { convertUnixTimeToDate, getTypeFromGameDescription, getMonthYearFromUnixTime, splitName };
