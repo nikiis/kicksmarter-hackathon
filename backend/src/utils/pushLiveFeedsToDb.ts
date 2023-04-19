@@ -1,6 +1,6 @@
 import B2 from 'backblaze-b2';
 import config from 'config';
-import { Notifications, notificationsValidationSchema } from '@/models/NotificationsSchema';
+import { LiveFeeds, liveFeedsValidationSchema } from '@/models/LiveFeedSchema';
 import Path from 'path';
 import _ from 'lodash';
 import { readFileSync } from 'fs';
@@ -8,28 +8,28 @@ import { dbConnect, dbDisconnect } from '@/startup/dbConnect';
 
 if (process.argv.length < 3) {
     console.log(
-        'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushNotificationsToDb.ts ./python-scripts/2312135_notifications.json'
+        'Usage: node -r tsconfig-paths/register -r ts-node/register ./src/utils/pushLiveFeedsToDb.ts ./python-scripts/2312135_live_feeds.json'
     );
 }
 
 const filename = process.argv[2];
 const gameId = Path.parse(filename).name.split('_')[0];
 
-storeNotifications(filename, gameId);
+storeLiveFeeds(filename, gameId);
 
-async function storeNotifications(filename: string, gameId: string) {
+async function storeLiveFeeds(filename: string, gameId: string) {
     const baseUrl = await getBackblazeBaseUrl();
 
     const raw = readFileSync(filename, 'utf8');
-    const notifications = JSON.parse(raw);
-    notifications.forEach((notification) => {
-        const imgs = notification.imgs.map((img) => `${baseUrl}/file/kicksmarter/${gameId}/${img}`);
-        notification.imgs = imgs;
+    const liveFeeds = JSON.parse(raw);
+    liveFeeds.forEach((feed) => {
+        const imgs = feed.imgs.map((img) => `${baseUrl}/file/kicksmarter/${gameId}/${img}`);
+        feed.imgs = imgs;
     });
 
-    const toStore = { gameId, notifications };
+    const toStore = { gameId, liveFeeds };
 
-    const validationResult = notificationsValidationSchema.validate(toStore);
+    const validationResult = liveFeedsValidationSchema.validate(toStore);
     if (validationResult.error) {
         console.log(`Validation error: ${validationResult.error.message}`);
         return;
@@ -38,8 +38,8 @@ async function storeNotifications(filename: string, gameId: string) {
     console.log('Validation complete!');
 
     await dbConnect(config.get<string>('MONGODB_NAME_DATA'));
-    const storeNotifications = new Notifications(toStore);
-    await storeNotifications.save();
+    const newFeeds = new LiveFeeds(toStore);
+    await newFeeds.save();
     await dbDisconnect();
 
     console.log('Complete!');

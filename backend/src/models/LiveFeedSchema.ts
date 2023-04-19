@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 
-const NotificationSchema = new Schema(
+const LiveFeedSchema = new Schema(
     {
         gameClock: { type: Number, required: true },
         name: { type: String, required: true },
@@ -12,12 +12,12 @@ const NotificationSchema = new Schema(
     { _id: false }
 );
 
-const NotificationsSchema = new Schema({
+const LiveFeedsSchema = new Schema({
     gameId: { type: String, required: true },
-    notifications: { type: [NotificationSchema], required: true },
+    liveFeeds: { type: [LiveFeedSchema], required: true },
 });
 
-const notificationValidationSchema = Joi.object({
+const liveFeedValidationSchema = Joi.object({
     gameClock: Joi.number().required(),
     name: Joi.string().required(),
     message: Joi.string().required(),
@@ -25,11 +25,11 @@ const notificationValidationSchema = Joi.object({
     imgs: Joi.array().items(Joi.string()).allow(null),
 });
 
-const notificationsValidationSchema = Joi.object({
+const liveFeedsValidationSchema = Joi.object({
     gameId: Joi.string().required(),
-    notifications: Joi.array().items(notificationValidationSchema).required(),
+    liveFeeds: Joi.array().items(liveFeedValidationSchema).required(),
 });
 
-const Notifications = model('Notification', NotificationsSchema);
+const LiveFeeds = model('LiveFeed', LiveFeedsSchema);
 
-export { Notifications, notificationsValidationSchema, notificationValidationSchema };
+export { LiveFeeds, liveFeedsValidationSchema, liveFeedValidationSchema };

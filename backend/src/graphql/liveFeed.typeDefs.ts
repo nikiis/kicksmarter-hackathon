@@ -1,5 +1,5 @@
 export const typeDefs = `#graphql
-  type Notification {
+  type LiveFeed {
     gameClock: Int!
     name: String!
     message: String!
@@ -8,7 +8,7 @@ export const typeDefs = `#graphql
   }
 
   type Query {
-    allNotifications(gameId: String!): [Notification]!
-    notification(gameId: String!, gameClock: Int!): Notification
+    allLiveFeeds(gameId: String!): [LiveFeed]!
+    liveFeed(gameId: String!, gameClock: Int!): LiveFeed
   }
 `;
