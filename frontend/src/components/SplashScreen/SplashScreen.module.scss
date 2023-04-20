@@ -1,40 +1,54 @@
+@use "@styles/settings/media" as media;
+
 .splashScreen {
-    background-image: url('../../assets/images/splash-screen-background.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
-    min-height: 100vh;
+  background-image: url("../../assets/images/splash-screen-background.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  min-height: 100vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    h1 {
-        font-size: 10rem;
-        font-family: var(--font-title);
-        transform: translateX(90px);
+  h1 {
+    font-size: 6.5rem;
+    font-family: var(--font-title);
+    transform: translateX(90px);
+
+    @include media.minWidth(tablet) {
+      font-size: 8rem;
     }
 
-    span {
-        display: inline-block;
+    @include media.minWidth(smallDesktop) {
+      font-size: 10rem;
     }
+  }
 
-    .heading1 {
-        color: var(--colour-greenBlack);
-        visibility: hidden;
-    }
+  span {
+    display: inline-block;
+  }
 
-    .heading2 {
-        color: var(--colour-darkGreen);
-        visibility: hidden;
-    }
+  .heading1 {
+    color: var(--colour-greenBlack);
+    visibility: hidden;
+  }
+
+  .heading2 {
+    color: var(--colour-darkGreen);
+    visibility: hidden;
+  }
 }
 
 .imgcontainer {
-    visibility: hidden;
-    transform: translate(-17.5px, -10px);
+  visibility: hidden;
+  transform: translate(-17.5px, -10px);
 }
 
 .logo {
-    min-height: 310px;
+  min-height: 250px;
+
+  @include media.minWidth(tablet) {
+    min-height: 325px;
+  }
 }

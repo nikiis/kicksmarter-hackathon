@@ -36,6 +36,7 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 0.1fr 0.3fr 0.5fr 0.1fr;
   align-items: center;
+  gap: 20px;
   grid-template-areas:
     "head head"
     "btn btn"
@@ -46,8 +47,12 @@
     font-family: var(--font-karla);
     font-weight: 500;
     color: var(--colour-black);
-    font-size: 4.5rem;
+    font-size: 4rem;
     letter-spacing: 2.5px;
+
+    @include media.minWidth(tablet) {
+      font-size: 4.5rem;
+    }
   }
 }
 .heading {
@@ -65,6 +70,7 @@
   display: flex;
   justify-content: space-around;
   margin: 20px 0;
+  gap: 20px;
 
   .btn {
     color: var(--colour-white);
@@ -80,7 +86,7 @@
 
 .upcomingContainer {
   grid-area: upcoming;
-  font-size: 2.75rem;
+  font-size: 2.5rem;
   color: var(--colour-black);
 
   align-self: start;
@@ -88,19 +94,23 @@
 
   display: flex;
   align-items: flex-end;
-  gap: 50px;
+  gap: 15px;
+
+  @include media.minWidth(tablet) {
+    font-size: 2.75rem;
+  }
 }
 
 .upcoming {
   display: flex;
   flex-direction: column;
   text-align: end;
-  gap: 25px;
+  gap: 30px;
   font-family: var(--font-karla);
 }
 
 .live {
-  max-width: 75px;
+  max-width: 55px;
 }
 
 .logocontainer {
@@ -127,8 +137,12 @@
   h2 {
     font-family: var(--font-karla);
     font-weight: 400;
-    font-size: 3.25rem;
+    font-size: 2.75rem;
     color: var(--colour-black);
+
+    @include media.minWidth(tablet) {
+      font-size: 3.25rem;
+    }
   }
 }
 

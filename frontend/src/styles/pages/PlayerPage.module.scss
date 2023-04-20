@@ -1,92 +1,100 @@
-@use '@styles/objects/container' as container;
-@use '@styles/elements/header' as header;
-@use '@styles/settings/media' as media;
+@use "@styles/objects/container" as container;
+@use "@styles/elements/header" as header;
+@use "@styles/settings/media" as media;
 
 .playerPage {
-    h1 {
-        font-size: 3.5rem;
-        font-weight: 400;
-        letter-spacing: 1.5px;
-        margin: 20px 0;
+  h1 {
+    font-size: 2.1rem;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    margin: 20px 0;
+
+    @include media.minWidth(tablet) {
+      font-size: 2.5rem;
     }
 
-    h2 {
-        font-family: var(--font-karla);
-        font-weight: 500;
-        font-size: 3.25rem;
+    @include media.minWidth(smallDesktop) {
+      font-size: 3.5rem;
     }
+  }
+
+  h2 {
+    font-family: var(--font-karla);
+    font-weight: 500;
+    font-size: 3.25rem;
+  }
 }
 
 .heading {
-    text-align: end;
+  text-align: end;
 
-    span {
-        font-weight: 600;
-    }
+  span {
+    font-weight: 600;
+  }
 
-    p {
-        font-size: 2rem;
-    }
+  p {
+    font-size: 2rem;
+  }
 }
 
 .container {
-    @include container.container;
+  @include container.container;
 }
 
 .btn {
-    border-radius: 60px;
-    font-size: 3.25rem;
-    padding: 45px 30px;
-    color: var(--colour-darkGreen);
-    background-color: var(--colour-mintGreen);
+  border-radius: 60px;
+  font-size: 3.25rem;
+  padding: 45px 30px;
+  color: var(--colour-darkGreen);
+  background-color: var(--colour-mintGreen);
 
-    &:hover,
-    &:active {
-        color: var(--colour-white);
-        background-color: var(--colour-darkGreen);
-    }
+  &:hover,
+  &:active {
+    color: var(--colour-white);
+    background-color: var(--colour-darkGreen);
+  }
 }
 
 .playerSection {
-    & + & {
-        margin-top: 50px;
+  & + & {
+    margin-top: 50px;
+  }
+
+  h3 {
+    @include header.h3;
+    font-family: var(--font-karla);
+    font-weight: 400;
+    letter-spacing: 3%;
+
+    &.goalie {
+      color: var(--colour-darkBlue);
     }
 
-    h3 {
-        @include header.h3;
-        font-family: var(--font-karla);
-        font-weight: 400;
-        letter-spacing: 3%;
-
-        &.goalie {
-            color: var(--colour-darkBlue);
-        }
-
-        &.midfield {
-            color: var(--colour-darkerPink);
-        }
-
-        &.defenders {
-            color: var(--colour-darkGreen);
-        }
-
-        &.forwards {
-            color: var(--colour-beigeBrown);
-        }
+    &.midfield {
+      color: var(--colour-darkerPink);
     }
 
-    .players {
-        display: grid;
-        row-gap: 30px;
-
-        @include media.minWidth(tablet) {
-            grid-template-columns: repeat(2, 1fr);
-            column-gap: 50px;
-        }
-
-        @include media.minWidth(desktop) {
-            grid-template-columns: repeat(3, 1fr);
-            column-gap: 70px;
-        }
+    &.defenders {
+      color: var(--colour-darkGreen);
     }
+
+    &.forwards {
+      color: var(--colour-beigeBrown);
+    }
+  }
+
+  .players {
+    display: grid;
+    row-gap: 30px;
+
+    @include media.minWidth(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 50px;
+    }
+
+    @include media.minWidth(desktop) {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 70px;
+    }
+  }
 }

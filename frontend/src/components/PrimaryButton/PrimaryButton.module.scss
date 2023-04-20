@@ -1,16 +1,25 @@
 @use "@styles/tools/focus" as focus;
+@use "@styles/settings/media" as media;
 
 .primaryButton {
   @include focus.focus(var(--colour-darkGreen));
   background-color: var(--colour-lightPink);
   color: var(--colour-greenBlack);
-  font-size: 4.75rem;
+  font-size: 3rem;
   padding: 40px 15px;
   border-radius: 15px;
   cursor: pointer;
   min-width: 150px;
   min-height: 60px;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+  @include media.minWidth(tablet) {
+    font-size: 3.25rem;
+  }
+
+  @include media.minWidth(smallDesktop) {
+    font-size: 4.5rem;
+  }
 
   &:hover,
   &:active {

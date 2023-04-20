@@ -1,5 +1,6 @@
 @use "@styles/objects/container" as container;
 @use "@styles/elements/header" as header;
+@use "@styles/settings/media" as media;
 
 .games {
   h1 {
@@ -19,7 +20,10 @@
     font-family: var(--font-karla);
   }
   span {
-    font-size: 2.1rem;
+    font-size: 1.5rem;
+    @include media.minWidth(tablet) {
+      font-size: 2rem;
+    }
   }
 }
 
