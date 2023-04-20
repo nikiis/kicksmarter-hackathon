@@ -5,7 +5,11 @@
     grid-template-columns: repeat(2, 1fr);
     max-height: 100vh;
     overflow: hidden;
-    // @include container.container;
+
+    button {
+        cursor: pointer;
+        width: 100%;
+    }
 }
 
 .FeedHeading {
@@ -28,9 +32,8 @@
     align-items: center;
     gap: 30px;
     padding: 20px;
-    height: 100%;
-
-    overflow-y: scroll; // tried to make a scrollbar using this, didnt work
+    height: calc(100vh - 65px);
+    overflow-y: scroll;
 }
 
 .graphDataContainer {
@@ -38,7 +41,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     padding: 20px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;

@@ -2,7 +2,8 @@ export interface LiveFeed {
     gameClock: number;
     message: string;
     imgs: Array<string>;
-    team: String;
+    team: string;
+    name: string;
 }
 
 export interface AllLiveFeeds {

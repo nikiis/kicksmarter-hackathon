@@ -6,9 +6,12 @@ import { FC } from 'react';
 import client from '../../../apollo-client';
 import { getAllLiveFeedsQuery } from '@/queries/liveFeedQuery';
 import { AllLiveFeeds } from '@/interfaces/api/LiveFeed';
+import { convertSecondsToHHmm } from '@/helpers/helpers';
 
-const LiveFeedPage: FC<AllLiveFeeds> = (liveFeeds) => {
-    const firstLiveFeed = liveFeeds.allLiveFeeds.at(0);
+const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
+    const liveFeed = allLiveFeeds.allLiveFeeds;
+    console.log(liveFeed);
+    const firstLiveFeed = allLiveFeeds.allLiveFeeds.at(0);
     const imgs = [
         'https://f005.backblazeb2.com/file/kicksmarter/2312135/1200_1.jpeg',
         'https://f005.backblazeb2.com/file/kicksmarter/2312135/1200_1.jpeg',
@@ -18,47 +21,34 @@ const LiveFeedPage: FC<AllLiveFeeds> = (liveFeeds) => {
             <div className={styles.liveFeedContainer}>
                 <div className={styles.FeedHeading}>
                     <SvgIcon svgName="logoletters" customClass={styles.logoLetters} />
-                    <h2> Live Feed</h2>
+                    <h2>Live Feed</h2>
                 </div>
                 <div className={styles.liveFeed}>
-                    <LiveFeed
-                        playerName="Chloe Kelley"
-                        timeStamp="14:08"
-                        text="has a player a part in the build up to 4 shots so far- more than any other player for us"
-                        colour="#65AFC6"
-                    />
-                    <LiveFeed
-                        playerName="Chloe Kelley"
-                        timeStamp="14:08"
-                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                        colour="red"
-                    />
-                    <LiveFeed
-                        playerName="Chloe Kelley"
-                        timeStamp="14:08"
-                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                        colour="aqua"
-                    />
-                    <LiveFeed
-                        playerName="Chloe Kelley"
-                        timeStamp="14:08"
-                        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit,Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                        colour="antiquewhite"
-                    />
+                    {liveFeed.map((feed, index) => (
+                        <button key={'feed' + index}>
+                            <LiveFeed
+                                playerName={feed.name}
+                                timeStamp={convertSecondsToHHmm(feed.gameClock)}
+                                text={feed.message}
+                                colour={feed.team === 'home' ? '#B3D7DF' : '#BD4E4E'}
+                            />
+                        </button>
+                    ))}
                 </div>
             </div>
             <div className={styles.graphDataContainer}>
-                {imgs.map((img) => (
+                {/* {liveFeed.map((feed, index) => (
                     <Image
+                        key={'image' + index}
                         className={styles.graph}
-                        src={img}
+                        src={feed.}
                         alt="img"
                         width={1000}
                         height={1000}
                         quality={100}
                         style={{ objectFit: 'contain', objectPosition: 'center' }}
                     />
-                ))}
+                ))} */}
             </div>
         </div>
     );
