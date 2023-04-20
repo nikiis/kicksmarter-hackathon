@@ -11,6 +11,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'platform-lookaside.fbsbx.com',
             },
+            {
+                protocol: 'https',
+                hostname: 'f005.backblazeb2.com',
+            },
         ],
     },
 };
