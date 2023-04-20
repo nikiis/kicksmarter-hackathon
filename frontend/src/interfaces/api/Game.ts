@@ -5,6 +5,7 @@ export interface Game {
     gameId: string;
     description: string;
     league: string;
+    live: boolean;
     startTime: number;
     pitchLength?: number;
     pitchWidth?: number;

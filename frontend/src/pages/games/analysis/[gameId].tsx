@@ -22,7 +22,7 @@ import { getAllEventsQuery } from '@/queries/EventQuery';
 import DropDown from '@/components/DropDown/DropDown';
 
 const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
-    const { home, away, startTime, pitchLength, pitchWidth, description, league } = game;
+    const { home, away, startTime, pitchLength, pitchWidth, league } = game;
 
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });

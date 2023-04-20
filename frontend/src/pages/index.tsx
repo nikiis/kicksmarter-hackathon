@@ -27,6 +27,12 @@ const Home: FC<GamesProps> = ({ allGames }) => {
         }
     }, []);
 
+    const liveGame = games.find((game) => game.live);
+    const liveGameName = `${liveGame?.home.name} - ${liveGame?.away.name}`;
+    console.log('LiveGame', liveGameName);
+
+    setTimeout(() => setShowSplashScreen(false), 4000);
+
     return (
         <>
             {isInitialLoad && (
@@ -41,7 +47,11 @@ const Home: FC<GamesProps> = ({ allGames }) => {
                         <h1 className={styles.heading}>Welcome Back</h1>
                         <div className={styles.homebutton}>
                             <PrimaryButton label="View Past Matches" onClick={() => router.push('/games')} />
-                            <PrimaryButton label="Live Match Analysis" customClass={styles.btn} />
+                            <PrimaryButton
+                                label="Live Match Analysis"
+                                customClass={styles.btn}
+                                onClick={() => router.push(`/live-feed/${liveGame?.gameId}`)}
+                            />
                         </div>
                         <div className={styles.recentMatches}>
                             <h2>Most Recent Matches</h2>
@@ -61,8 +71,7 @@ const Home: FC<GamesProps> = ({ allGames }) => {
                         <div className={styles.upcomingContainer}>
                             <SvgIcon svgName="live" customClass={styles.live} />
                             <div className={styles.upcoming}>
-                                <p>Upcoming Match</p>
-                                <p>Man City</p>
+                                <p>{liveGameName}</p>
                             </div>
                         </div>
                         <div className={styles.logocontainer}>

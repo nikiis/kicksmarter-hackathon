@@ -17,6 +17,7 @@ export const getAllGamesQuery = gql`
             }
             description
             league
+            live
         }
     }
 `;
@@ -27,6 +28,7 @@ export const getGameQuery = gql`
             gameId
             description
             league
+            live
             startTime
             pitchLength
             pitchWidth
