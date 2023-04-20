@@ -28,14 +28,19 @@
             }
         }
     }
+
+    .hamburger {
+        top: 12px;
+        width: auto;
+    }
 }
 
 .FeedHeading {
     background-color: var(--colour-tonePink);
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 15px;
-    padding: 0 50px;
 }
 
 .logoLetters {

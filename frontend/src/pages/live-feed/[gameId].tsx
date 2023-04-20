@@ -7,6 +7,7 @@ import client from '../../../apollo-client';
 import { getAllLiveFeedsQuery } from '@/queries/liveFeedQuery';
 import { AllLiveFeeds } from '@/interfaces/api/LiveFeed';
 import { convertSecondsToHHmm } from '@/helpers/helpers';
+import HamburgerMenu from '@/components/HamburgerMenu/HamburgerMenu';
 
 const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
     const liveFeed = allLiveFeeds.allLiveFeeds;
@@ -15,6 +16,7 @@ const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
 
     return (
         <div className={styles.liveFeedWhole}>
+            <HamburgerMenu customClass={styles.hamburger} />
             <div className={styles.liveFeedContainer}>
                 <div className={styles.FeedHeading}>
                     <SvgIcon svgName="logoletters" customClass={styles.logoLetters} />
