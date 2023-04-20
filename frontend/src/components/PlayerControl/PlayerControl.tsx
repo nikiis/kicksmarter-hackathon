@@ -9,7 +9,7 @@ import LoadSpinner from '../LoadSpinner/LoadSpinner';
 const PlayerControl: FC<PlayerControlProps> = ({
     totalGameTime,
     onChangeCallback,
-    events,
+    goalEvents,
     fps,
     resetShadow,
     isLoading,
@@ -18,7 +18,6 @@ const PlayerControl: FC<PlayerControlProps> = ({
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const gameClock = useRef<number>(0);
-    const eventsTimeStamp = events?.map((x) => x.time);
     const intervalRef = useRef<any>(null);
 
     useImperativeHandle(controlRef, () => ({
@@ -85,13 +84,14 @@ const PlayerControl: FC<PlayerControlProps> = ({
 
             <div className={styles.sliderWrapper}>
                 <ReactSlider
+                    markClassName={styles.playerMarker}
                     disabled={isPlaying}
                     value={gameClock.current}
                     className={styles.playerSlider}
                     thumbClassName={`${styles.sliderThumb} ${isPlaying && styles.disabled}`}
                     trackClassName={styles.sliderTrack}
                     max={totalGameTime}
-                    marks={events ? eventsTimeStamp : false}
+                    marks={goalEvents ? goalEvents : false}
                     onAfterChange={(time, index) => {
                         resetShadow();
                         if (typeof time !== 'number') return;

@@ -72,3 +72,22 @@
         opacity: 0.8;
     }
 }
+
+.playerMarker {
+    height: 38px;
+    width: 3px;
+    bottom: 0;
+    background-color: var(--colour-darkGreen);
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background-color: var(--colour-darkGreen);
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

@@ -98,6 +98,8 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
     const progressiveCarriesEvents = allEvents.progressiveCarries;
     const keyPasses = allEvents.keyPasses;
 
+    const goalsMarkers = goalEvents.map((x) => x.gameClock);
+
     return (
         <div className={styles.game}>
             <HamburgerMenu />
@@ -199,6 +201,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                 </div>
 
                 <PitchDetails
+                    goalEvents={goalsMarkers}
                     players={players}
                     originalHeight={pitchWidth}
                     originalWidth={pitchLength}

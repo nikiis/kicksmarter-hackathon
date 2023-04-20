@@ -19,6 +19,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
     rightGoalColor,
     onGameTimeChange,
     controlRef,
+    goalEvents,
 }) => {
     const [isDrawEnabled, setIsDrawEnabled] = useState(false);
     const [resetShadow, setResetShadow] = useState(false);
@@ -77,6 +78,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                     resetShadow={() => setResetShadow(true)}
                     isLoading={isLoading}
                     controlRef={controlRef}
+                    goalEvents={goalEvents}
                 />
             </div>
         </section>

@@ -1,7 +1,7 @@
 import { PlayerPitchProps } from '@/interfaces/components/PlayerPitchProps';
 import { Player } from '@/interfaces/global';
-import { FC, useEffect, useState } from 'react';
-import { Drag, raise } from '@visx/drag';
+import { FC, useState } from 'react';
+import { Drag } from '@visx/drag';
 import styles from './PlayerPitch.module.scss';
 import PlayerPin from '../PlayerPin/PlayerPin';
 import FootballPin from '../FootballPin/FootballPin';

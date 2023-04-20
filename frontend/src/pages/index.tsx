@@ -1,4 +1,4 @@
-import { useState, FC } from 'react';
+import { useState, FC, useEffect } from 'react';
 import SplashScreen from '@/components/SplashScreen/SplashScreen';
 import styles from '@/styles/pages/Home.module.scss';
 import PrimaryButton from '@/components/PrimaryButton/PrimaryButton';
@@ -13,16 +13,28 @@ import { useRouter } from 'next/router';
 const Home: FC<GamesProps> = ({ allGames }) => {
     const games = allGames.allGames;
     const [showSplashScreen, setShowSplashScreen] = useState(true);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     const router = useRouter();
 
-    setTimeout(() => setShowSplashScreen(false), 4000);
+    useEffect(() => {
+        if (window.sessionStorage.getItem('kicksmarterHasLoadedBefore') === 'true') {
+            setIsInitialLoad(false);
+        } else {
+            window.sessionStorage.setItem('kicksmarterHasLoadedBefore', 'true');
+            setIsInitialLoad(true);
+            setTimeout(() => setShowSplashScreen(false), 4000);
+        }
+    }, []);
 
     return (
         <>
-            <div className={`${showSplashScreen ? styles.show : styles.hide} ${styles.splashScreen}`}>
-                <SplashScreen />
-            </div>
+            {isInitialLoad && (
+                <div className={`${showSplashScreen ? styles.show : styles.hide} ${styles.splashScreen}`}>
+                    <SplashScreen />
+                </div>
+            )}
+
             <div className={styles.home}>
                 <div className={styles.container}>
                     <main className={styles.pageHome}>
