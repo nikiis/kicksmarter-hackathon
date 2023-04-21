@@ -25,7 +25,7 @@ const PlayerControl: FC<PlayerControlProps> = ({
         if (customEventTime) {
             setCurrentTime(customEventTime);
             gameClock.current = customEventTime;
-            updateWith(customEventTime, 0);
+            updateWith(customEventTime - 15, 0);
         }
     }, [customEventTime]);
 
