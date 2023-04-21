@@ -8,4 +8,5 @@ export interface PlayerControlProps {
     resetShadow: () => void;
     isLoading: boolean;
     controlRef: any;
+    customEventTime?: number;
 }

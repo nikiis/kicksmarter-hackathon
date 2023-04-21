@@ -3,7 +3,7 @@ import client from '../../../../apollo-client';
 import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
 import { GameProps } from '@/interfaces/pages/GameProps';
-import { convertSecondsToMMss, convertUnixTimeToDate } from '@/helpers/helpers';
+import { convertUnixTimeToDate } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
@@ -24,6 +24,7 @@ import DropDown from '@/components/DropDown/DropDown';
 const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
     const { home, away, startTime, pitchLength, pitchWidth, league } = game;
 
+    const [eventTime, setEventTime] = useState<number | undefined>(undefined);
     const [players, setPlayers] = useState<Player[]>([]);
     const [football, setFootball] = useState<Football>({ x: 0, y: 0, height: 0, color: '' });
     const [period, setPeriod] = useState<Period | undefined>(game.periods?.at(0));
@@ -120,13 +121,17 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {goalEvents.map((goal, index) => (
                                     <EventCard
                                         key={`goalevent-${index}`}
-                                        time={convertSecondsToMMss(goal.gameClock)}
+                                        time={goal.gameClock}
                                         name={goal.player.name}
                                         jerseyColour={goal.team.jerseyColor}
                                         number={goal.player.number}
                                         position={goal.player.position}
                                         textColour={goal.team.secondaryColor}
                                         xGoals={goal.xG}
+                                        onClick={(time) => {
+                                            setEventTime(time);
+                                            setShowPanel(false);
+                                        }}
                                     />
                                 ))}
                             </Accordion>
@@ -134,13 +139,17 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {shotEvents.map((shot, index) => (
                                     <EventCard
                                         key={`shotevents-${index}`}
-                                        time={convertSecondsToMMss(shot.gameClock)}
+                                        time={shot.gameClock}
                                         name={shot.player.name}
                                         jerseyColour={shot.team.jerseyColor}
                                         number={shot.player.number}
                                         position={shot.player.position}
                                         textColour={shot.team.secondaryColor}
                                         xGoals={shot.xG}
+                                        onClick={(time) => {
+                                            setEventTime(time);
+                                            setShowPanel(false);
+                                        }}
                                     />
                                 ))}
                             </Accordion>
@@ -148,13 +157,17 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {progressivePassesEvents.map((progressivePass, index) => (
                                     <EventCard
                                         key={`progressPassevents-${index}`}
-                                        time={convertSecondsToMMss(progressivePass.gameClock)}
+                                        time={progressivePass.gameClock}
                                         name={progressivePass.player.name}
                                         jerseyColour={progressivePass.team.jerseyColor}
                                         number={progressivePass.player.number}
                                         position={progressivePass.player.position}
                                         textColour={progressivePass.team.secondaryColor}
                                         length={progressivePass.length}
+                                        onClick={(time) => {
+                                            setEventTime(time);
+                                            setShowPanel(false);
+                                        }}
                                     />
                                 ))}
                             </Accordion>
@@ -162,13 +175,17 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {progressiveCarriesEvents.map((progressiveCarry, index) => (
                                     <EventCard
                                         key={`progressCarryevents-${index}`}
-                                        time={convertSecondsToMMss(progressiveCarry.gameClock)}
+                                        time={progressiveCarry.gameClock}
                                         name={progressiveCarry.player.name}
                                         jerseyColour={progressiveCarry.team.jerseyColor}
                                         number={progressiveCarry.player.number}
                                         position={progressiveCarry.player.position}
                                         textColour={progressiveCarry.team.secondaryColor}
                                         length={progressiveCarry.length}
+                                        onClick={(time) => {
+                                            setEventTime(time);
+                                            setShowPanel(false);
+                                        }}
                                     />
                                 ))}
                             </Accordion>
@@ -176,13 +193,17 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {keyPasses.map((keypass, index) => (
                                     <EventCard
                                         key={`keyPass-${index}`}
-                                        time={convertSecondsToMMss(keypass.gameClock)}
+                                        time={keypass.gameClock}
                                         name={keypass.player.name}
                                         jerseyColour={keypass.team.jerseyColor}
                                         number={keypass.player.number}
                                         position={keypass.player.position}
                                         textColour={keypass.team.secondaryColor}
                                         length={keyPasses.length}
+                                        onClick={(time) => {
+                                            setEventTime(time);
+                                            setShowPanel(false);
+                                        }}
                                     />
                                 ))}
                             </Accordion>
@@ -201,6 +222,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                 </div>
 
                 <PitchDetails
+                    customEventTime={eventTime}
                     goalEvents={goalsMarkers}
                     players={players}
                     originalHeight={pitchWidth}

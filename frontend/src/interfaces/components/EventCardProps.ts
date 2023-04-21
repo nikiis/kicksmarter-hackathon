@@ -1,5 +1,5 @@
 export interface EventCardProps {
-    time: string;
+    time: number;
     name: string;
     number: number;
     position: string;
@@ -7,4 +7,5 @@ export interface EventCardProps {
     length?: number;
     jerseyColour?: string;
     textColour?: string;
+    onClick: (time: number) => void;
 }

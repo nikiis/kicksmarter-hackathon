@@ -13,4 +13,5 @@ export interface PitchDetailsProps {
     onGameTimeChange: (currTime: number, index?: number) => void;
     controlRef: any;
     goalEvents?: Array<number>;
+    customEventTime?: number;
 }

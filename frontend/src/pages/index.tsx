@@ -71,7 +71,9 @@ const Home: FC<GamesProps> = ({ allGames }) => {
                         <div className={styles.upcomingContainer}>
                             <SvgIcon svgName="live" customClass={styles.live} />
                             <div className={styles.upcoming}>
-                                <p>{liveGameName}</p>
+                                <p>
+                                    Current Live Game: <span className={styles.bold}>{liveGameName}</span>
+                                </p>
                             </div>
                         </div>
                         <div className={styles.logocontainer}>
