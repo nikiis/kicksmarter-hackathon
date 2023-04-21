@@ -2,14 +2,13 @@ import styles from '@/styles/pages/LiveFeed.module.scss';
 import LiveFeed from '@/components/LiveFeed/LiveFeed';
 import SvgIcon from '@components/SvgIcon/SvgIcon';
 import Image from 'next/image';
-import { ElementRef, FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import client from '../../../apollo-client';
 import { getAllLiveFeedsQuery } from '@/queries/liveFeedQuery';
 import { AllLiveFeeds, LiveFeed as LifeFeedType } from '@/interfaces/api/LiveFeed';
 import { convertSecondsToMMss } from '@/helpers/helpers';
 import PageHeader from '@/components/PageHeader/PageHeader';
 import TimeCard from '@/components/TimeCard/TimeCard';
-import { count } from 'console';
 
 const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
     const liveFeed = allLiveFeeds.allLiveFeeds;
@@ -20,10 +19,11 @@ const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
     const endRef = useRef<any>(null);
 
     let [countdown, setCountdown] = useState(1140);
+    const [autoScroll, setAutoScroll] = useState<boolean>(true);
 
     useEffect(() => {
         // 👇️ scroll to bottom every time messages change
-        endRef.current?.scrollIntoView({ behavior: 'smooth' });
+        if (autoScroll) endRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [incomingLiveData]);
 
     useEffect(() => {
@@ -33,7 +33,11 @@ const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
             }
 
             if (incomingLiveData.length < liveFeed.length) {
-                setIncomingLiveData([...incomingLiveData, liveFeed[indexRef.current]]);
+                const feed = liveFeed[indexRef.current];
+                if (feed === undefined) return;
+
+                if (autoScroll) setSelectedImages(feed.imgs);
+                setIncomingLiveData([...incomingLiveData, feed]);
                 indexRef.current += 1;
             }
         }, 2000);
@@ -61,6 +65,10 @@ const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
                     <div className={styles.FeedHeading}>
                         <SvgIcon svgName="logoletters" customClass={styles.logoLetters} />
                         <h2>Live Feed</h2>
+                        <label>
+                            <input type="checkbox" checked={autoScroll} onChange={() => setAutoScroll(!autoScroll)} />
+                            Auto-Scroll
+                        </label>
                     </div>
                     <div className={styles.liveFeed}>
                         {incomingLiveData.map((feed, index) => (
