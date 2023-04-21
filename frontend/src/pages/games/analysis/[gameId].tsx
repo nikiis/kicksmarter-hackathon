@@ -3,7 +3,7 @@ import client from '../../../../apollo-client';
 import styles from '@/styles/pages/Game.module.scss';
 import PitchDetails from '@/components/PitchDetails/PitchDetails';
 import { GameProps } from '@/interfaces/pages/GameProps';
-import { convertSecondsToHHmm, convertUnixTimeToDate } from '@/helpers/helpers';
+import { convertSecondsToMMss, convertUnixTimeToDate } from '@/helpers/helpers';
 import { getGameQuery } from '@/queries/gameQuery';
 import { getFrameQuery } from '@/queries/frameQuery';
 import { mapBallToFootball, mapFrameTeamToPlayers } from '@/helpers/mappers';
@@ -120,7 +120,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {goalEvents.map((goal, index) => (
                                     <EventCard
                                         key={`goalevent-${index}`}
-                                        time={convertSecondsToHHmm(goal.gameClock)}
+                                        time={convertSecondsToMMss(goal.gameClock)}
                                         name={goal.player.name}
                                         jerseyColour={goal.team.jerseyColor}
                                         number={goal.player.number}
@@ -134,7 +134,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {shotEvents.map((shot, index) => (
                                     <EventCard
                                         key={`shotevents-${index}`}
-                                        time={convertSecondsToHHmm(shot.gameClock)}
+                                        time={convertSecondsToMMss(shot.gameClock)}
                                         name={shot.player.name}
                                         jerseyColour={shot.team.jerseyColor}
                                         number={shot.player.number}
@@ -148,7 +148,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {progressivePassesEvents.map((progressivePass, index) => (
                                     <EventCard
                                         key={`progressPassevents-${index}`}
-                                        time={convertSecondsToHHmm(progressivePass.gameClock)}
+                                        time={convertSecondsToMMss(progressivePass.gameClock)}
                                         name={progressivePass.player.name}
                                         jerseyColour={progressivePass.team.jerseyColor}
                                         number={progressivePass.player.number}
@@ -162,7 +162,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {progressiveCarriesEvents.map((progressiveCarry, index) => (
                                     <EventCard
                                         key={`progressCarryevents-${index}`}
-                                        time={convertSecondsToHHmm(progressiveCarry.gameClock)}
+                                        time={convertSecondsToMMss(progressiveCarry.gameClock)}
                                         name={progressiveCarry.player.name}
                                         jerseyColour={progressiveCarry.team.jerseyColor}
                                         number={progressiveCarry.player.number}
@@ -176,7 +176,7 @@ const Game: FC<GameProps> = ({ game, gameId, allEvents }) => {
                                 {keyPasses.map((keypass, index) => (
                                     <EventCard
                                         key={`keyPass-${index}`}
-                                        time={convertSecondsToHHmm(keypass.gameClock)}
+                                        time={convertSecondsToMMss(keypass.gameClock)}
                                         name={keypass.player.name}
                                         jerseyColour={keypass.team.jerseyColor}
                                         number={keypass.player.number}

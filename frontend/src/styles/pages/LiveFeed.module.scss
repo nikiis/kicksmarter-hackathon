@@ -1,10 +1,53 @@
 @use '@styles/objects/container' as container;
 
-.liveFeedWhole {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+.liveFeedWrapper {
     max-height: 100vh;
     overflow: hidden;
+
+    h1 {
+        margin: 0;
+    }
+
+    .livefeedPageHeader {
+        max-height: 120px;
+
+        .heading {
+            display: flex;
+            align-items: center;
+            gap: 100px;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+    }
+}
+
+.invisibleDiv {
+    position: relative;
+    bottom: -50px;
+}
+
+.home {
+    color: var(--colour-manc);
+}
+
+.away {
+    color: #bd4e4e;
+}
+
+.league {
+    background-color: rgba(63, 97, 104, 0.21);
+    color: black;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.liveFeedWhole {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 
     button {
         cursor: pointer;
@@ -28,11 +71,6 @@
             }
         }
     }
-
-    .hamburger {
-        top: 12px;
-        width: auto;
-    }
 }
 
 .FeedHeading {
@@ -55,7 +93,7 @@
     align-items: center;
     gap: 30px;
     padding: 20px;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 185px);
     overflow-y: scroll;
 }
 
@@ -69,7 +107,7 @@
     justify-content: space-evenly;
     align-items: center;
     gap: 30px;
-    max-height: 100vh;
+    max-height: calc(100vh - 120px);
 }
 
 .graph {
