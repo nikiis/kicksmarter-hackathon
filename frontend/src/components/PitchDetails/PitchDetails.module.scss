@@ -35,6 +35,10 @@
         flex-direction: column;
     }
 
+    @media print {
+        display: none;
+    }
+
     button {
         @include focus.focus(var(--colour-darkGreen));
         cursor: pointer;

@@ -48,6 +48,10 @@
 .info {
     position: relative;
 
+    @media print {
+        display: none;
+    }
+
     h1 {
         padding-right: 180px;
     }

@@ -4,6 +4,10 @@
     position: absolute;
     left: 30px;
     cursor: pointer;
+
+    @media print {
+        display: none;
+    }
 }
 
 .icon {

@@ -5,6 +5,10 @@
     position: relative;
     background-color: #eae2e2;
     padding: 15px 0 80px 0;
+
+    @media print {
+        display: none;
+    }
 }
 
 .hamburger {

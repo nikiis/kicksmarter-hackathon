@@ -36,7 +36,7 @@ const LiveFeedPage: FC<AllLiveFeeds> = (allLiveFeeds) => {
                 setIncomingLiveData([...incomingLiveData, liveFeed[indexRef.current]]);
                 indexRef.current += 1;
             }
-        }, 1000);
+        }, 2000);
     }, [incomingLiveData]);
 
     return (

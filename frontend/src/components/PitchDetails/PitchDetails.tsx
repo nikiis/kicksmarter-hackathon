@@ -6,6 +6,7 @@ import PlayerControl from '../PlayerControl/PlayerControl';
 import styles from './PitchDetails.module.scss';
 import { PitchDetailsProps } from '@/interfaces/components/PitchDetailsProps';
 import Toggle from '../Toggle/Toggle';
+import PrimaryButton from '../PrimaryButton/PrimaryButton';
 
 const PitchDetails: FC<PitchDetailsProps> = ({
     players,
@@ -68,6 +69,7 @@ const PitchDetails: FC<PitchDetailsProps> = ({
                     <button onClick={() => setIsDrawEnabled(false)}>
                         <SvgIcon svgName="eraser" />
                     </button>
+                    <button onClick={() => window.print()}>Export</button>
                 </div>
             </div>
             <div className={styles.controls}>

@@ -6,6 +6,10 @@
     gap: 27px;
     align-items: center;
 
+    @media print {
+        display: none;
+    }
+
     button {
         @include focus.focus(var(--colour-darkGreen));
     }

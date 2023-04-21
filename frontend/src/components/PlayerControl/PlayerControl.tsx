@@ -63,6 +63,8 @@ const PlayerControl: FC<PlayerControlProps> = ({
         setCurrentTime(newTime);
     };
 
+    const processedGoalTimes = goalEvents?.map((time) => time + 40);
+
     return (
         <div className={styles.playerControl}>
             <div className={styles.controls}>
@@ -91,8 +93,9 @@ const PlayerControl: FC<PlayerControlProps> = ({
                     thumbClassName={`${styles.sliderThumb} ${isPlaying && styles.disabled}`}
                     trackClassName={styles.sliderTrack}
                     max={totalGameTime}
-                    marks={goalEvents ? goalEvents : false}
+                    marks={goalEvents ? processedGoalTimes : false}
                     onAfterChange={(time, index) => {
+                        console.log(time);
                         resetShadow();
                         if (typeof time !== 'number') return;
                         updateWith(time, index);
