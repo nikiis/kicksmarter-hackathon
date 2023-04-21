@@ -4,6 +4,10 @@ import os
 import math
 
 
+def to_sec(event):
+    return event['minute'] * 60 + event['second']
+
+
 def get_team(event):
     return 'home' if 'Manchester' in event['team']['name'] else 'away'
 
@@ -13,28 +17,28 @@ def get_player_opta_id(stat_bomb_id, players):
     return next(gen, None)
 
 
-def parse_shot(event, players):
+def parse_shot(event, players, extra_game_clock):
     data = {}
     shot = event['shot']
-    data['gameClock'] = event['minute'] * 60 + event['second']
+    data['gameClock'] = to_sec(event) + extra_game_clock
     data['optaId'] = get_player_opta_id(event['player']['id'], players)
     data['team'] = get_team(event)
     data['xG'] = round(shot['statsbomb_xg'], 2)
     return data
 
 
-def parse_pass(event, players):
+def parse_pass(event, players, extra_game_clock):
     data = {}
-    data['gameClock'] = event['minute'] * 60 + event['second']
+    data['gameClock'] = to_sec(event) + extra_game_clock
     data['optaId'] = get_player_opta_id(event['player']['id'], players)
     data['team'] = get_team(event)
     data['length'] = round(event['pass']['length'], 1)
     return data
 
 
-def parse_carry(event, players):
+def parse_carry(event, players, extra_game_clock):
     data = {}
-    data['gameClock'] = event['minute'] * 60 + event['second']
+    data['gameClock'] = to_sec(event) + extra_game_clock
     data['optaId'] = get_player_opta_id(event['player']['id'], players)
     data['team'] = get_team(event)
     data['length'] = round(math.dist(
@@ -59,22 +63,37 @@ if __name__ == '__main__':
     events = {'keyPasses': [], 'progressivePasses': [],
               'progressiveCarries': [], 'shots': [], 'goals': []}
 
+    prev_period = 1
+    prev_game_clock = 0
+    extra_game_clock = 0
     for event in events_data:
+        curr_game_clock = to_sec(event)
+        if event['period'] != prev_period:  # new period started
+            extra_game_clock += abs(curr_game_clock - prev_game_clock)
+
+        prev_period = event['period']
+        prev_game_clock = curr_game_clock
+
         filter_types = [event['key_pass'], event['prog_pass'],
                         event['prog_carry'], event['shot']]
         if not any(filter_types):
             continue
 
         if event['key_pass']:
-            events['keyPasses'].append(parse_pass(event, players))
+            events['keyPasses'].append(parse_pass(
+                event, players, extra_game_clock))
         elif event['prog_pass']:
-            events['progressivePasses'].append(parse_pass(event, players))
+            events['progressivePasses'].append(
+                parse_pass(event, players, extra_game_clock))
         elif event['prog_carry']:
-            events['progressiveCarries'].append(parse_carry(event, players))
+            events['progressiveCarries'].append(
+                parse_carry(event, players, extra_game_clock))
         elif event['shot'] and event['shot']['outcome']['name'] == 'Goal':
-            events['goals'].append(parse_shot(event, players))
+            events['goals'].append(parse_shot(
+                event, players, extra_game_clock))
         elif event['shot']:
-            events['shots'].append(parse_shot(event, players))
+            events['shots'].append(parse_shot(
+                event, players, extra_game_clock))
 
     # import pprint
     # p = pprint.PrettyPrinter(indent=2)
