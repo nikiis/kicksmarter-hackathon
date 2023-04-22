@@ -17,4 +17,3 @@ npm run dev:all # both backend and frontend
 npm run dev:backend # only backend
 npm run dev:frontend # only frontend
 ```
-
